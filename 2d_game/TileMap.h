@@ -1,14 +1,18 @@
 #ifndef TILE_MAP_H 
 #define TILE_MAP_H
 
+#include <vector>
+
 #include "Tile.h"
 
+class Tile;
 
 class TileMap {
 
 public:
 
 	TileMap() = default;
+
 	TileMap(int rows, int cols, int leftMargin, int topMargin);
 
 	void init(int shaderProgramID, float width, float height);

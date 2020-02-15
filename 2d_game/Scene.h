@@ -6,13 +6,15 @@
 
 #include <glm/glm.hpp>
 
-#include "ShaderManager.h"
-#include "SpriteSheet.h"
 #include "TileMap.h"
+#include "Managers.h"
+
+
 
 class Scene {
 
 public:
+
 
 	void init();
 	void move(float x, float y);
@@ -30,9 +32,6 @@ private:
 	int quadProgram;
 	float currentTime;
 
-
-	ShaderManager shaderManager;
-	SpriteSheet sprites;
 	
 	glm::mat4 projectionMatrix;
 

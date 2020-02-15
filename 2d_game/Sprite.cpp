@@ -2,8 +2,8 @@
 
 
 
-Sprite::Sprite(SpriteSheet const& spritesReference) {
-	*parent = spritesReference;
+Sprite::Sprite(SpriteSheet & spritesReference) {
+	parent = &spritesReference;
 }
 
 void Sprite::render() const {

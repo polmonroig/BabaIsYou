@@ -1,6 +1,7 @@
 #include "ShaderManager.h"
 
 
+
 int ShaderManager::addProgram(std::string const& vertex_file_name, std::string const& fragment_file_name) {
 
 	Shader vShader, fShader;

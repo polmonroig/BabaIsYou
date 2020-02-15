@@ -9,9 +9,11 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 
+
 class ShaderManager {
 
 public:
+
 
 	int addProgram(std::string const& vertex_file_name, std::string const& fragment_file_name);
 	ShaderProgram& getProgram(int id);

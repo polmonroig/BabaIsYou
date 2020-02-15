@@ -10,7 +10,7 @@ class Sprite{
 
 public:
 
-	Sprite(SpriteSheet const& spritesReference);
+	Sprite(SpriteSheet & spritesReference);
 
 	void render() const;
 

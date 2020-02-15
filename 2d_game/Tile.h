@@ -2,7 +2,10 @@
 #define TILE_H 
 
 
-#include"AnimatedSprite.h"
+#include "Properties.h"
+#include "Managers.h"
+
+
 
 class Tile {
 
@@ -14,15 +17,19 @@ public:
 	void render();
 	void free();
 
+	bool collides(Tile const& other) const;
+
 private:
+
 
 	GLuint vao, vbo;
 	GLuint posLocation, texCoordLocation;
-	AnimatedSprite animated_sprite;
+	
+	Properties properties;
 
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
-	bool active;
+	
 
 	float* calculateVertices();
 };

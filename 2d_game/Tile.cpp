@@ -3,11 +3,12 @@
 #include "Tile.h"
 
 Tile::Tile() {
-	active = false;
+	properties.setIsActive(false);
 }
 
-Tile::Tile(float x, float y, float width, float height, int shaderProgramID, SpriteSheet const& spritesReference){
-	active = true;
+Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
+	properties.setIsActive(true);
+	properties.setAnimation(Managers::animationsManager.getAnimatedSprite(0));
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
@@ -22,49 +23,57 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID, Spr
 	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
 	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 4 * sizeof(float), 0);
 	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-	// setup sprites 
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	animated_sprite = AnimatedSprite(5);
-	animated_sprite.addSprite(Managers::BABA_00);
 
 
 }
 
 float* Tile::calculateVertices() {
-	auto texCoords = animated_sprite.getTextureCoordinates();
-	float vertices[24] = { xPos, yPos, texCoords[0], texCoords[0],
-						 xPos + tileWidth, yPos,texCoords[1], texCoords[0],
-						 xPos + tileWidth, yPos + tileHeight, texCoords[1], texCoords[1],
-						 xPos, yPos, texCoords[0], texCoords[0],
-						 xPos + tileWidth, yPos + tileHeight, texCoords[1], texCoords[1],
-						 xPos, yPos + tileHeight, texCoords[0], texCoords[1], };
+	glm::vec2 texCoords = properties.getTextureCoordinates();
+	float vertices[24] = { xPos, yPos, texCoords.x, texCoords.x,
+						 xPos + tileWidth, yPos,texCoords.y, texCoords.x,
+						 xPos + tileWidth, yPos + tileHeight, texCoords.y, texCoords.y,
+						 xPos, yPos, texCoords.x, texCoords.x,
+						 xPos + tileWidth, yPos + tileHeight, texCoords.y, texCoords.y,
+						 xPos, yPos + tileHeight, texCoords.x, texCoords.y };
+
 	return vertices;
 }
 
 void Tile::move(float moveX, float moveY) {
-	xPos += moveX * tileWidth;
-	yPos += moveY * tileHeight;
-	auto vertices = calculateVertices();
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
-	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 4 * sizeof(float), 0);
-	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	if (properties.getCanMove()) {
+		xPos += moveX * tileWidth;
+		yPos += moveY * tileHeight;
+		auto vertices = calculateVertices();
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
+		posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 4 * sizeof(float), 0);
+		texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	}
 }
 
 
 void Tile::render(){
-	if (active) {
-		animated_sprite.render();
+	if (properties.getIsActive()) {
+
+		properties.render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(texCoordLocation);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 	
+}
+
+
+// pre: the two tiles are adjecent and the current tile is 
+//		moved toward the second tile => thus it collides unles 
+//		it is inactive 
+bool Tile::collides(Tile const& other) const {
+	return other.properties.getIsActive();
 }
 
 void Tile::free()

@@ -7,6 +7,9 @@
 class SpriteSheet{
 
 public:
+
+	SpriteSheet();
+
 	bool loadFromFile(const std::string& filename);
 
 	void render() const;

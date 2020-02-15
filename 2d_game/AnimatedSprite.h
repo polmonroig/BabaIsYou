@@ -2,7 +2,7 @@
 #define ANIMATED_SPRITE_H 
 
 #include <vector>
-#include <glm/glm.h>
+#include <glm/glm.hpp>
 
 #include "Sprite.h"
 

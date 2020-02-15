@@ -2,6 +2,12 @@
 #include <GL/glut.h>
 #include "Game.h"
 
+ Game& Game::instance()
+{
+	static Game G;
+
+	return G;
+}
 
 void Game::init()
 {

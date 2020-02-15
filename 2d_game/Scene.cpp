@@ -2,7 +2,7 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
-#include "FileProcessor.h"
+
 
 
 
@@ -26,23 +26,22 @@ void Scene::update(int deltaTime){
 }
 
 void Scene::render(){
-	shaderManager.use();
+	Managers::shaderManager.use();
 	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
-	shaderManager.setUniform(quadProgram, "projectionMatrix", projectionMatrix);
-	shaderManager.setUniform(quadProgram, "modelViewMatrix", modelviewMatrix);
-	
+	Managers::shaderManager.setUniform(quadProgram, "projectionMatrix", projectionMatrix);
+	Managers::shaderManager.setUniform(quadProgram, "modelViewMatrix", modelviewMatrix);
 	map.render();
 }
 
 
 void Scene::initTextures() {
-	sprites.loadFromFile("images/sprite-sheet.png");
+	Managers::animationsManager.init();
 }
 
 
 void Scene::initShaders(){
 
-	quadProgram = shaderManager.addProgram("shaders/simple.vert", "shaders/simple.frag");
+	quadProgram = Managers::shaderManager.addProgram("shaders/simple.vert", "shaders/simple.frag");
 
 }
 

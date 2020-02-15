@@ -21,6 +21,7 @@ public:
 
 private:
 
+
 	void runLoop();
 	void glut(int argc, char** argv);
 	void addCallbacks();
