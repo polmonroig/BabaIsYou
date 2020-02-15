@@ -22,6 +22,9 @@ public:
 private:
 
 
+	void Tile::sendVertices();
+
+
 	GLuint vao, vbo;
 	GLuint posLocation, texCoordLocation;
 	

@@ -11,11 +11,28 @@ void Sprite::render() const {
 }
 
 
-void Sprite::setTextureCoordinates(glm::vec2 const& coordinates) {
-	textureCoordinates = coordinates;
+void Sprite::setLeftTop(float coordX, float coordY) {
+	textureCoordinates[TOP_LEFT_X] = coordX;
+	textureCoordinates[TOP_LEFT_Y] = coordY;
+}
+
+void Sprite::setLeftBottom(float coordX, float coordY) {
+	textureCoordinates[BOTTOM_LEFT_X] = coordX;
+	textureCoordinates[BOTTOM_LEFT_Y] = coordY;
+}
+
+void Sprite::setRightTop(float coordX, float coordY) {
+	textureCoordinates[TOP_RIGHT_X] = coordX;
+	textureCoordinates[TOP_RIGHT_Y] = coordY;
+}
+
+void Sprite::setRightBottom(float coordX, float coordY) {
+	textureCoordinates[BOTTOM_RIGHT_X] = coordX;
+	textureCoordinates[BOTTOM_RIGHT_Y] = coordY;
 }
 
 
-glm::vec2 Sprite::getTextureCoordinates() const {
+
+float* Sprite::getTextureCoordinates()  {
 	return textureCoordinates;
 }

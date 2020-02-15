@@ -10,19 +10,25 @@ class AnimatedSprite {
 
 public:
 
-	AnimatedSprite() = default;
+	AnimatedSprite();
 
-	AnimatedSprite(int max_frame_counter);
 
-	void addSprite(Sprite const& sprite);
+	void setFrameRate(int frameRate);
+	void setSpritesSize(int spritesSize);
+	void setTextureDimensions(float texWidth, float texHeight);
+	void setInitialCoordinates(float initialX, float initialY);
+	void setDirection(float dirX, float dirY);
+	void generateSprites(SpriteSheet& spriteSheet);
 
-	glm::vec2 getTextureCoordinates() const;
-
+	float* getTextureCoordinates() ;
 	void render();
 
 private:
 	
-	int max_frame, current_sprite, frame_counter;
+	int max_frame, current_sprite, frame_counter, size;
+	float width, height;
+	float initX, initY;
+	float directionX, directionY;
 
 	std::vector<Sprite> sprites;
 
