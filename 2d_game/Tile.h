@@ -32,6 +32,7 @@ private:
 	
 	Properties properties;
 
+
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
 	float borderLeft, borderBottom, borderTop, borderRight;

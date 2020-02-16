@@ -31,7 +31,7 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nCols; ++j) {
 			map[i][j] = Tile(posX, posY, width, height, shaderProgramID);
-			map[i][j].setBorders(marginLeft, borderRight, marginTop, borderBottom);
+			map[i][j].setBorders(marginLeft - 1, borderRight + marginLeft - width, marginTop - 1, borderBottom + marginTop - height);
 			map[i][j].init();
 			posX += width;
 			break;

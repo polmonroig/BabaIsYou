@@ -39,6 +39,7 @@ void Tile::setBorders(float left, float right, float top, float bottom) {
 }
 
 bool Tile::outsideBorders()const {
+
 	return xPos > borderRight ||
 		xPos < borderLeft ||
 		yPos > borderBottom ||
@@ -67,8 +68,17 @@ float* Tile::calculateVertices() {
 
 void Tile::move(float moveX, float moveY) {
 	if (properties.getCanMove()) {
+		std::cout << "===================" << std::endl;
+		std::cout << "Left: " << borderLeft << std::endl;
+		std::cout << "Top: " << borderTop << std::endl;
+		std::cout << "Right: " << borderRight << std::endl;
+		std::cout << "Bottom: " << borderBottom << std::endl;
+		std::cout << "CurrentPosX: " << xPos << std::endl;
+		std::cout << "CurrentPosY: " << yPos << std::endl;
 		xPos += moveX * tileWidth;
 		yPos += moveY * tileHeight;
+		std::cout << "NewPosX: " << xPos << std::endl;
+		std::cout << "NewPosY: " << yPos << std::endl;
 		if (outsideBorders()) {
 			xPos -= moveX * tileWidth;
 			yPos -= moveY * tileHeight;
