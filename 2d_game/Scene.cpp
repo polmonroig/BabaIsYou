@@ -18,7 +18,7 @@ void Scene::init(){
 }
 
 void Scene::move(float x, float y) {
-	map.moveTile(0, 0, x, y);
+	map.movePlayerTiles(x, y);
 }
 
 void Scene::update(int deltaTime){

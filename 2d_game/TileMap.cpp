@@ -4,69 +4,95 @@
 
 TileMap::TileMap(int rows, int cols, int leftMargin, int topMargin) {
 
-	nRows = rows;
-	nCols = cols; 
+    nRows = rows;
+    nCols = cols; 
 
-	marginLeft = leftMargin;
-	marginTop = topMargin;
-	
+    marginLeft = leftMargin;
+    marginTop = topMargin;
+    
 
-	map = std::vector<std::vector<Tile>>(nRows, std::vector<Tile>(nCols));
+    map = std::vector<std::vector<std::list<Tile>>>(nRows, std::vector<std::list<Tile>>(nCols));
 
-	
+    
 
 }
 
 void TileMap::init(int shaderProgramID, int backgroundProgram, float width, float height) {
-	backgroundProgramID = backgroundProgram;
-	float posX = marginLeft;
-	float posY = marginTop;
-	float borderRight = (width - marginLeft * 2);
-	float borderBottom = (height - marginTop * 2);
-	background = Background(marginLeft, marginTop, borderRight, borderBottom, backgroundProgram);
-	background.init();
-	width = borderRight / float(nRows);
-	height = borderBottom / float(nCols);
+    backgroundProgramID = backgroundProgram;
+    float posX = marginLeft;
+    float posY = marginTop;
+    float borderRight = (width - marginLeft * 2);
+    float borderBottom = (height - marginTop * 2);
+    background = Background(marginLeft, marginTop, borderRight, borderBottom, backgroundProgram);
+    background.init();
+    width = borderRight / float(nRows);
+    height = borderBottom / float(nCols);
 
-	for (int i = 0; i < nRows; ++i) {
-		for (int j = 0; j < nCols; ++j) {
-			map[i][j] = Tile(i, j, posX, posY, width, height, shaderProgramID);
-			map[i][j].init();
-			posX += width;
-			break;
-		}
-		posY += height;
-		posX = marginLeft;
-		break;
-	}
-
+    for (int i = 0; i < nRows; ++i) {
+        for (int j = 0; j < nCols; ++j) {
+            map[i][j].push_back(Tile(posX, posY, width, height, shaderProgramID));
+            map[i][j].begin()->init();
+            posX += width;
+            if (j == 1)break;
+        }
+        posY += height;
+        posX = marginLeft;
+        break;
+    }
+    map[0][1].begin()->setCanMove(false);
 }
 
 bool TileMap::insideMap(int posX, int posY) {
-	return posX >= 0 && posX < nRows && posY >= 0 && posY < nCols;
+    return posX >= 0 && posX < nRows && posY >= 0 && posY < nCols;
 }
 
-void TileMap::moveTile(int iPos, int jPos, float xMove, float yMove) {
-	int newTileI = map[iPos][jPos].getIIndex() + yMove;
-	int newTileJ = map[iPos][jPos].getJIndex() + xMove;
-	std::cout << "NewTileI: " << newTileI << std::endl;
-	std::cout << "NewTileJ: " << newTileJ << std::endl;
-	if (insideMap(newTileI, newTileJ)) {
-		map[iPos][jPos].move(xMove, yMove);
-	}
-	
+bool TileMap::checkForCollisions(Tile const& currentTile, int i, int j) const {
+    for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {
+        if (currentTile.collides(*it))return true;
+    }
+    return false;
+}
+
+void TileMap::movePlayerTiles(float xMove, float yMove) {
+
+    std::vector<std::pair<std::pair<int, int>, Tile*>> references;
+    for (int i = 0; i < nRows; ++i) {
+        for (int j = 0; j < nCols; ++j) {
+
+            for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {
+                if (it->canMove()) {
+                    int newTileI = i + yMove;
+                    int newTileJ = j + xMove;
+                    if (insideMap(newTileI, newTileJ)) {
+                        if (!checkForCollisions(*it, newTileI, newTileJ)) {
+                            it->move(xMove, yMove);
+                            references.push_back({ {newTileI, newTileJ},  &*it });
+                            map[i][j].erase(it);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (auto& ref : references) {
+        map[ref.first.first][ref.first.second].push_back(*(ref.second));
+    }
+    
 }
 
 
 void TileMap::render() {
-	
-	Managers::shaderManager.use(backgroundProgramID);
-	background.render();
-	Managers::shaderManager.use();
-	for (int i = 0; i < nRows; ++i) {
-		for (int j = 0; j < nCols; ++j) {
-			map[i][j].render();
-		}
-	}
-	
+    
+    Managers::shaderManager.use(backgroundProgramID);
+    background.render();
+    Managers::shaderManager.use();
+    for (int i = 0; i < nRows; ++i) {
+        for (int j = 0; j < nCols; ++j) {
+            for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {
+                it->render();
+            }
+        }
+    }
+    
 }

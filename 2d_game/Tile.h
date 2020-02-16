@@ -14,15 +14,14 @@ public:
 	
 
 	Tile();
-	Tile(int i, int j, float x, float y, float width, float height, int shaderProgramID);
+	Tile( float x, float y, float width, float height, int shaderProgramID);
 	void move(float moveX, float moveY);
 	void render();
 	void free();
 	void init();
 	bool collides(Tile const& other) const;
-
-	int getIIndex() const;
-	int getJIndex() const;
+	bool canMove() const;
+	void setCanMove(bool value);
 
 private:
 
@@ -38,7 +37,6 @@ private:
 
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
-	int iIndex, jIndex;
 	
 
 	float* calculateVertices();

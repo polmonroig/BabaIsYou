@@ -4,17 +4,20 @@
 
 Tile::Tile() {
 	properties.setIsActive(false);
+	properties.setCanMove(false);
 }
 
-Tile::Tile(int i, int j, float x, float y, float width, float height, int shaderProgramID){
+Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 	properties.setAnimation(Managers::animationsManager.getAnimatedSprite(0));
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
 	tileWidth = width;
-	iIndex = i;
-	jIndex = j;
 	tileHeight = height;
+}
+
+void Tile::setCanMove(bool value) {
+	properties.setCanMove(false);
 }
 
 void Tile::init() {
@@ -31,7 +34,9 @@ void Tile::init() {
 }
 
 
-
+bool Tile::canMove() const {
+	return properties.getCanMove();
+}
 
 
 float* Tile::calculateVertices() {
@@ -54,22 +59,12 @@ float* Tile::calculateVertices() {
 }
 
 void Tile::move(float moveX, float moveY) {
-	if (properties.getCanMove()) {
-		xPos += moveX * tileWidth;
-		yPos += moveY * tileHeight;
-		iIndex += moveY;
-		jIndex += moveX;
-		sendVertices();
-	}
+	xPos += moveX * tileWidth;
+	yPos += moveY * tileHeight;
+	sendVertices();
 }
 
-int Tile::getIIndex() const {
-	return iIndex;
-}
 
-int Tile::getJIndex() const {
-	return jIndex;
-}
 
 void Tile::sendVertices() {
 	auto vertices = calculateVertices();

@@ -2,6 +2,7 @@
 #define TILE_MAP_H
 
 #include <vector>
+#include <list>
 
 #include "Tile.h"
 #include "Background.h"
@@ -17,12 +18,13 @@ public:
 	TileMap(int rows, int cols, int leftMargin, int topMargin);
 
 	void init(int shaderProgramID, int backgroundProgram, float width, float height);
-	void moveTile(int iPos, int jPos, float xMove, float yMove);
+	void movePlayerTiles(float xMove, float yMove);
 	void render();
 
 private:
 
 	bool insideMap(int posX, int posY);
+	bool checkForCollisions(Tile const& currentTile, int i, int j) const;
 
 	int nRows;
 	int nCols;
@@ -32,7 +34,7 @@ private:
 
 	Background background;
 
-	std::vector<std::vector<Tile>> map;
+	std::vector<std::vector<std::list<Tile>>> map;
 };
 
 
