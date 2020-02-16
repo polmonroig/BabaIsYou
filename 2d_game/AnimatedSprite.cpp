@@ -57,9 +57,13 @@ void AnimatedSprite::generateSprites(SpriteSheet & spriteSheet) {
 float* AnimatedSprite::getTextureCoordinates()  {
 	return sprites[current_sprite].getTextureCoordinates();
 }
+void AnimatedSprite::setDeltaTime(float time) {
+	deltaTime = time;
+}
+
 
 void AnimatedSprite::render() {
-	if (frame_counter >= max_frame) {
+	if (frame_counter >= max_frame * deltaTime) {
 		frame_counter = 0;
 		current_sprite = (current_sprite + 1) % size;
 	}

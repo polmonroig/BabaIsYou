@@ -9,21 +9,23 @@ TileMap::TileMap(int rows, int cols, int leftMargin, int topMargin) {
 
 	marginLeft = leftMargin;
 	marginTop = topMargin;
+	
 
 	map = std::vector<std::vector<Tile>>(nRows, std::vector<Tile>(nCols));
 
+	
+
 }
 
-void TileMap::init(int shaderProgramID, float width, float height) {
-
+void TileMap::init(int shaderProgramID, int backgroundProgram, float width, float height) {
+	backgroundProgramID = backgroundProgram;
 	float posX = marginLeft;
 	float posY = marginTop;
-
-	width = (width - marginLeft * 2) / float(nRows);
-	height = (height - marginTop * 2) / float(nCols);
-
-
-	
+	width = (width - marginLeft * 2);
+	height = (height - marginTop * 2);
+	background = Background(0, 0, width, height, backgroundProgram);
+	width = width / float(nRows);
+	height = height / float(nCols);
 
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nCols; ++j) {
@@ -44,10 +46,14 @@ void TileMap::moveTile(int iPos, int jPos, float xMove, float yMove) {
 
 
 void TileMap::render() {
+	
+	Managers::shaderManager.use(backgroundProgramID);
+	background.render();
+	Managers::shaderManager.use();
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nCols; ++j) {
-			float color = (i % 2 == 0) - j % 2 == 0;
 			map[i][j].render();
 		}
 	}
+	
 }

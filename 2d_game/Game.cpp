@@ -12,7 +12,9 @@
 void Game::init()
 {
 	bPlay = true;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_COLOR);
+	glClearColor(0.094f, 0.094f, 0.129f, 1.0f);
 	scene.init();
 }
 

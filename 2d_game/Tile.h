@@ -29,7 +29,6 @@ private:
 	GLuint posLocation, texCoordLocation;
 	
 	Properties properties;
-
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
 	

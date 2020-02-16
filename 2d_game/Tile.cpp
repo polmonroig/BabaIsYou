@@ -20,11 +20,9 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	sendVertices();
-	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 4 * sizeof(float), 0);
-	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 3, 5 * sizeof(float), 0);
+	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 }
@@ -32,12 +30,18 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 float* Tile::calculateVertices() {
 	float* texCoords = properties.getTextureCoordinates();
 
-	float vertices[24] = { xPos, yPos, texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
-						 xPos + tileWidth, yPos, texCoords[Sprite::TOP_RIGHT_X], texCoords[Sprite::TOP_RIGHT_Y],
-						 xPos + tileWidth, yPos + tileHeight, texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
-						 xPos, yPos, texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
-						 xPos + tileWidth, yPos + tileHeight, texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
-						 xPos, yPos + tileHeight, texCoords[Sprite::BOTTOM_LEFT_X], texCoords[Sprite::BOTTOM_LEFT_Y] };
+	float vertices[30] = { xPos, yPos, 0.0, 
+							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
+						 xPos + tileWidth, yPos, 0.0, 
+							texCoords[Sprite::TOP_RIGHT_X], texCoords[Sprite::TOP_RIGHT_Y],
+						 xPos + tileWidth, yPos + tileHeight, 0.0, 
+							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
+						 xPos, yPos, 0.0, 
+							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
+						 xPos + tileWidth, yPos + tileHeight,  0.0, 
+							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
+						 xPos, yPos + tileHeight, 0.0, 
+							texCoords[Sprite::BOTTOM_LEFT_X], texCoords[Sprite::BOTTOM_LEFT_Y] };
 
 	return vertices;
 }
@@ -47,8 +51,6 @@ void Tile::move(float moveX, float moveY) {
 		xPos += moveX * tileWidth;
 		yPos += moveY * tileHeight;
 		sendVertices();
-		posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 4 * sizeof(float), 0);
-		texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 	}
 }
 
@@ -56,7 +58,7 @@ void Tile::sendVertices() {
 	auto vertices = calculateVertices();
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
 }
 
 void Tile::render(){

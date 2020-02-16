@@ -16,6 +16,7 @@ public:
 
 private:
 
+	
 	GLuint texId;
 	GLint wrapS, wrapT, minFilter, magFilter;
 

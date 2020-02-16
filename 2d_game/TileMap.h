@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Tile.h"
+#include "Background.h"
 
 class Tile;
 
@@ -15,7 +16,7 @@ public:
 
 	TileMap(int rows, int cols, int leftMargin, int topMargin);
 
-	void init(int shaderProgramID, float width, float height);
+	void init(int shaderProgramID, int backgroundProgram, float width, float height);
 	void moveTile(int iPos, int jPos, float xMove, float yMove);
 	void render();
 
@@ -25,6 +26,9 @@ private:
 	int nCols;
 	float marginLeft;
 	float marginTop;
+	int backgroundProgramID;
+
+	Background background;
 
 	std::vector<std::vector<Tile>> map;
 };

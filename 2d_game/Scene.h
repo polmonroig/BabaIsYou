@@ -28,7 +28,7 @@ private:
 	void initTextures();
 	void initShaders();
 
-
+	int backgroundProgram;
 	int quadProgram;
 	float currentTime;
 

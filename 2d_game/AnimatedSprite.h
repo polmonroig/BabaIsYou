@@ -19,7 +19,7 @@ public:
 	void setInitialCoordinates(float initialX, float initialY);
 	void setDirection(float dirX, float dirY);
 	void generateSprites(SpriteSheet& spriteSheet);
-
+	void setDeltaTime(float time);
 	float* getTextureCoordinates() ;
 	void render();
 
@@ -28,6 +28,7 @@ private:
 	int max_frame, current_sprite, frame_counter, size;
 	float width, height;
 	float initX, initY;
+	float deltaTime;
 	float directionX, directionY;
 
 	std::vector<Sprite> sprites;
