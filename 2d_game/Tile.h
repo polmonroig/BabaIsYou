@@ -16,7 +16,9 @@ public:
 	void move(float moveX, float moveY);
 	void render();
 	void free();
-
+	void init();
+	bool outsideBorders()const;
+	void setBorders(float left, float right, float top, float bottom);
 	bool collides(Tile const& other) const;
 
 private:
@@ -29,8 +31,10 @@ private:
 	GLuint posLocation, texCoordLocation;
 	
 	Properties properties;
+
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
+	float borderLeft, borderBottom, borderTop, borderRight;
 	
 
 	float* calculateVertices();

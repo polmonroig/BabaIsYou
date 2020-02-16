@@ -15,6 +15,11 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
+
+
+}
+
+void Tile::init() {
 	float* vertices = calculateVertices();
 
 	glGenVertexArrays(1, &vao);
@@ -22,10 +27,24 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 	sendVertices();
 	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 3, 5 * sizeof(float), 0);
 	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	
-
 
 }
+
+void Tile::setBorders(float left, float right, float top, float bottom) {
+	borderLeft = left;
+	borderRight = right;
+	borderTop = top;
+	borderBottom = bottom;
+
+}
+
+bool Tile::outsideBorders()const {
+	return xPos > borderRight ||
+		xPos < borderLeft ||
+		yPos > borderBottom ||
+		yPos < borderTop;
+}
+
 
 float* Tile::calculateVertices() {
 	float* texCoords = properties.getTextureCoordinates();
@@ -50,7 +69,13 @@ void Tile::move(float moveX, float moveY) {
 	if (properties.getCanMove()) {
 		xPos += moveX * tileWidth;
 		yPos += moveY * tileHeight;
-		sendVertices();
+		if (outsideBorders()) {
+			xPos -= moveX * tileWidth;
+			yPos -= moveY * tileHeight;
+		}
+		else {
+			sendVertices();
+		}
 	}
 }
 

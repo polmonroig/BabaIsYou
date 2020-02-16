@@ -21,15 +21,18 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
 	backgroundProgramID = backgroundProgram;
 	float posX = marginLeft;
 	float posY = marginTop;
-	width = (width - marginLeft * 2);
-	height = (height - marginTop * 2);
-	background = Background(0, 0, width, height, backgroundProgram);
-	width = width / float(nRows);
-	height = height / float(nCols);
+	float borderRight = (width - marginLeft * 2);
+	float borderBottom = (height - marginTop * 2);
+	background = Background(marginLeft, marginTop, borderRight, borderBottom, backgroundProgram);
+	background.init();
+	width = borderRight / float(nRows);
+	height = borderBottom / float(nCols);
 
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nCols; ++j) {
 			map[i][j] = Tile(posX, posY, width, height, shaderProgramID);
+			map[i][j].setBorders(marginLeft, borderRight, marginTop, borderBottom);
+			map[i][j].init();
 			posX += width;
 			break;
 		}
