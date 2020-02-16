@@ -9,7 +9,7 @@
 void Scene::init(){
 	initShaders();
 	initTextures();
-	map = TileMap(10, 10, 100, 100);
+	map = TileMap(N_ROWS, N_COLS, MARGIN_LEFT, MARGIN_TOP);
 	map.init(quadProgram, backgroundProgram, CAMERA_WIDTH - 1, CAMERA_HEIGHT - 1);
 
 	projectionMatrix = glm::ortho(0.0f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.0f, 0.0f, 100.0f);

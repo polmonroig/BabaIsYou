@@ -1,6 +1,6 @@
 #include "AnimationsManager.h"
 
-#include <iostream> // DEBUGGING
+
 
 void AnimationsManager::init() {
 	sprites.loadFromFile("images/sprite-sheet.png");

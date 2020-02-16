@@ -11,15 +11,18 @@ class Tile {
 
 public:
 
+	
+
 	Tile();
-	Tile(float x, float y, float width, float height, int shaderProgramID);
+	Tile(int i, int j, float x, float y, float width, float height, int shaderProgramID);
 	void move(float moveX, float moveY);
 	void render();
 	void free();
 	void init();
-	bool outsideBorders()const;
-	void setBorders(float left, float right, float top, float bottom);
 	bool collides(Tile const& other) const;
+
+	int getIIndex() const;
+	int getJIndex() const;
 
 private:
 
@@ -35,7 +38,7 @@ private:
 
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;
-	float borderLeft, borderBottom, borderTop, borderRight;
+	int iIndex, jIndex;
 	
 
 	float* calculateVertices();

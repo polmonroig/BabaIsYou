@@ -22,6 +22,8 @@ public:
 
 private:
 
+	bool insideMap(int posX, int posY);
+
 	int nRows;
 	int nCols;
 	float marginLeft;

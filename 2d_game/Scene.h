@@ -25,6 +25,11 @@ public:
 
 private:
 
+	static const int N_COLS = 10;
+	static const int N_ROWS = 10;
+	static const int MARGIN_LEFT = 100;
+	static const int MARGIN_TOP = 100;
+
 	void initTextures();
 	void initShaders();
 

@@ -6,22 +6,22 @@ Tile::Tile() {
 	properties.setIsActive(false);
 }
 
-Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
-	properties.setIsActive(true);
-	properties.setCanMove(true);
+Tile::Tile(int i, int j, float x, float y, float width, float height, int shaderProgramID){
 	properties.setAnimation(Managers::animationsManager.getAnimatedSprite(0));
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
 	tileWidth = width;
+	iIndex = i;
+	jIndex = j;
 	tileHeight = height;
-
-
 }
 
 void Tile::init() {
+	properties.setIsActive(true);
+	properties.setCanMove(true);
 	float* vertices = calculateVertices();
-
+	
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	sendVertices();
@@ -30,21 +30,8 @@ void Tile::init() {
 
 }
 
-void Tile::setBorders(float left, float right, float top, float bottom) {
-	borderLeft = left;
-	borderRight = right;
-	borderTop = top;
-	borderBottom = bottom;
 
-}
 
-bool Tile::outsideBorders()const {
-
-	return xPos > borderRight ||
-		xPos < borderLeft ||
-		yPos > borderBottom ||
-		yPos < borderTop;
-}
 
 
 float* Tile::calculateVertices() {
@@ -68,25 +55,20 @@ float* Tile::calculateVertices() {
 
 void Tile::move(float moveX, float moveY) {
 	if (properties.getCanMove()) {
-		std::cout << "===================" << std::endl;
-		std::cout << "Left: " << borderLeft << std::endl;
-		std::cout << "Top: " << borderTop << std::endl;
-		std::cout << "Right: " << borderRight << std::endl;
-		std::cout << "Bottom: " << borderBottom << std::endl;
-		std::cout << "CurrentPosX: " << xPos << std::endl;
-		std::cout << "CurrentPosY: " << yPos << std::endl;
 		xPos += moveX * tileWidth;
 		yPos += moveY * tileHeight;
-		std::cout << "NewPosX: " << xPos << std::endl;
-		std::cout << "NewPosY: " << yPos << std::endl;
-		if (outsideBorders()) {
-			xPos -= moveX * tileWidth;
-			yPos -= moveY * tileHeight;
-		}
-		else {
-			sendVertices();
-		}
+		iIndex += moveY;
+		jIndex += moveX;
+		sendVertices();
 	}
+}
+
+int Tile::getIIndex() const {
+	return iIndex;
+}
+
+int Tile::getJIndex() const {
+	return jIndex;
 }
 
 void Tile::sendVertices() {

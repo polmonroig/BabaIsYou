@@ -30,8 +30,7 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
 
 	for (int i = 0; i < nRows; ++i) {
 		for (int j = 0; j < nCols; ++j) {
-			map[i][j] = Tile(posX, posY, width, height, shaderProgramID);
-			map[i][j].setBorders(marginLeft - 1, borderRight + marginLeft - width, marginTop - 1, borderBottom + marginTop - height);
+			map[i][j] = Tile(i, j, posX, posY, width, height, shaderProgramID);
 			map[i][j].init();
 			posX += width;
 			break;
@@ -43,8 +42,19 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
 
 }
 
+bool TileMap::insideMap(int posX, int posY) {
+	return posX >= 0 && posX < nRows && posY >= 0 && posY < nCols;
+}
+
 void TileMap::moveTile(int iPos, int jPos, float xMove, float yMove) {
-	map[iPos][jPos].move(xMove, yMove);
+	int newTileI = map[iPos][jPos].getIIndex() + yMove;
+	int newTileJ = map[iPos][jPos].getJIndex() + xMove;
+	std::cout << "NewTileI: " << newTileI << std::endl;
+	std::cout << "NewTileJ: " << newTileJ << std::endl;
+	if (insideMap(newTileI, newTileJ)) {
+		map[iPos][jPos].move(xMove, yMove);
+	}
+	
 }
 
 
