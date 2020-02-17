@@ -25,7 +25,7 @@ void Background::init() {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertices, GL_STATIC_DRAW);
-	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 2, 2 * sizeof(float), 0);
+	posLocation = ServiceLocator::getShaderManager()->bindVertexAttribute(programID, "position", 2, 2 * sizeof(float), 0);
 }
 
 void Background::render() {

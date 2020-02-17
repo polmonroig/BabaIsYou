@@ -7,6 +7,7 @@
 
 
 void Scene::init(){
+	ServiceLocator::provide(new ShaderManager(), new AnimationsManager());
 	initShaders();
 	initTextures();
 	map = TileMap(N_ROWS, N_COLS, MARGIN_LEFT, MARGIN_TOP);
@@ -23,27 +24,29 @@ void Scene::move(float x, float y) {
 
 void Scene::update(int deltaTime){
 	currentTime += deltaTime;
-	Managers::animationsManager.setDeltaTime(1);
+	ServiceLocator::getAnimationsManager()->setDeltaTime(2);
 }
 
 void Scene::render(){
 	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
-	Managers::shaderManager.setUniform(quadProgram, "projectionMatrix", projectionMatrix);
-	Managers::shaderManager.setUniform(quadProgram, "modelViewMatrix", modelviewMatrix);
-	Managers::shaderManager.setUniform(backgroundProgram, "projectionMatrix", projectionMatrix);
-	Managers::shaderManager.setUniform(backgroundProgram, "modelViewMatrix", modelviewMatrix);
+	auto shaderManager = ServiceLocator::getShaderManager();
+	shaderManager->setUniform(quadProgram, "projectionMatrix", projectionMatrix);
+	shaderManager->setUniform(quadProgram, "modelViewMatrix", modelviewMatrix);
+	shaderManager->setUniform(backgroundProgram, "projectionMatrix", projectionMatrix);
+	shaderManager->setUniform(backgroundProgram, "modelViewMatrix", modelviewMatrix);
 	map.render();
 }
 
 
 void Scene::initTextures() {
-	Managers::animationsManager.init();
+	ServiceLocator::getAnimationsManager()->init();
 }
 
 
 void Scene::initShaders(){
-	backgroundProgram = Managers::shaderManager.addProgram("shaders/background.vert", "shaders/background.frag");
-	quadProgram = Managers::shaderManager.addProgram("shaders/simple.vert", "shaders/simple.frag");
+	auto shaderManager = ServiceLocator::getShaderManager();
+	backgroundProgram = shaderManager->addProgram("shaders/background.vert", "shaders/background.frag");
+	quadProgram = shaderManager->addProgram("shaders/simple.vert", "shaders/simple.frag");
 
 
 }

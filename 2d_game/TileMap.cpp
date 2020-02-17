@@ -11,7 +11,7 @@ TileMap::TileMap(int rows, int cols, int leftMargin, int topMargin) {
     marginTop = topMargin;
     
 
-    map = std::vector<std::vector<std::list<Tile>>>(nRows, std::vector<std::list<Tile>>(nCols));
+    map = LinkedMatrix(nRows, LinkedVector(nCols));
 
     
 
@@ -74,7 +74,7 @@ void TileMap::movePlayerTiles(float xMove, float yMove) {
             }
         }
     }
-
+    // move deleted tiles to a new position 
     for (auto& ref : references) {
         map[ref.first.first][ref.first.second].push_back(*(ref.second));
     }
@@ -83,10 +83,10 @@ void TileMap::movePlayerTiles(float xMove, float yMove) {
 
 
 void TileMap::render() {
-    
-    Managers::shaderManager.use(backgroundProgramID);
+    auto shaderM = ServiceLocator::getShaderManager();
+    shaderM->use(backgroundProgramID);
     background.render();
-    Managers::shaderManager.use();
+    shaderM->use();
     for (int i = 0; i < nRows; ++i) {
         for (int j = 0; j < nCols; ++j) {
             for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {

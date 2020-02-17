@@ -22,6 +22,9 @@ public:
 	void render();
 
 private:
+	
+	typedef std::vector<std::list<Tile>> LinkedVector;
+	typedef std::vector<LinkedVector> LinkedMatrix;
 
 	bool insideMap(int posX, int posY);
 	bool checkForCollisions(Tile const& currentTile, int i, int j) const;
@@ -34,7 +37,7 @@ private:
 
 	Background background;
 
-	std::vector<std::vector<std::list<Tile>>> map;
+	LinkedMatrix map;
 };
 
 

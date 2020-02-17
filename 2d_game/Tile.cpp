@@ -8,7 +8,7 @@ Tile::Tile() {
 }
 
 Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
-	properties.setAnimation(Managers::animationsManager.getAnimatedSprite(0));
+	properties.setAnimation(ServiceLocator::getAnimationsManager()->getAnimatedSprite(0));
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
@@ -28,8 +28,9 @@ void Tile::init() {
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	sendVertices();
-	posLocation = Managers::shaderManager.bindVertexAttribute(programID, "position", 3, 5 * sizeof(float), 0);
-	texCoordLocation = Managers::shaderManager.bindVertexAttribute(programID, "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	auto shaderM = ServiceLocator::getShaderManager();
+	posLocation = shaderM->bindVertexAttribute(programID, "position", 3, 5 * sizeof(float), 0);
+	texCoordLocation = shaderM->bindVertexAttribute(programID, "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 }
 
