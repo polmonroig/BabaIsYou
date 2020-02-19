@@ -5,6 +5,7 @@
 
 
 #include "Scene.h"
+#include "Direction.h"
 
 
 class Game{

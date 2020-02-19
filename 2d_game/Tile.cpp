@@ -59,9 +59,10 @@ float* Tile::calculateVertices() {
 	return vertices;
 }
 
-void Tile::move(float moveX, float moveY) {
-	xPos += moveX * tileWidth;
-	yPos += moveY * tileHeight;
+void Tile::move(Direction const& dir) {
+	auto dirPair = dir.getDir();
+	xPos += dirPair.first * tileWidth;
+	yPos += dirPair.second * tileHeight;
 	sendVertices();
 }
 
@@ -72,6 +73,10 @@ void Tile::sendVertices() {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
+}
+
+void Tile::setActive(bool value) {
+	properties.setIsActive(value);
 }
 
 void Tile::render(){
@@ -90,8 +95,8 @@ void Tile::render(){
 // pre: the two tiles are adjecent and the current tile is 
 //		moved toward the second tile => thus it collides unles 
 //		it is inactive 
-bool Tile::collides(Tile const& other) const {
-	return other.properties.getIsActive();
+CollisionType Tile::collide(Tile const& other) const {
+	return CollisionType::Moveable;
 }
 
 void Tile::free()

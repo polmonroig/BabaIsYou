@@ -53,13 +53,13 @@ void Game::specialKeyPressed(int key){
 
 void Game::specialKeyReleased(int key){
 	if (key == GLUT_KEY_RIGHT)
-		scene.move(1.0, 0);
+		scene.move(Direction(DirectionType::RIGHT));
 	else if (key == GLUT_KEY_LEFT)
-		scene.move(-1.0, 0);
+		scene.move(Direction(DirectionType::LEFT));
 	else if (key == GLUT_KEY_UP)
-		scene.move(0.0, -1.0);
+		scene.move(Direction(DirectionType::UP));
 	else if (key == GLUT_KEY_DOWN)
-		scene.move(0.0, 1.0);
+		scene.move(Direction(DirectionType::DOWN));
 	specialKeys[key] = false;
 }
 

@@ -16,6 +16,7 @@ void AnimationsManager::init() {
 	animation.setDirection(0, 1);
 	animation.generateSprites(sprites);
 	animatedSprites.push_back(animation);
+
 }
 
 void  AnimationsManager::setDeltaTime(float deltaTime) {

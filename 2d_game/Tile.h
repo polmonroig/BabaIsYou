@@ -2,9 +2,11 @@
 #define TILE_H 
 
 
+#include "Direction.h"
 #include "Properties.h"
 #include "ServiceLocator.h"
 
+enum class CollisionType {Overlap, Fixed, Moveable, Destroy, None};
 
 
 class Tile {
@@ -15,18 +17,19 @@ public:
 
 	Tile();
 	Tile( float x, float y, float width, float height, int shaderProgramID);
-	void move(float moveX, float moveY);
+	virtual void move(Direction const& dir);
 	void render();
 	void free();
 	void init();
-	bool collides(Tile const& other) const;
-	bool canMove() const;
-	void setCanMove(bool value);
+	CollisionType collide(Tile const& other) const;
+	bool canMove() const; // move to dynamic 
+	void setCanMove(bool value); // move to dynamic 
+	void setActive(bool value);
 
 private:
 
 
-	void Tile::sendVertices();
+	void sendVertices();
 
 
 	GLuint vao, vbo;

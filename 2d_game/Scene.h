@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 
 #include "TileMap.h"
+#include "Direction.h"
 #include "ServiceLocator.h"
 
 
@@ -17,7 +18,7 @@ public:
 
 
 	void init();
-	void move(float x, float y);
+	void move(Direction const& direction);
 
 	void update(int deltaTime);
 
@@ -25,8 +26,7 @@ public:
 
 private:
 
-	static const int N_COLS = 10;
-	static const int N_ROWS = 10;
+	static const int SIZE = 10;
 	static const int MARGIN_LEFT = 100;
 	static const int MARGIN_TOP = 100;
 

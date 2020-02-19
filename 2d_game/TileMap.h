@@ -6,6 +6,7 @@
 
 #include "Tile.h"
 #include "Background.h"
+#include "Direction.h"
 
 class Tile;
 
@@ -15,22 +16,23 @@ public:
 
 	TileMap() = default;
 
-	TileMap(int rows, int cols, int leftMargin, int topMargin);
+	TileMap(int s,float leftMargin, float topMargin);
 
 	void init(int shaderProgramID, int backgroundProgram, float width, float height);
-	void movePlayerTiles(float xMove, float yMove);
+	void movePlayerTiles(Direction const& dir);
 	void render();
 
 private:
 	
-	typedef std::vector<std::list<Tile>> LinkedVector;
+	typedef std::list<Tile> LinkedTiles;
+	typedef std::vector<LinkedTiles> LinkedVector;
 	typedef std::vector<LinkedVector> LinkedMatrix;
 
 	bool insideMap(int posX, int posY);
-	bool checkForCollisions(Tile const& currentTile, int i, int j) const;
+	CollisionType checkForCollisions(Tile const& currentTile, LinkedTiles::iterator& movable,  int i, int j);
+	bool moveTile(Direction const& dir, LinkedTiles::iterator const& it, int i, int j);
 
-	int nRows;
-	int nCols;
+	int size;
 	float marginLeft;
 	float marginTop;
 	int backgroundProgramID;
