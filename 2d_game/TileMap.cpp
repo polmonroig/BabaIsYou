@@ -71,7 +71,7 @@ bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator const& it , i
     std::list<Tile>::iterator movable;
     if (insideMap(newTileI, newTileJ)) {
         auto collision = checkForCollisions(*it, movable, newTileI, newTileJ);
-        if (collision == CollisionType::None) { // empty tile 
+        if (collision == CollisionType::None || collision == CollisionType::Overlap) { // empty tile 
             it->move(dir);
             map[i][j].erase(it);
             map[newTileI][newTileJ].push_back(*it);
@@ -85,12 +85,6 @@ bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator const& it , i
                 moved = true;
             }
                 
-        }
-        else if (collision == CollisionType::Overlap) {
-            it->move(dir);
-            map[i][j].erase(it);
-            map[newTileI][newTileJ].push_back(*it);
-            moved = true;
         }
         else if (collision == CollisionType::Destroy) {
             it->setActive(false);
@@ -151,7 +145,7 @@ void TileMap::render() {
     shaderM->use(backgroundProgramID);
     background.render();
     shaderM->use();
-    for (int i = 0; i < size; ++i) {
+   for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {
                 it->render();

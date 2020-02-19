@@ -30,8 +30,10 @@ void Scene::update(int deltaTime){
 void Scene::render(){
 	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
 	auto shaderManager = ServiceLocator::getShaderManager();
+	shaderManager->use(quadProgram);
 	shaderManager->setUniform(quadProgram, "projectionMatrix", projectionMatrix);
 	shaderManager->setUniform(quadProgram, "modelViewMatrix", modelviewMatrix);
+	shaderManager->use(backgroundProgram);
 	shaderManager->setUniform(backgroundProgram, "projectionMatrix", projectionMatrix);
 	shaderManager->setUniform(backgroundProgram, "modelViewMatrix", modelviewMatrix);
 	map.render();
