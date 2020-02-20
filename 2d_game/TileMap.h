@@ -30,7 +30,7 @@ private:
 
 	bool insideMap(int posX, int posY);
 	CollisionType checkForCollisions(Tile const& currentTile, LinkedTiles::iterator& movable,  int i, int j);
-	bool moveTile(Direction const& dir, LinkedTiles::iterator const& it, int i, int j);
+	bool moveTile(Direction const& dir, LinkedTiles::iterator & it, int i, int j);
 
 	int size;
 	float marginLeft;

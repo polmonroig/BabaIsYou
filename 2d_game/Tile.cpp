@@ -14,6 +14,7 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
+	type = CollisionType::Fixed;
 }
 
 void Tile::setCanMove(bool value) {
@@ -34,6 +35,9 @@ void Tile::init() {
 
 }
 
+void Tile::setCollisionType(CollisionType const& t) {
+	type = t;
+}
 
 bool Tile::canMove() const {
 	return properties.getCanMove();
@@ -96,7 +100,7 @@ void Tile::render(){
 //		moved toward the second tile => thus it collides unles 
 //		it is inactive 
 CollisionType Tile::collide(Tile const& other) const {
-	return CollisionType::Moveable;
+	return type;
 }
 
 void Tile::free()

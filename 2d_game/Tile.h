@@ -25,6 +25,7 @@ public:
 	bool canMove() const; // move to dynamic 
 	void setCanMove(bool value); // move to dynamic 
 	void setActive(bool value);
+	void setCollisionType(CollisionType const& t);
 
 private:
 
@@ -36,7 +37,7 @@ private:
 	GLuint posLocation, texCoordLocation;
 	
 	Properties properties;
-
+	CollisionType type;
 
 	int programID;
 	float xPos, yPos, tileWidth, tileHeight;

@@ -32,13 +32,15 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
             map[i][j].push_back(Tile(posX, posY, width, height, shaderProgramID));
             map[i][j].begin()->init();
             posX += width;
-            if (j == 1)break;
+            if (j == 5)break;
         }
         posY += height;
         posX = marginLeft;
         break;
     }
-  //  map[0][1].begin()->setCanMove(false);
+    map[0][1].begin()->setCanMove(false);
+    map[0][1].begin()->setCollisionType(CollisionType::Destroy);
+    
 }
 
 bool TileMap::insideMap(int posX, int posY) {
@@ -61,7 +63,7 @@ CollisionType TileMap::checkForCollisions(Tile const& currentTile, LinkedTiles::
     return collision;
 }
 
-bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator const& it , int i, int j) {
+bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator & it , int i, int j) {
     auto dirPair = dir.getDir();
     bool moved = false;
     int xMove = dirPair.first;
@@ -73,15 +75,15 @@ bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator const& it , i
         auto collision = checkForCollisions(*it, movable, newTileI, newTileJ);
         if (collision == CollisionType::None || collision == CollisionType::Overlap) { // empty tile 
             it->move(dir);
-            map[i][j].erase(it);
             map[newTileI][newTileJ].push_back(*it);
+            it = map[i][j].erase(it);
             moved = true;
         }
         else if (collision == CollisionType::Moveable) {
             if (moveTile(dir, movable, newTileI, newTileJ)) {
                 it->move(dir); // check if can be moved correctly 
-                map[i][j].erase(it);
                 map[newTileI][newTileJ].push_back(*it);
+                it = map[i][j].erase(it);
                 moved = true;
             }
                 
@@ -89,6 +91,7 @@ bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator const& it , i
         else if (collision == CollisionType::Destroy) {
             it->setActive(false);
             it->free();
+            it = map[i][j].erase(it);
         }
         // else if collision == fixed => don't move 
     }
@@ -129,7 +132,7 @@ void TileMap::movePlayerTiles(Direction const& dir) {
 
            for (auto it = map[newI][newJ].begin(); it != map[newI][newJ].end(); ++it) {
                if (it->canMove()) {
-                   if(moveTile(dir, it, newI, newJ))break; // at most 1 moveable object per tile 
+                   bool moved = moveTile(dir, it, newI, newJ); 
                    
                }
             }

@@ -24,7 +24,7 @@ void Scene::move(Direction const& direction) {
 
 void Scene::update(int deltaTime){
 	currentTime += deltaTime;
-	ServiceLocator::getAnimationsManager()->setDeltaTime(2);
+	ServiceLocator::getAnimationsManager()->setDeltaTime(6);
 }
 
 void Scene::render(){
