@@ -3,7 +3,6 @@
 
 
 #include "Direction.h"
-#include "Properties.h"
 #include "ServiceLocator.h"
 
 enum class CollisionType {Overlap, Fixed, Moveable, Destroy, None};
@@ -22,28 +21,29 @@ public:
 	void free();
 	void init();
 	CollisionType collide(Tile const& other) const;
-	bool canMove() const; // move to dynamic 
+	bool getCanMove() const; // move to dynamic 
 	void setCanMove(bool value); // move to dynamic 
 	void setActive(bool value);
 	void setCollisionType(CollisionType const& t);
-
+	CollisionType getCollisionType() const;
 private:
 
 
 	void sendVertices();
-
+	float* calculateVertices();
 
 	GLuint vao, vbo;
 	GLuint posLocation, texCoordLocation;
 	
-	Properties properties;
 	CollisionType type;
+	AnimatedSprite* animatedSprite;
 
 	int programID;
+	bool canMove, isActive;
 	float xPos, yPos, tileWidth, tileHeight;
 	
 
-	float* calculateVertices();
+	
 };
 
 

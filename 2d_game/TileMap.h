@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <list>
+#include <iostream> // debug 
 
 #include "Tile.h"
 #include "Background.h"
@@ -24,6 +25,7 @@ public:
 
 private:
 	
+	// typedefs to simplify expressions
 	typedef std::list<Tile> LinkedTiles;
 	typedef std::vector<LinkedTiles> LinkedVector;
 	typedef std::vector<LinkedVector> LinkedMatrix;

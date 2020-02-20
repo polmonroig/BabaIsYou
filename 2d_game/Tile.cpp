@@ -3,12 +3,12 @@
 #include "Tile.h"
 
 Tile::Tile() {
-	properties.setIsActive(false);
-	properties.setCanMove(false);
+	isActive = false;
+	canMove = false;;
 }
 
 Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
-	properties.setAnimation(ServiceLocator::getAnimationsManager()->getAnimatedSprite(0));
+	animatedSprite = &ServiceLocator::getAnimationsManager()->getAnimatedSprite(0);
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
@@ -18,12 +18,12 @@ Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
 }
 
 void Tile::setCanMove(bool value) {
-	properties.setCanMove(false);
+	canMove = value;
 }
 
 void Tile::init() {
-	properties.setIsActive(true);
-	properties.setCanMove(true);
+	isActive = true;
+	canMove = true;
 	float* vertices = calculateVertices();
 	
 	glGenVertexArrays(1, &vao);
@@ -39,13 +39,17 @@ void Tile::setCollisionType(CollisionType const& t) {
 	type = t;
 }
 
-bool Tile::canMove() const {
-	return properties.getCanMove();
+CollisionType Tile::getCollisionType() const {
+	return type;
+}
+
+bool Tile::getCanMove() const {
+	return canMove;
 }
 
 
 float* Tile::calculateVertices() {
-	float* texCoords = properties.getTextureCoordinates();
+	float* texCoords = animatedSprite->getTextureCoordinates();
 
 	float vertices[30] = { xPos, yPos, 0.0, 
 							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
@@ -80,13 +84,13 @@ void Tile::sendVertices() {
 }
 
 void Tile::setActive(bool value) {
-	properties.setIsActive(value);
+	isActive = value;
 }
 
 void Tile::render(){
-	if (properties.getIsActive()) {
+	if (isActive) {
 		sendVertices();
-		properties.render();
+		animatedSprite->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(texCoordLocation);
@@ -100,7 +104,7 @@ void Tile::render(){
 //		moved toward the second tile => thus it collides unles 
 //		it is inactive 
 CollisionType Tile::collide(Tile const& other) const {
-	return type;
+	return other.getCollisionType();
 }
 
 void Tile::free()

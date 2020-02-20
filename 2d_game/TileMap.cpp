@@ -1,6 +1,5 @@
 #include "TileMap.h"
 
-#include <iostream>
 
 TileMap::TileMap(int s, float leftMargin, float topMargin) {
 
@@ -40,6 +39,8 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
     }
     map[0][1].begin()->setCanMove(false);
     map[0][1].begin()->setCollisionType(CollisionType::Destroy);
+    map[0][3].begin()->setCanMove(false);
+    map[0][3].begin()->setCollisionType(CollisionType::Moveable);
     
 }
 
@@ -49,6 +50,7 @@ bool TileMap::insideMap(int posX, int posY) {
 
 CollisionType TileMap::checkForCollisions(Tile const& currentTile, LinkedTiles::iterator& movable, int i, int j)  {
     auto collision = CollisionType::None;
+
     for (auto it = map[i][j].begin(); it != map[i][j].end(); ++it) {
         CollisionType type = currentTile.collide(*it);
         if (type == CollisionType::Fixed || collision == CollisionType::Fixed)return type;
@@ -117,6 +119,7 @@ bool TileMap::moveTile(Direction const& dir, LinkedTiles::iterator & it , int i,
 // RIGHT = DOWN BUT TRANSPOSED 
 
 void TileMap::movePlayerTiles(Direction const& dir) {
+    bool playerIsAlive = false;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             int newI = i;
@@ -131,14 +134,14 @@ void TileMap::movePlayerTiles(Direction const& dir) {
             if (dir.isType(DirectionType::RIGHT))newJ = size - i - 1;
 
            for (auto it = map[newI][newJ].begin(); it != map[newI][newJ].end(); ++it) {
-               if (it->canMove()) {
+               if (it->getCanMove()) {
                    bool moved = moveTile(dir, it, newI, newJ); 
-                   
+                   playerIsAlive = true;
                }
             }
         }
     }
-
+    if (!playerIsAlive)std::cout << "############GAME OVER##############" << std::endl;
     
 }
 
