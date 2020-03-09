@@ -11,6 +11,8 @@ class Direction{
 
 public:
 
+	Direction() = default;
+
 	Direction(DirectionType const& type);
 
 	std::pair<int, int> getDir() const;

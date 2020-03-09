@@ -5,7 +5,7 @@
 #include "Direction.h"
 #include "ServiceLocator.h"
 
-enum class CollisionType {Overlap, Fixed, Moveable, Destroy, None};
+enum class CollisionType { Fixed, Moveable, Destroy, None};
 
 
 class Tile {
@@ -24,6 +24,7 @@ public:
 	bool getCanMove() const; // move to dynamic 
 	void setCanMove(bool value); // move to dynamic 
 	void setActive(bool value);
+	bool getActive() const;
 	void setCollisionType(CollisionType const& t);
 	CollisionType getCollisionType() const;
 private:

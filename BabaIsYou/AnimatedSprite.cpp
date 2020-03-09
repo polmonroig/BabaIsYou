@@ -10,7 +10,8 @@ AnimatedSprite::AnimatedSprite() {
 	size = 0;
 	height = 0;
 	initX = initY = 0;
-	directionX = directionY = 0;
+	references = 0;
+	
 }
 
 void AnimatedSprite::setFrameRate(int frameRate) {
@@ -21,9 +22,8 @@ void AnimatedSprite::setSpritesSize(int spritesSize) {
 	size = spritesSize;
 }
 
-void AnimatedSprite::setDirection(float dirX, float dirY) {
-	directionX = dirX;
-	directionY = dirY;
+void AnimatedSprite::setDirection(Direction const& dir) {
+	direction = dir;
 }
 
 void AnimatedSprite::setInitialCoordinates(float initialX, float initialY) {
@@ -49,21 +49,26 @@ void AnimatedSprite::generateSprites(SpriteSheet & spriteSheet) {
 		sprite.setRightBottom(posX + width, posY + height);
 		sprites.push_back(sprite);
 		// update position 
-		posX = posX + width * directionX;
-		posY = posY + height * directionY;
+		auto dirPair = direction.getDir();
+		posX = posX + width * dirPair.first;
+		posY = posY + height * dirPair.second;
 	}
 }
 
 float* AnimatedSprite::getTextureCoordinates()  {
 	return sprites[current_sprite].getTextureCoordinates();
 }
-void AnimatedSprite::setDeltaTime(float time) {
-	deltaTime = time;
+
+void AnimatedSprite::addReference() {
+	references++;
 }
 
+void AnimatedSprite::removeReference() {
+	references--;
+}
 
 void AnimatedSprite::render() {
-	if (frame_counter >= max_frame * deltaTime) {
+	if (frame_counter >= max_frame * references) {
 		frame_counter = 0;
 		current_sprite = (current_sprite + 1) % size;
 	}

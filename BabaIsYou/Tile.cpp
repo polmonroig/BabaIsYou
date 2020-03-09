@@ -87,6 +87,10 @@ void Tile::setActive(bool value) {
 	isActive = value;
 }
 
+bool Tile::getActive() const{
+	return isActive;
+}
+
 void Tile::render(){
 	if (isActive) {
 		sendVertices();
@@ -107,8 +111,8 @@ CollisionType Tile::collide(Tile const& other) const {
 	return other.getCollisionType();
 }
 
-void Tile::free()
-{
+void Tile::free(){
+	animatedSprite->removeReference();
 	glDeleteBuffers(1, &vbo);
 }
 

@@ -5,9 +5,9 @@
 #include <list>
 #include <iostream> // debug 
 
-#include "Tile.h"
 #include "Background.h"
 #include "Direction.h"
+#include "Cell.h"
 
 class Tile;
 
@@ -26,13 +26,11 @@ public:
 private:
 	
 	// typedefs to simplify expressions
-	typedef std::list<Tile> LinkedTiles;
-	typedef std::vector<LinkedTiles> LinkedVector;
-	typedef std::vector<LinkedVector> LinkedMatrix;
+	typedef std::vector<Cell> CellVector;
+	typedef std::vector<CellVector> CellMatrix;
 
 	bool insideMap(int posX, int posY);
-	CollisionType checkForCollisions(Tile const& currentTile, LinkedTiles::iterator& movable,  int i, int j);
-	bool moveTile(Direction const& dir, LinkedTiles::iterator & it, int i, int j);
+	bool moveTile(Direction const& dir,  int i, int j);
 
 	int size;
 	float marginLeft;
@@ -41,7 +39,7 @@ private:
 
 	Background background;
 
-	LinkedMatrix map;
+	CellMatrix map;
 };
 
 

@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "Sprite.h"
+#include "Direction.h"
 
 class AnimatedSprite {
 
@@ -17,10 +18,11 @@ public:
 	void setSpritesSize(int spritesSize);
 	void setTextureDimensions(float texWidth, float texHeight);
 	void setInitialCoordinates(float initialX, float initialY);
-	void setDirection(float dirX, float dirY);
+	void setDirection(Direction const& dir);
 	void generateSprites(SpriteSheet& spriteSheet);
-	void setDeltaTime(float time);
 	float* getTextureCoordinates() ;
+	void addReference();
+	void removeReference();
 	void render();
 
 private:
@@ -28,8 +30,8 @@ private:
 	int max_frame, current_sprite, frame_counter, size;
 	float width, height;
 	float initX, initY;
-	float deltaTime;
-	float directionX, directionY;
+	int references;
+	Direction direction;
 
 	std::vector<Sprite> sprites;
 

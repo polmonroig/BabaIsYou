@@ -5,6 +5,7 @@
 
 #include "SpriteSheet.h"
 #include "AnimatedSprite.h"
+#include "Direction.h"
 
 class AnimationsManager{
 	
@@ -17,7 +18,6 @@ public:
 	void init();
 
 	AnimatedSprite& getAnimatedSprite(int id) ;
-	void  setDeltaTime(float deltaTime);
 
 private:
 

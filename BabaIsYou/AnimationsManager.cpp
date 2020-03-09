@@ -13,19 +13,16 @@ void AnimationsManager::init() {
 	animation.setSpritesSize(3);
 	animation.setTextureDimensions(sizeX, sizeY);
 	animation.setInitialCoordinates(0, 0);
-	animation.setDirection(0, 1);
+	animation.setDirection(Direction(DirectionType::DOWN));
 	animation.generateSprites(sprites);
 	animatedSprites.push_back(animation);
 
 }
 
-void  AnimationsManager::setDeltaTime(float deltaTime) {
-	for (auto& animation : animatedSprites) {
-		animation.setDeltaTime(deltaTime);
-	}
-}
+
 
 
 AnimatedSprite& AnimationsManager::getAnimatedSprite(int id) {
+	animatedSprites[id].addReference();
 	return animatedSprites[id];
 }

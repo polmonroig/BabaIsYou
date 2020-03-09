@@ -26,9 +26,9 @@ public:
 
 private:
 
-	static const int SIZE = 10;
-	static const int MARGIN_LEFT = 100;
-	static const int MARGIN_TOP = 100;
+	static const int SIZE = 20;
+	static const int MARGIN_LEFT = 20;
+	static const int MARGIN_TOP = 20;
 
 	void initTextures();
 	void initShaders();
