@@ -15,7 +15,7 @@ public:
 	
 
 	Tile();
-	Tile( float x, float y, float width, float height, int shaderProgramID);
+	Tile( float x, float y, float width, float height, int tileType, int shaderProgramID);
 	virtual void move(Direction const& dir);
 	void render();
 	void free();
@@ -36,12 +36,13 @@ private:
 	GLuint vao, vbo;
 	GLuint posLocation, texCoordLocation;
 	
-	CollisionType type;
+	CollisionType collisionType;
 	AnimatedSprite* animatedSprite;
 
 	int programID;
 	bool canMove, isActive;
 	float xPos, yPos, tileWidth, tileHeight;
+	int type;
 	
 
 	

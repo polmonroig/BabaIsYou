@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include <iostream> // debug 
+#include <fstream>
 
 #include "Background.h"
 #include "Direction.h"

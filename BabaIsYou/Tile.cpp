@@ -7,15 +7,16 @@ Tile::Tile() {
 	canMove = false;;
 }
 
-Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
+Tile::Tile(float x, float y, float width, float height, int tileType,  int shaderProgramID){
 	auto manager = ServiceLocator::getAnimationsManager();
-	animatedSprite = &manager->getAnimatedSprite(AnimationsManager::DEFEAT);
+	animatedSprite = &manager->getAnimatedSprite(tileType);
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
-	type = CollisionType::Fixed;
+	collisionType = CollisionType::Fixed;
+	type = tileType;
 }
 
 void Tile::setCanMove(bool value) {
@@ -37,11 +38,11 @@ void Tile::init() {
 }
 
 void Tile::setCollisionType(CollisionType const& t) {
-	type = t;
+	collisionType = t;
 }
 
 CollisionType Tile::getCollisionType() const {
-	return type;
+	return collisionType;
 }
 
 bool Tile::getCanMove() const {

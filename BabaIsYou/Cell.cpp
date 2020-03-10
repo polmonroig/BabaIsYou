@@ -5,7 +5,6 @@ Cell::Cell(Tile const& tile) {
 	lowerTile = tile;
 	upperTile = Tile();
 	lowerTile.init();
-	std::cout << "Initializing tile" << std::endl;
 }
 
 void Cell::setCollider() {
@@ -41,6 +40,7 @@ CollisionType Cell::collide(Cell const& collisionCell) const {
 
 
 void Cell::render(){
+	lowerTile.render();
 	upperTile.render();
 }
 
