@@ -8,7 +8,8 @@ Tile::Tile() {
 }
 
 Tile::Tile(float x, float y, float width, float height, int shaderProgramID){
-	animatedSprite = &ServiceLocator::getAnimationsManager()->getAnimatedSprite(0);
+	auto manager = ServiceLocator::getAnimationsManager();
+	animatedSprite = &manager->getAnimatedSprite(AnimationsManager::DEFEAT);
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;

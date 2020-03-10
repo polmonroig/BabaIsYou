@@ -1,14 +1,15 @@
 #include "AnimatedSprite.h"
 
 
+Direction AnimatedSprite::direction;
+int AnimatedSprite::max_frame;
+int AnimatedSprite::size;
+float AnimatedSprite::width, AnimatedSprite::height;
+
 
 AnimatedSprite::AnimatedSprite() {
-	max_frame = 0;
 	current_sprite = 0;
 	frame_counter = 0;
-	width = 0;
-	size = 0;
-	height = 0;
 	initX = initY = 0;
 	references = 0;
 	

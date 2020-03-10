@@ -27,11 +27,13 @@ public:
 
 private:
 	
-	int max_frame, current_sprite, frame_counter, size;
-	float width, height;
+	static int max_frame;
+	static int size;
+	int current_sprite, frame_counter;
+	static float width, height;
 	float initX, initY;
 	int references;
-	Direction direction;
+	static Direction direction;
 
 	std::vector<Sprite> sprites;
 
