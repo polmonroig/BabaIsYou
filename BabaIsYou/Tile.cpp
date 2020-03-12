@@ -7,9 +7,7 @@ Tile::Tile() {
 	canMove = false;;
 }
 
-Tile::Tile(float x, float y, float width, float height, int tileType,  int shaderProgramID){
-	auto manager = ServiceLocator::getAnimationsManager();
-	animatedSprite = &manager->getAnimatedSprite(tileType);
+Tile::Tile(float x, float y, float width, float height, int tileType, int shaderProgramID){
 	programID = shaderProgramID;
 	xPos = x;
 	yPos = y;
@@ -17,6 +15,7 @@ Tile::Tile(float x, float y, float width, float height, int tileType,  int shade
 	tileHeight = height;
 	collisionType = CollisionType::Fixed;
 	type = tileType;
+	pushAnimation(type);
 }
 
 void Tile::setCanMove(bool value) {
@@ -51,7 +50,7 @@ bool Tile::getCanMove() const {
 
 
 float* Tile::calculateVertices() {
-	float* texCoords = animatedSprite->getTextureCoordinates();
+	float* texCoords = animations.top()->getTextureCoordinates();
 
 	float vertices[30] = { xPos, yPos, 0.0, 
 							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
@@ -76,6 +75,17 @@ void Tile::move(Direction const& dir) {
 	sendVertices();
 }
 
+void Tile::pushAnimation(int animtype) {
+	auto manager = ServiceLocator::getAnimationsManager();
+	animations.push(&manager->getAnimatedSprite(animtype));
+	animations.top()->addReference();
+}
+
+void Tile::popAnimation(int animtype) {
+	animations.top()->removeReference();
+	animations.pop();
+}
+
 
 
 void Tile::sendVertices() {
@@ -96,7 +106,9 @@ bool Tile::getActive() const{
 void Tile::render(){
 	if (isActive) {
 		sendVertices();
-		animatedSprite->render();
+		auto color = animations.top()->getColor();
+		ServiceLocator::getShaderManager()->setUniform(1, "color", color.x, color.y, color.z);
+		animations.top()->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(texCoordLocation);
@@ -114,7 +126,7 @@ CollisionType Tile::collide(Tile const& other) const {
 }
 
 void Tile::free(){
-	animatedSprite->removeReference();
+	animations.top()->removeReference();
 	glDeleteBuffers(1, &vbo);
 }
 

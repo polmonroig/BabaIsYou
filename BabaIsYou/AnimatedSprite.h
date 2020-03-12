@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "Sprite.h"
+#include "SpriteSheet.h"
 #include "Direction.h"
 
 class AnimatedSprite {
@@ -18,6 +19,8 @@ public:
 	void setSpritesSize(int spritesSize);
 	void setTextureDimensions(float texWidth, float texHeight);
 	void setInitialCoordinates(float initialX, float initialY);
+	void setColor(glm::vec3 const& spriteColor);
+	glm::vec3 getColor() const;
 	void setDirection(Direction const& dir);
 	void generateSprites(SpriteSheet& spriteSheet);
 	float* getTextureCoordinates() ;
@@ -36,6 +39,8 @@ private:
 	static Direction direction;
 
 	std::vector<Sprite> sprites;
+
+	glm::vec3 color;
 
 };
 

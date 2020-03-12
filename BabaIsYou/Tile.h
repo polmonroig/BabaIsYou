@@ -1,6 +1,7 @@
 #ifndef TILE_H 
 #define TILE_H 
 
+#include <stack>
 
 #include "Direction.h"
 #include "ServiceLocator.h"
@@ -27,6 +28,11 @@ public:
 	bool getActive() const;
 	void setCollisionType(CollisionType const& t);
 	CollisionType getCollisionType() const;
+
+	void pushAnimation(int animtype);
+
+	void popAnimation(int animtype);
+
 private:
 
 
@@ -37,7 +43,8 @@ private:
 	GLuint posLocation, texCoordLocation;
 	
 	CollisionType collisionType;
-	AnimatedSprite* animatedSprite;
+
+	std::stack<AnimatedSprite*> animations;
 
 	int programID;
 	bool canMove, isActive;

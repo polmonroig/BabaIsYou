@@ -19,6 +19,10 @@ void AnimatedSprite::setFrameRate(int frameRate) {
 	max_frame = frameRate;
 }
 
+void AnimatedSprite::setColor(glm::vec3 const& spriteColor) {
+	color = spriteColor;
+}
+
 void AnimatedSprite::setSpritesSize(int spritesSize) {
 	size = spritesSize;
 }
@@ -64,11 +68,16 @@ void AnimatedSprite::addReference() {
 	references++;
 }
 
+glm::vec3 AnimatedSprite::getColor() const {
+	return color;
+}
+
 void AnimatedSprite::removeReference() {
 	references--;
 }
 
 void AnimatedSprite::render() {
+
 	if (frame_counter >= max_frame * references) {
 		frame_counter = 0;
 		current_sprite = (current_sprite + 1) % size;

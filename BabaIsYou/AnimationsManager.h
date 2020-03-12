@@ -7,6 +7,7 @@
 #include "AnimatedSprite.h"
 #include "Direction.h"
 
+
 class AnimationsManager{
 	
 public:

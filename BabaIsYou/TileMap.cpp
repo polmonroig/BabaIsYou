@@ -34,7 +34,6 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
         for (int j = 0; j < size; ++j) {
             
             file >> tileCode;
-            std::cout << tileCode;
             if (tileCode == 0) {
                 map[i][j] = Cell();
             }
@@ -47,7 +46,7 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
             // read empty 
 
         }
-        std::cout << std::endl;
+
         posY += height;
         posX = marginLeft;
     }
