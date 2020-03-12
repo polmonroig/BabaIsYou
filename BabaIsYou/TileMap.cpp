@@ -25,21 +25,21 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
     width = borderRight / float(size);
     height = borderBottom / float(size);
 
-    std::string fileName = "levels/level_0";
+    std::string fileName = "levels/level_0.txt";
     std::ifstream file;
     file.open(fileName);
 
     for (int i = 0; i < size; ++i) {
-        char tileChar;
+        int tileCode;
         for (int j = 0; j < size; ++j) {
             
-            file >> tileChar;
-            std::cout << tileChar;
-            if (tileChar == '-') {
+            file >> tileCode;
+            std::cout << tileCode;
+            if (tileCode == 0) {
                 map[i][j] = Cell();
             }
             else {
-                int tileType = int(tileChar) - 65;
+                int tileType = ((tileCode / 10) % 100) - 1; 
                 map[i][j] = Cell(Tile(posX, posY, width, height, tileType, shaderProgramID));
             }
            
