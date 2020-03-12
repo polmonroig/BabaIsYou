@@ -124,6 +124,7 @@ void TileMap::movePlayerTiles(Direction const& dir) {
             if(dir.isType(DirectionType::DOWN))
                 newI = size - i - 1;
             if (dir.isType(DirectionType::RIGHT))newJ = size - i - 1;
+            map[newI][newJ].interact();
             if (map[newI][newJ].getCanMove()) {
                 bool moved = moveTile(dir, newI, newJ);
                 playerIsAlive = true;

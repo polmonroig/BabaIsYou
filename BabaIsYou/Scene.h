@@ -1,8 +1,8 @@
 #ifndef SCENE_H 
 #define SCENE_H 
 
-#define CAMERA_WIDTH 640
-#define CAMERA_HEIGHT 480
+#define CAMERA_WIDTH 720
+#define CAMERA_HEIGHT 720
 
 #include <glm/glm.hpp>
 

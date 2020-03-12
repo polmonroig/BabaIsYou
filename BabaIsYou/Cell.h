@@ -31,6 +31,8 @@ public:
 
 	void render();
 
+	void interact();
+
 
 
 private:

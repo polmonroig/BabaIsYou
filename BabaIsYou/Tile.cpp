@@ -117,6 +117,12 @@ void Tile::render(){
 	
 }
 
+void Tile::interact() {
+	for (auto const& inter : interactions) {
+		inter->interact();
+	}
+}
+
 
 // pre: the two tiles are adjecent and the current tile is 
 //		moved toward the second tile => thus it collides unles 

@@ -38,6 +38,9 @@ CollisionType Cell::collide(Cell const& collisionCell) const {
 	else return CollisionType::None;
 }
 
+void Cell::interact() {
+	upperTile.interact();
+}
 
 void Cell::render(){
 	lowerTile.render();
