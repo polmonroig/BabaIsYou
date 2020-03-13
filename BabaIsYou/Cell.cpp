@@ -16,8 +16,10 @@ void Cell::setCollider() {
 }
 
 void Cell::unsetCollider() {
-	lowerTile = upperTile;
-	upperTile = Tile();
+	if (!lowerTile.getActive()) {
+		lowerTile = upperTile;
+		upperTile = Tile();
+	}
 }
 
 bool Cell::getCanMove() const {
@@ -31,8 +33,12 @@ void Cell::setCanMove(bool value) {
 void Cell::resetInteractions() {
 	if (lowerTile.getActive() && lowerTile.isCategory(AnimationsManager::SPRITE))
 		lowerTile.resetInteractions();
-	if (upperTile.getActive() && upperTile.isCategory(AnimationsManager::SPRITE))
+	if (upperTile.getActive() && upperTile.isCategory(AnimationsManager::SPRITE)) {
 		upperTile.resetInteractions();
+	}
+		
+
+
 }
 
 void Cell::move(Direction const& dir) {

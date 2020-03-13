@@ -21,6 +21,8 @@ public:
 
 	static std::pair<int, int> move(std::pair<int, int> pos, Direction const& dir);
 
+	Direction operator-() const;
+
 private:
 
 	DirectionType type;

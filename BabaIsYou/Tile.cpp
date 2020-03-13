@@ -31,6 +31,7 @@ int Tile::getType() const {
 void Tile::resetInteractions() {
 	for (auto & it : interactions)delete it;
 	interactions.clear();
+	collisionType = CollisionType::None;
 	// missing memory manaagement
 }
 
@@ -134,9 +135,7 @@ void Tile::render(){
 }
 
 void Tile::interact() {
-	if (!interactions.empty())std::cout << "Size: " << interactions.size() << std::endl;
 	for (auto it = interactions.begin(); interactions.size() > 0 && it != interactions.end(); ++it) {
-		
 		(*it)->interact();
 	}
 }

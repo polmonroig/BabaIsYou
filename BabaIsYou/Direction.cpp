@@ -34,3 +34,22 @@ std::pair<int, int> Direction::move(std::pair<int, int> pos, Direction const& di
 	pos.second += dir.dir.second;
 	return pos;
 }
+
+
+Direction Direction::operator-() const {
+	switch (type)
+	{
+	case DirectionType::UP:
+		return DirectionType::DOWN;
+		break;
+	case DirectionType::DOWN:
+		return DirectionType::UP;
+		break;
+	case DirectionType::LEFT:
+		return DirectionType::RIGHT;
+		break;
+	case DirectionType::RIGHT:
+		return DirectionType::LEFT;
+		break;
+	}
+}

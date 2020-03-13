@@ -13,7 +13,7 @@ TileMap::TileMap(int s, float leftMargin, float topMargin) {
 
 }
 
-void TileMap::init(int shaderProgramID, int backgroundProgram, float width, float height) {
+void TileMap::init(std::string const& fileName, int shaderProgramID, int backgroundProgram, float width, float height) {
     backgroundProgramID = backgroundProgram;
     float posX = marginLeft;
     float posY = marginTop;
@@ -24,7 +24,6 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
     width = borderRight / float(size);
     height = borderBottom / float(size);
 
-    std::string fileName = "levels/level_0.txt";
     std::ifstream file;
     file.open(fileName);
    
@@ -68,38 +67,38 @@ int TileMap::getUpperType(std::pair<int, int> pos)const {
 }
 
 void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
-     int type = nameType/10 - AnimationsManager::N_SPRITES;
-     std::cout << "Applying" << std::endl;
+     int type = nameType - AnimationsManager::N_SPRITES;
      for (int i = 0; i < size; ++i) {
          for (int j = 0; j < size; ++j) {
              auto types = map[i][j].getType();
+  
              types.first /= 10;
              types.second /= 10;
-       
              
-
              if (types.first == type) {
-                 if (actionType / 10 == AnimationsManager::YOU) {
-                     std::cout << "Types: " << types.first << ", " << types.second << std::endl;
-                     std::cout << "You" << std::endl;;
+                 if (operatorType == AnimationsManager::FEAR) {
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new FearInteraction(this, actionType - AnimationsManager::N_SPRITES));
+                 }
+                 if (actionType  == AnimationsManager::YOU) {
                      map[i][j].setCollider();
                      map[i][j].addInteraction(new MoveInteraction(this));
                  }
-                 else if (actionType / 10 == AnimationsManager::WIN) {
+                 else if (actionType== AnimationsManager::WIN) {
                      map[i][j].setCollider();
                      map[i][j].addInteraction(new WinInteraction(&map[i][j]));
                  }
              }
              if (types.second == type) {
-                 if (actionType / 10 == AnimationsManager::YOU) {
-                     std::cout << "Types: " << types.first << ", " << types.second;
-                     std::cout << "You" << std::endl;
-                     
-
+                 if (operatorType == AnimationsManager::FEAR) {
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new FearInteraction(this, actionType));
+                 }
+                 if (actionType == AnimationsManager::YOU) {
                      map[i][j].setCollider();
                      map[i][j].addInteraction(new MoveInteraction(this));
                  }
-                 else if (actionType / 10 == AnimationsManager::WIN) {
+                 else if (actionType == AnimationsManager::WIN) {
                      map[i][j].setCollider();
                      map[i][j].addInteraction(new WinInteraction(&map[i][j]));
                  }
@@ -109,29 +108,45 @@ void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
 }
 
 void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir) {
-
+   
     auto operatorPos = Direction::move(namePos, dir);
     if (insideMap(operatorPos.first, operatorPos.second)) {
+ 
         if (map[operatorPos.first][operatorPos.second].isCateogry(AnimationsManager::OPERATOR)) {
             auto actionPos = Direction::move(operatorPos, dir);
             if (insideMap(actionPos.first, actionPos.second)) {
-                if (map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::PROPERTY)) {
+                if (map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::PROPERTY)
+                    || map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::NAME)) {
                     int nameType = getUpperType(namePos);
                     int operatorType = getUpperType(operatorPos);
                     int actionType = getUpperType(actionPos);
-                    applyInteraction(nameType, operatorType, actionType);
+                    applyInteraction(nameType / 10, operatorType / 10, actionType / 10);
                 }
-                else if (map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::NAME)) {
-                }
+
             }
         }
     }
 }
 
-void TileMap::updateInteractions() {
+void TileMap::resetInteractions() {
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
- 
+            if (map[i][j].isCateogry(AnimationsManager::SPRITE)) {
+                map[i][j].resetInteractions();
+                map[i][j].unsetCollider();
+            }
+
+        }
+    }
+}
+
+void TileMap::updateInteractions() {
+
+    
+    resetInteractions();
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
             if (map[i][j].isCateogry(AnimationsManager::NAME)) {
                 findInteractions({i, j}, DirectionType::DOWN);
                 findInteractions({i, j}, DirectionType::RIGHT);
@@ -201,6 +216,21 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
 
 void TileMap::move() {
     bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
+} 
+
+void TileMap::escape(int enemyType) {
+    std::cout << "Enemy type: " << enemyType << std::endl;
+    std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
+                     Direction(DirectionType::UP), Direction(DirectionType::DOWN) };
+    for (auto const& dir : directions) {
+        auto newPos = Direction::move(currentTile, dir);
+        if (insideMap(newPos.first, newPos.second) ){
+            int type = getUpperType(newPos);
+            if (enemyType == type / 10) {
+                bool moved = moveTile(-dir, currentTile.first, currentTile.second);
+            }
+        }
+    }
 }
 
 

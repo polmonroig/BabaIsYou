@@ -12,6 +12,7 @@
 #include "PushInteraction.h"
 #include "DefeatInteraction.h"
 #include "WinInteraction.h"
+#include "FearInteraction.h"
 #include "StopInteraction.h"
 #include "Cell.h"
 
@@ -26,9 +27,10 @@ public:
 
 	TileMap(int s,float leftMargin, float topMargin);
 
-	void init(int shaderProgramID, int backgroundProgram, float width, float height);
+	void init(std::string const& fileName, int shaderProgramID, int backgroundProgram, float width, float height);
 	void movePlayerTiles(Direction const& dir);
 	void move();
+	void escape(int enemyType);
 	void render();
 
 private:
@@ -41,6 +43,7 @@ private:
 	int getUpperType(std::pair<int, int> pos)const;
 	bool insideMap(int posX, int posY);
 	bool moveTile(Direction const& dir,  int i, int j);
+	void resetInteractions();
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
 	
 	void updateInteractions();
