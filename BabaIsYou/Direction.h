@@ -19,6 +19,8 @@ public:
 
 	bool isType(DirectionType const& t) const;
 
+	static std::pair<int, int> move(std::pair<int, int> pos, Direction const& dir);
+
 private:
 
 	DirectionType type;

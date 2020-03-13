@@ -1,15 +1,18 @@
 #include "Cell.h"
 
 
-Cell::Cell(Tile const& tile) {
+Cell::Cell(Tile & tile) {
 	lowerTile = tile;
 	upperTile = Tile();
 	lowerTile.init();
 }
 
 void Cell::setCollider() {
-	upperTile = lowerTile;
-	lowerTile = Tile();
+	if (!upperTile.getActive()) {
+		upperTile = lowerTile;
+		lowerTile = Tile();
+	}
+	
 }
 
 void Cell::unsetCollider() {
@@ -25,6 +28,12 @@ void Cell::setCanMove(bool value) {
 	upperTile.setCanMove(value);
 }
 
+void Cell::resetInteractions() {
+	if (lowerTile.getActive() && lowerTile.isCategory(AnimationsManager::SPRITE))
+		lowerTile.resetInteractions();
+	if (upperTile.getActive() && upperTile.isCategory(AnimationsManager::SPRITE))
+		upperTile.resetInteractions();
+}
 
 void Cell::move(Direction const& dir) {
 	upperTile.move(dir);
@@ -51,6 +60,15 @@ void Cell::addMovedTile(Cell const& movedCell) {
 	upperTile = movedCell.upperTile;
 }
 
+bool Cell::isCateogry(int t) const {
+	return upperTile.isCategory(t);
+}
+
+std::pair<int, int> Cell::getType() const {
+	return { lowerTile.getType(), upperTile.getType() };
+}
+
+
 void Cell::destroyMovedTile() {
 	upperTile.free();
 	removeMovedTile();
@@ -58,4 +76,13 @@ void Cell::destroyMovedTile() {
 
 void Cell::removeMovedTile() {
 	upperTile = Tile();
+}
+
+void Cell::setCollisionType(CollisionType const& type) {
+	upperTile.setCollisionType(type);
+}
+
+
+void Cell::addInteraction(Interaction* inter) {
+	upperTile.addInteraction(inter);
 }

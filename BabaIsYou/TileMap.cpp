@@ -9,8 +9,7 @@ TileMap::TileMap(int s, float leftMargin, float topMargin) {
     marginTop = topMargin;
     
     map = CellMatrix(s, CellVector(s));
-
-    
+   
 
 }
 
@@ -28,7 +27,7 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
     std::string fileName = "levels/level_0.txt";
     std::ifstream file;
     file.open(fileName);
-
+   
     for (int i = 0; i < size; ++i) {
         int tileCode;
         for (int j = 0; j < size; ++j) {
@@ -38,26 +37,109 @@ void TileMap::init(int shaderProgramID, int backgroundProgram, float width, floa
                 map[i][j] = Cell();
             }
             else {
-                int tileType = ((tileCode / 10) % 100) - 1; 
-                map[i][j] = Cell(Tile(posX, posY, width, height, tileType, shaderProgramID));
+                int type = tileCode % 10;
+                auto tile = Tile(posX, posY, width, height, tileCode, shaderProgramID);
+                map[i][j] = Cell(tile);
+              
+               
+                if (type != AnimationsManager::SPRITE) {
+                    map[i][j].setCollider();
+                    map[i][j].addInteraction(new PushInteraction(&map[i][j]));
+                }
             }
            
             posX += width;
             // read empty 
 
         }
-
         posY += height;
         posX = marginLeft;
     }
-    map[0][0].setCollider();
-    map[0][0].setCanMove(true);
+
+    updateInteractions();
 }
 
 bool TileMap::insideMap(int posX, int posY) {
     return posX >= 0 && posX < size && posY >= 0 && posY < size;
 }
 
+int TileMap::getUpperType(std::pair<int, int> pos)const {
+    return map[pos.first][pos.second].getType().second;
+}
+
+void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
+     int type = nameType/10 - AnimationsManager::N_SPRITES;
+     std::cout << "Applying" << std::endl;
+     for (int i = 0; i < size; ++i) {
+         for (int j = 0; j < size; ++j) {
+             auto types = map[i][j].getType();
+             types.first /= 10;
+             types.second /= 10;
+       
+             
+
+             if (types.first == type) {
+                 if (actionType / 10 == AnimationsManager::YOU) {
+                     std::cout << "Types: " << types.first << ", " << types.second << std::endl;
+                     std::cout << "You" << std::endl;;
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new MoveInteraction(this));
+                 }
+                 else if (actionType / 10 == AnimationsManager::WIN) {
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new WinInteraction(&map[i][j]));
+                 }
+             }
+             if (types.second == type) {
+                 if (actionType / 10 == AnimationsManager::YOU) {
+                     std::cout << "Types: " << types.first << ", " << types.second;
+                     std::cout << "You" << std::endl;
+                     
+
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new MoveInteraction(this));
+                 }
+                 else if (actionType / 10 == AnimationsManager::WIN) {
+                     map[i][j].setCollider();
+                     map[i][j].addInteraction(new WinInteraction(&map[i][j]));
+                 }
+             }
+         }
+     }
+}
+
+void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir) {
+
+    auto operatorPos = Direction::move(namePos, dir);
+    if (insideMap(operatorPos.first, operatorPos.second)) {
+        if (map[operatorPos.first][operatorPos.second].isCateogry(AnimationsManager::OPERATOR)) {
+            auto actionPos = Direction::move(operatorPos, dir);
+            if (insideMap(actionPos.first, actionPos.second)) {
+                if (map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::PROPERTY)) {
+                    int nameType = getUpperType(namePos);
+                    int operatorType = getUpperType(operatorPos);
+                    int actionType = getUpperType(actionPos);
+                    applyInteraction(nameType, operatorType, actionType);
+                }
+                else if (map[actionPos.first][actionPos.second].isCateogry(AnimationsManager::NAME)) {
+                }
+            }
+        }
+    }
+}
+
+void TileMap::updateInteractions() {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+ 
+            if (map[i][j].isCateogry(AnimationsManager::NAME)) {
+                findInteractions({i, j}, DirectionType::DOWN);
+                findInteractions({i, j}, DirectionType::RIGHT);
+            }
+        }
+    }
+
+}
 
 bool TileMap::moveTile(Direction const& dir, int i, int j) {
     auto dirPair = dir.getDir();
@@ -66,7 +148,7 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     int yMove = dirPair.second;
     int newTileI = i + yMove;
     int newTileJ = j + xMove;
-    std::list<Tile>::iterator movable;
+
     if (insideMap(newTileI, newTileJ)) {
         auto collision = map[i][j].collide(map[newTileI][newTileJ]);
         if (collision == CollisionType::None) { // empty tile 
@@ -82,12 +164,18 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
                 map[i][j].removeMovedTile();
                 moved = true;
             }
-                
+
         }
         else if (collision == CollisionType::Destroy) {
             map[i][j].destroyMovedTile();
         }
-        // else if collision == fixed => don't move 
+        else if (collision == CollisionType::Win) {
+            map[i][j].move(dir);
+            map[newTileI][newTileJ].addMovedTile(map[i][j]);
+            map[i][j].removeMovedTile();
+            moved = true;
+            std::cout << "YOU WON!!!!!!!!!!!" << std::endl;
+        }
     }
 
     return moved;
@@ -110,6 +198,12 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
 // UP == LEFT BUT TRANSPOSED 
 // RIGHT = DOWN BUT TRANSPOSED 
 
+
+void TileMap::move() {
+    bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
+}
+
+
 void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
     for (int i = 0; i < size; ++i) {
@@ -124,15 +218,14 @@ void TileMap::movePlayerTiles(Direction const& dir) {
             if(dir.isType(DirectionType::DOWN))
                 newI = size - i - 1;
             if (dir.isType(DirectionType::RIGHT))newJ = size - i - 1;
+            currentTile.first = newI;
+            currentTile.second = newJ;
+            currentDirection = dir;
             map[newI][newJ].interact();
-            if (map[newI][newJ].getCanMove()) {
-                bool moved = moveTile(dir, newI, newJ);
-                playerIsAlive = true;
-            }
         }
     }
-    if (!playerIsAlive)std::cout << "############GAME OVER##############" << std::endl;
-    
+
+    updateInteractions();
 }
 
 

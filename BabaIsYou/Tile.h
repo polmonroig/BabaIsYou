@@ -8,7 +8,7 @@
 #include "Interaction.h"
 #include "ServiceLocator.h"
 
-enum class CollisionType { Fixed, Moveable, Destroy, None};
+enum class CollisionType { Fixed, Moveable, Destroy, None, Win};
 
 
 class Tile {
@@ -29,15 +29,25 @@ public:
 	void setActive(bool value);
 	bool getActive() const;
 	void setCollisionType(CollisionType const& t);
+	void resetInteractions();
 	CollisionType getCollisionType() const;
 
 	void interact();
+
+	bool isCategory(int t) const;
+
+	int getType() const;
 
 	void pushAnimation(int animtype);
 
 	void popAnimation(int animtype);
 
+	void addInteraction(Interaction* inter);
+
+	
+
 private:
+
 
 
 	void sendVertices();
@@ -49,8 +59,10 @@ private:
 	CollisionType collisionType;
 
 	std::stack<AnimatedSprite*> animations;
+	std::list<Interaction*> interactions;
 
-	std::list<Interaction*> interactions; 
+	
+	
 
 	std::pair<int, int> currentTile;
 

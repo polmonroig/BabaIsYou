@@ -27,3 +27,10 @@ bool Direction::isType(DirectionType const& t) const {
 std::pair<int, int> Direction::getDir() const {
 	return dir;
 }
+
+
+std::pair<int, int> Direction::move(std::pair<int, int> pos, Direction const& dir) {
+	pos.first += dir.dir.first;
+	pos.second += dir.dir.second;
+	return pos;
+}

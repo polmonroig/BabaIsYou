@@ -9,7 +9,7 @@ public:
 
 	Cell() = default;
 
-	explicit Cell(Tile const& tile);
+	explicit Cell(Tile & tile);
 
 	void setCollider();
 
@@ -33,7 +33,17 @@ public:
 
 	void interact();
 
+	void addInteraction(Interaction* inter);
 
+	bool isCateogry(int t) const;
+
+	void setCollisionType(CollisionType const& type);
+
+	std::pair<int, int>  getType() const;
+
+	void resetInteractions();
+
+	
 
 private:
 

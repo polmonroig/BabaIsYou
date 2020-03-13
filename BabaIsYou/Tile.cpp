@@ -4,7 +4,8 @@
 
 Tile::Tile() {
 	isActive = false;
-	canMove = false;;
+	canMove = false;
+	type = 9;
 }
 
 Tile::Tile(float x, float y, float width, float height, int tileType, int shaderProgramID){
@@ -13,13 +14,24 @@ Tile::Tile(float x, float y, float width, float height, int tileType, int shader
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
-	collisionType = CollisionType::Fixed;
+	collisionType = CollisionType::None;
 	type = tileType;
-	pushAnimation(type);
+	int animType = (type / 10) - 1;
+	pushAnimation(animType);
 }
 
 void Tile::setCanMove(bool value) {
 	canMove = value;
+}
+
+int Tile::getType() const {
+	return type;
+}
+
+void Tile::resetInteractions() {
+	for (auto & it : interactions)delete it;
+	interactions.clear();
+	// missing memory manaagement
 }
 
 void Tile::init() {
@@ -103,6 +115,10 @@ bool Tile::getActive() const{
 	return isActive;
 }
 
+void Tile::addInteraction(Interaction*inter) {
+	interactions.push_back(inter);
+}
+
 void Tile::render(){
 	if (isActive) {
 		sendVertices();
@@ -118,9 +134,15 @@ void Tile::render(){
 }
 
 void Tile::interact() {
-	for (auto const& inter : interactions) {
-		inter->interact();
+	if (!interactions.empty())std::cout << "Size: " << interactions.size() << std::endl;
+	for (auto it = interactions.begin(); interactions.size() > 0 && it != interactions.end(); ++it) {
+		
+		(*it)->interact();
 	}
+}
+
+bool Tile::isCategory(int t) const {
+	return (type % 10) == t;
 }
 
 

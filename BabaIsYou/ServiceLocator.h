@@ -12,6 +12,7 @@ public:
 	static ShaderManager* getShaderManager();
 	static AnimationsManager* getAnimationsManager();
 
+
 private:
 
 	static ShaderManager* shaders;
