@@ -17,7 +17,6 @@
 #include "Cell.h"
 
 
-class MoveInteraction;
 
 class TileMap {
 

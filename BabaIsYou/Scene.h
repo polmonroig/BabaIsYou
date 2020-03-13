@@ -11,7 +11,6 @@
 #include "ServiceLocator.h"
 
 
-
 class Scene {
 
 public:
@@ -29,10 +28,14 @@ private:
 	static const int SIZE = 20;
 	static const int MARGIN_LEFT = 20;
 	static const int MARGIN_TOP = 20;
+	static const int MAX_LEVEL = 4;
+	const std::string LEVEL_FILE_NAME = "levels/level_";
 
 	void initTextures();
 	void initShaders();
+	void loadLevel();
 
+	int currentLevel;
 	int backgroundProgram;
 	int quadProgram;
 	float currentTime;

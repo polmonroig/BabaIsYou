@@ -11,10 +11,14 @@ public:
 
 	static ShaderManager* getShaderManager();
 	static AnimationsManager* getAnimationsManager();
+	static bool isGameEnd();
+	static void endGame();
 
 
 private:
 
+
+	static bool gameEnd;
 	static ShaderManager* shaders;
 	static AnimationsManager* animations;
 

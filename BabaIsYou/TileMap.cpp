@@ -185,11 +185,7 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
             map[i][j].destroyMovedTile();
         }
         else if (collision == CollisionType::Win) {
-            map[i][j].move(dir);
-            map[newTileI][newTileJ].addMovedTile(map[i][j]);
-            map[i][j].removeMovedTile();
-            moved = true;
-            std::cout << "YOU WON!!!!!!!!!!!" << std::endl;
+            ServiceLocator::endGame();
         }
     }
 
@@ -219,7 +215,6 @@ void TileMap::move() {
 } 
 
 void TileMap::escape(int enemyType) {
-    std::cout << "Enemy type: " << enemyType << std::endl;
     std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
                      Direction(DirectionType::UP), Direction(DirectionType::DOWN) };
     for (auto const& dir : directions) {
