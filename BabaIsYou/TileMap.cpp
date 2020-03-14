@@ -66,42 +66,38 @@ int TileMap::getUpperType(std::pair<int, int> pos)const {
     return map[pos.first][pos.second].getType().second;
 }
 
+
+void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType, int actionType) {
+    if (operatorType == AnimationsManager::FEAR) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new FearInteraction(this, actionType - AnimationsManager::N_SPRITES));
+    }
+    else if (actionType == AnimationsManager::STOP) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new StopInteraction(&map[i][j]));
+    }
+    else if (actionType == AnimationsManager::YOU) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new MoveInteraction(this));
+    }
+    else if (actionType == AnimationsManager::WIN) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new WinInteraction(&map[i][j]));
+    }
+}
+
 void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
      int type = nameType - AnimationsManager::N_SPRITES;
      for (int i = 0; i < size; ++i) {
          for (int j = 0; j < size; ++j) {
              auto types = map[i][j].getType();
-  
              types.first /= 10;
              types.second /= 10;
-             
              if (types.first == type) {
-                 if (operatorType == AnimationsManager::FEAR) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new FearInteraction(this, actionType - AnimationsManager::N_SPRITES));
-                 }
-                 if (actionType  == AnimationsManager::YOU) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new MoveInteraction(this));
-                 }
-                 else if (actionType== AnimationsManager::WIN) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new WinInteraction(&map[i][j]));
-                 }
+                 applyInteractionType(i, j, type, operatorType, actionType);
              }
              if (types.second == type) {
-                 if (operatorType == AnimationsManager::FEAR) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new FearInteraction(this, actionType));
-                 }
-                 if (actionType == AnimationsManager::YOU) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new MoveInteraction(this));
-                 }
-                 else if (actionType == AnimationsManager::WIN) {
-                     map[i][j].setCollider();
-                     map[i][j].addInteraction(new WinInteraction(&map[i][j]));
-                 }
+                 applyInteractionType(i, j, type, operatorType, actionType);
              }
          }
      }

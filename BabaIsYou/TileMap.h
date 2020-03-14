@@ -43,6 +43,7 @@ private:
 	bool insideMap(int posX, int posY);
 	bool moveTile(Direction const& dir,  int i, int j);
 	void resetInteractions();
+	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
 	
 	void updateInteractions();

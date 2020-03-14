@@ -149,6 +149,7 @@ bool Tile::isCategory(int t) const {
 //		moved toward the second tile => thus it collides unles 
 //		it is inactive 
 CollisionType Tile::collide(Tile const& other) const {
+	if (collisionType == CollisionType::Win)return collisionType;
 	return other.getCollisionType();
 }
 
