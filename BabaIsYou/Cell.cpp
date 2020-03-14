@@ -63,6 +63,7 @@ void Cell::render(){
 }
 
 void Cell::addMovedTile(Cell const& movedCell) {
+	if (upperTile.getActive())lowerTile = upperTile;
 	upperTile = movedCell.upperTile;
 }
 

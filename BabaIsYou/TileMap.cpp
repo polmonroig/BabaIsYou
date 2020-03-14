@@ -69,8 +69,8 @@ int TileMap::getUpperType(std::pair<int, int> pos)const {
 
 void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType, int actionType) {
     if (operatorType == AnimationsManager::FEAR) {
-        map[i][j].setCollider();
-        map[i][j].addInteraction(new FearInteraction(this, actionType - AnimationsManager::N_SPRITES));
+       map[i][j].setCollider();
+       map[i][j].addInteraction(new FearInteraction(this, actionType - AnimationsManager::N_SPRITES));
     }
     else if (actionType == AnimationsManager::STOP) {
         map[i][j].setCollider();
@@ -159,14 +159,20 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     int yMove = dirPair.second;
     int newTileI = i + yMove;
     int newTileJ = j + xMove;
-
+   
     if (insideMap(newTileI, newTileJ)) {
+        std::cout << "Inside!" << std::endl;
         auto collision = map[i][j].collide(map[newTileI][newTileJ]);
         if (collision == CollisionType::None) { // empty tile 
+            std::cout << "None!" << std::endl;
             map[i][j].move(dir);
+            std::cout << "MOVED" << std::endl;
             map[newTileI][newTileJ].addMovedTile(map[i][j]);
+            std::cout << "Added tile" << std::endl;
             map[i][j].removeMovedTile();
+            std::cout << "Removed " << std::endl;
             moved = true;
+            std::cout << "End collision interaction!" << std::endl;
         }
         else if (collision == CollisionType::Moveable) {
             if (moveTile(dir, newTileI, newTileJ)) {
@@ -211,6 +217,7 @@ void TileMap::move() {
 } 
 
 void TileMap::escape(int enemyType) {
+    std::cout << "Trying to escape!" << std::endl;
     std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
                      Direction(DirectionType::UP), Direction(DirectionType::DOWN) };
     for (auto const& dir : directions) {
@@ -218,10 +225,13 @@ void TileMap::escape(int enemyType) {
         if (insideMap(newPos.first, newPos.second) ){
             int type = getUpperType(newPos);
             if (enemyType == type / 10) {
+                std::cout << "Escaping..." << std::endl;
                 bool moved = moveTile(-dir, currentTile.first, currentTile.second);
+                std::cout << "Escaped!" << std::endl;
             }
         }
     }
+    std::cout << "Escape done fiuu" << std::endl;
 }
 
 
