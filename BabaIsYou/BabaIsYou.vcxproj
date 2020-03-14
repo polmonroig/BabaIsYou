@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -147,11 +147,17 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="DefeatInteraction.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="FearInteraction.cpp" />
     <ClCompile Include="FileProcessor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameProgram.cpp" />
+    <ClCompile Include="Interaction.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveInteraction.cpp" />
+    <ClCompile Include="PushInteraction.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -159,17 +165,25 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
+    <ClCompile Include="StopInteraction.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="WinInteraction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="DefeatInteraction.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="FearInteraction.h" />
     <ClInclude Include="FileProcessor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameProgram.h" />
+    <ClInclude Include="Interaction.h" />
+    <ClInclude Include="MoveInteraction.h" />
+    <ClInclude Include="PushInteraction.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Shader.h" />
@@ -177,8 +191,10 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteSheet.h" />
+    <ClInclude Include="StopInteraction.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="WinInteraction.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag" />
