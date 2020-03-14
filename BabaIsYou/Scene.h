@@ -5,6 +5,7 @@
 #define CAMERA_HEIGHT 720
 
 #include <glm/glm.hpp>
+#include <irrKlang.h>
 
 #include "TileMap.h"
 #include "Direction.h"
