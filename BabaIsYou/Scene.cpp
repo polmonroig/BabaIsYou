@@ -8,10 +8,14 @@
 
 void Scene::init(){
 	currentLevel = 0;
-	
+	initSound();
 	initShaders();
 	initTextures();
 	loadLevel();
+}
+
+void Scene::initSound() {
+	//engine->play2D("../../media/getout.ogg", true);
 }
 
 void Scene::loadLevel() {

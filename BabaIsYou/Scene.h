@@ -35,12 +35,13 @@ private:
 	void initTextures();
 	void initShaders();
 	void loadLevel();
+	void initSound();
 
 	int currentLevel;
 	int backgroundProgram;
 	int quadProgram;
 	float currentTime;
-
+	irrklang::ISoundEngine* engine;
 	
 	glm::mat4 projectionMatrix;
 
