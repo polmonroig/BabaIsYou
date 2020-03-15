@@ -12,7 +12,7 @@
 // together, bind input attributes to their corresponding vertex shader names, 
 // and bind the fragment output to a name from the fragment shader
 
-vx
+
 class ShaderProgram
 {
 

@@ -36,9 +36,6 @@ private:
 	void loadLevel();
 
 	int currentLevel;
-	int backgroundProgram;
-	int quadProgram;
-	int textProgram;
 	float currentTime;
 	
 	

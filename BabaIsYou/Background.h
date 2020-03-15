@@ -9,14 +9,13 @@ public:
 
 	Background() = default;
 
-	Background(float x, float y, float width, float height, int shaderProgramID);
+	Background(float x, float y, float width, float height);
 	void init();
 	void render();
 
 private:
 	
 	float xPos, yPos, width, height;
-	int programID;
 	GLuint vao, vbo;
 	GLuint posLocation;
 

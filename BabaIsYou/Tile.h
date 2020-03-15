@@ -18,7 +18,7 @@ public:
 	
 
 	Tile();
-	Tile( float x, float y, float width, float height, int tileType, int shaderProgramID);
+	Tile( float x, float y, float width, float height, int tileType);
 	virtual void move(Direction const& dir);
 	void render();
 	void free();
@@ -61,12 +61,10 @@ private:
 	std::stack<AnimatedSprite*> animations;
 	std::list<Interaction*> interactions;
 
-	
-	
 
 	std::pair<int, int> currentTile;
 
-	int programID;
+
 	bool canMove, isActive;
 	float xPos, yPos, tileWidth, tileHeight;
 	int type;

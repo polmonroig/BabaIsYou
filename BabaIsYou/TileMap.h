@@ -28,7 +28,7 @@ public:
 
 	TileMap(int s,float leftMargin, float topMargin);
 
-	void init(std::string const& fileName, int shaderProgramID, int backgroundProgram, float width, float height);
+	void init(std::string const& fileName, float width, float height);
 	void movePlayerTiles(Direction const& dir);
 	void move();
 	void escape(int enemyType);
@@ -56,7 +56,6 @@ private:
 	int size;
 	float marginLeft;
 	float marginTop;
-	int backgroundProgramID;
 
 	Background background;
 	irrklang::ISoundEngine* engine;

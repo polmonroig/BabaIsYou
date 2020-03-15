@@ -8,8 +8,7 @@ Tile::Tile() {
 	type = 9;
 }
 
-Tile::Tile(float x, float y, float width, float height, int tileType, int shaderProgramID){
-	programID = shaderProgramID;
+Tile::Tile(float x, float y, float width, float height, int tileType){
 	xPos = x;
 	yPos = y;
 	tileWidth = width;
@@ -44,8 +43,8 @@ void Tile::init() {
 	glGenBuffers(1, &vbo);
 	sendVertices();
 	auto shaderM = ServiceLocator::getShaderManager();
-	posLocation = shaderM->bindVertexAttribute(programID, "position", 3, 5 * sizeof(float), 0);
-	texCoordLocation = shaderM->bindVertexAttribute(programID, "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	posLocation = shaderM->bindVertexAttribute("position", 3, 5 * sizeof(float), 0);
+	texCoordLocation = shaderM->bindVertexAttribute( "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 }
 
@@ -124,7 +123,7 @@ void Tile::render(){
 	if (isActive) {
 		sendVertices();
 		auto color = animations.top()->getColor();
-		ServiceLocator::getShaderManager()->setUniform(programID, "color", color.x, color.y, color.z);
+		ServiceLocator::getShaderManager()->setUniform( "color", color.x, color.y, color.z);
 		animations.top()->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);

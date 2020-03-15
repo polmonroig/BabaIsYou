@@ -1,6 +1,15 @@
 #include "ShaderManager.h"
 
 
+int ShaderManager::TILE_PROGRAM;
+int ShaderManager::BACKGROUND_PROGRAM;
+int ShaderManager::TEXT_PROGRAM;
+
+void ShaderManager::init() {
+	TEXT_PROGRAM = addProgram("shaders/text.vert", "shaders/text.frag");
+	BACKGROUND_PROGRAM = addProgram("shaders/background.vert", "shaders/background.frag");
+	TILE_PROGRAM = addProgram("shaders/simple.vert", "shaders/simple.frag");
+}
 
 int ShaderManager::addProgram(std::string const& vertex_file_name, std::string const& fragment_file_name) {
 
@@ -24,22 +33,14 @@ int ShaderManager::addProgram(std::string const& vertex_file_name, std::string c
 	return programs.size() - 1;
 }
 
-ShaderProgram& ShaderManager::getProgram(int id) {
-	return programs[id];
-}
 
-ShaderProgram& ShaderManager::getProgram() {
-	return programs[programs.size() - 1];
-}
 
 void ShaderManager::use(int id) {
+	currentProgram = id;
 	programs[id].use();
 }
 
 
-void ShaderManager::use() {
-	programs[programs.size() - 1].use();
-}
 
 void ShaderManager::linkProgram() {
 	int id = programs.size() - 1;
@@ -52,25 +53,25 @@ void ShaderManager::linkProgram() {
 
 }
 
-GLint ShaderManager::bindVertexAttribute(int id, string const& attribName, GLint size, GLsizei stride, GLvoid* firstPointer) {
-	return programs[id].bindVertexAttribute(attribName, size, stride, firstPointer);
+GLint ShaderManager::bindVertexAttribute(string const& attribName, GLint size, GLsizei stride, GLvoid* firstPointer) {
+	return programs[currentProgram].bindVertexAttribute(attribName, size, stride, firstPointer);
 }
 
 
-void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1) {
-	programs[id].setUniform(uniformName, v0, v1);
+void ShaderManager::setUniform(std::string const& uniformName, float v0, float v1) {
+	programs[currentProgram].setUniform(uniformName, v0, v1);
 }
 
-void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1, float v2) {
-	programs[id].setUniform(uniformName, v0, v1, v2);
+void ShaderManager::setUniform(std::string const& uniformName, float v0, float v1, float v2) {
+	programs[currentProgram].setUniform(uniformName, v0, v1, v2);
 }
 
-void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1, float v2, float v3) {
-	programs[id].setUniform(uniformName, v0, v1, v2, v3);
+void ShaderManager::setUniform(std::string const& uniformName, float v0, float v1, float v2, float v3) {
+	programs[currentProgram].setUniform(uniformName, v0, v1, v2, v3);
 }
 
-void ShaderManager::setUniform(int id, std::string const& uniformName, glm::mat4& mat) {
-	programs[id].setUniform(uniformName, mat);
+void ShaderManager::setUniform(std::string const& uniformName, glm::mat4& mat) {
+	programs[currentProgram].setUniform(uniformName, mat);
 }
 
 

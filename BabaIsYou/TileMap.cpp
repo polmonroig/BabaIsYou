@@ -19,13 +19,12 @@ void TileMap::initSound() {
         engine->play2D("sound/theme_soundtrack.mp3", true);
 }
 
-void TileMap::init(std::string const& fileName, int shaderProgramID, int backgroundProgram, float width, float height) {
-    backgroundProgramID = backgroundProgram;
+void TileMap::init(std::string const& fileName, float width, float height) {
     float posX = marginLeft;
     float posY = marginTop;
     float borderRight = (width - marginLeft * 2);
     float borderBottom = (height - marginTop * 2);
-    background = Background(marginLeft, marginTop, borderRight, borderBottom, backgroundProgram);
+    background = Background(marginLeft, marginTop, borderRight, borderBottom);
     background.init();
     width = borderRight / float(size);
     height = borderBottom / float(size);
@@ -43,7 +42,7 @@ void TileMap::init(std::string const& fileName, int shaderProgramID, int backgro
             }
             else {
                 int type = tileCode % 10;
-                auto tile = Tile(posX, posY, width, height, tileCode, shaderProgramID);
+                auto tile = Tile(posX, posY, width, height, tileCode);
                 map[i][j] = Cell(tile);
               
                
@@ -225,7 +224,8 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
 void TileMap::move() {
     bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
     if (moved) {
-        engine->play2D("sound/002.ogg", false);
+        if(engine)
+            engine->play2D("sound/002.ogg", false);
     }
 } 
 
@@ -271,9 +271,9 @@ void TileMap::movePlayerTiles(Direction const& dir) {
 
 void TileMap::render() {
     auto shaderM = ServiceLocator::getShaderManager();
-    shaderM->use(backgroundProgramID);
+    shaderM->use(ShaderManager::BACKGROUND_PROGRAM);
     background.render();
-    shaderM->use();
+    shaderM->use(ShaderManager::TILE_PROGRAM);
    for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             map[i][j].render();
