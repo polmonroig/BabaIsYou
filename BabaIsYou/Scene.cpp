@@ -8,18 +8,16 @@
 
 void Scene::init(){
 	currentLevel = 0;
-	initSound();
 	initShaders();
 	initTextures();
-	loadLevel();
+	loadLevel(); 
 }
 
-void Scene::initSound() {
-	//engine->play2D("../../media/getout.ogg", true);
-}
+
 
 void Scene::loadLevel() {
 	std::string fileName = LEVEL_FILE_NAME + std::to_string(currentLevel) + ".txt";
+	map.free();
 	map = TileMap(SIZE, MARGIN_LEFT, MARGIN_TOP);
 	map.init(fileName, quadProgram, backgroundProgram, CAMERA_WIDTH - 1, CAMERA_HEIGHT - 1);
 	projectionMatrix = glm::ortho(0.0f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.0f, 0.0f, 100.0f);
@@ -47,6 +45,9 @@ void Scene::render(){
 	shaderManager->use(backgroundProgram);
 	shaderManager->setUniform(backgroundProgram, "projectionMatrix", projectionMatrix);
 	shaderManager->setUniform(backgroundProgram, "modelViewMatrix", modelviewMatrix);
+	shaderManager->use(textProgram);
+	shaderManager->setUniform(textProgram, "projectionMatrix", projectionMatrix);
+	shaderManager->setUniform(textProgram, "modelViewMatrix", modelviewMatrix);
 	map.render();
 }
 
@@ -58,9 +59,10 @@ void Scene::initTextures() {
 
 void Scene::initShaders(){
 	auto shaderManager = ServiceLocator::getShaderManager();
+	textProgram = shaderManager->addProgram("shaders/text.vert", "shaders/text.frag");
 	backgroundProgram = shaderManager->addProgram("shaders/background.vert", "shaders/background.frag");
 	quadProgram = shaderManager->addProgram("shaders/simple.vert", "shaders/simple.frag");
-
+	
 
 }
 

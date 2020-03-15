@@ -5,6 +5,8 @@
 #include <list>
 #include <iostream> // debug 
 #include <fstream>
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib")
 
 #include "Background.h"
 #include "Direction.h"
@@ -31,6 +33,7 @@ public:
 	void move();
 	void escape(int enemyType);
 	void render();
+	void free();
 
 private:
 	
@@ -45,7 +48,7 @@ private:
 	void resetInteractions();
 	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
-	
+	void initSound();
 	void updateInteractions();
 
 	std::pair<int, int> currentTile;
@@ -56,6 +59,7 @@ private:
 	int backgroundProgramID;
 
 	Background background;
+	irrklang::ISoundEngine* engine;
 
 	CellMatrix map;
 };

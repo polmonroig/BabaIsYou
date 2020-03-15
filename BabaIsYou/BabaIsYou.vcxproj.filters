@@ -89,6 +89,12 @@
     <ClCompile Include="DefeatInteraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSpriteSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -163,6 +169,12 @@
     <ClInclude Include="DefeatInteraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSpriteSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag">
@@ -175,6 +187,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\simple.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\text.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\text.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

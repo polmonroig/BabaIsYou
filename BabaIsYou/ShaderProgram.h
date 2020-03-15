@@ -12,7 +12,7 @@
 // together, bind input attributes to their corresponding vertex shader names, 
 // and bind the fragment output to a name from the fragment shader
 
-
+vx
 class ShaderProgram
 {
 
@@ -29,10 +29,10 @@ public:
 	void use();
 
 	// Pass uniforms to the associated shaders
-	void setUniform2f(const std::string& uniformName, float v0, float v1);
-	void setUniform3f(const std::string& uniformName, float v0, float v1, float v2);
-	void setUniform4f(const std::string& uniformName, float v0, float v1, float v2, float v3);
-	void setUniformMatrix4f(const std::string& uniformName, glm::mat4& mat);
+	void setUniform(const std::string& uniformName, float v0, float v1);
+	void setUniform(const std::string& uniformName, float v0, float v1, float v2);
+	void setUniform(const std::string& uniformName, float v0, float v1, float v2, float v3);
+	void setUniform(const std::string& uniformName, glm::mat4& mat);
 
 	bool isLinked();
 	const std::string& log() const;

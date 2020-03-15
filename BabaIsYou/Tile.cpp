@@ -124,7 +124,7 @@ void Tile::render(){
 	if (isActive) {
 		sendVertices();
 		auto color = animations.top()->getColor();
-		ServiceLocator::getShaderManager()->setUniform(1, "color", color.x, color.y, color.z);
+		ServiceLocator::getShaderManager()->setUniform(programID, "color", color.x, color.y, color.z);
 		animations.top()->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);

@@ -58,19 +58,19 @@ GLint ShaderManager::bindVertexAttribute(int id, string const& attribName, GLint
 
 
 void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1) {
-	programs[id].setUniform2f(uniformName, v0, v1);
+	programs[id].setUniform(uniformName, v0, v1);
 }
 
 void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1, float v2) {
-	programs[id].setUniform3f(uniformName, v0, v1, v2);
+	programs[id].setUniform(uniformName, v0, v1, v2);
 }
 
 void ShaderManager::setUniform(int id, std::string const& uniformName, float v0, float v1, float v2, float v3) {
-	programs[id].setUniform4f(uniformName, v0, v1, v2, v3);
+	programs[id].setUniform(uniformName, v0, v1, v2, v3);
 }
 
 void ShaderManager::setUniform(int id, std::string const& uniformName, glm::mat4& mat) {
-	programs[id].setUniformMatrix4f(uniformName, mat);
+	programs[id].setUniform(uniformName, mat);
 }
 
 

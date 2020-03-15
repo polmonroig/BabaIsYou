@@ -18,29 +18,36 @@ public:
 	void setFrameRate(int frameRate);
 	void setSpritesSize(int spritesSize);
 	void setTextureDimensions(float texWidth, float texHeight);
-	void setInitialCoordinates(float initialX, float initialY);
 	void setColor(glm::vec3 const& spriteColor);
 	glm::vec3 getColor() const;
 	void setDirection(Direction const& dir);
 	void generateSprites(SpriteSheet& spriteSheet);
-	float* getTextureCoordinates() ;
+	void setInitialCoordinates(float initialX, float initialY);
 	void addReference();
 	void removeReference();
+	
+	
+	// DERIVED
+	float* getTextureCoordinates();
 	void render();
 
-private:
+protected:
 	
-	static int max_frame;
+	static int max_frame; // frame rate
 	static int size;
+	static Direction direction;
+
 	int current_sprite, frame_counter;
 	static float width, height;
 	float initX, initY;
 	int references;
-	static Direction direction;
+	
+	glm::vec3 color;
+
 
 	std::vector<Sprite> sprites;
 
-	glm::vec3 color;
+	
 
 };
 

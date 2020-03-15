@@ -5,7 +5,6 @@
 #define CAMERA_HEIGHT 720
 
 #include <glm/glm.hpp>
-#include <irrKlang.h>
 
 #include "TileMap.h"
 #include "Direction.h"
@@ -35,13 +34,13 @@ private:
 	void initTextures();
 	void initShaders();
 	void loadLevel();
-	void initSound();
 
 	int currentLevel;
 	int backgroundProgram;
 	int quadProgram;
+	int textProgram;
 	float currentTime;
-	irrklang::ISoundEngine* engine;
+	
 	
 	glm::mat4 projectionMatrix;
 

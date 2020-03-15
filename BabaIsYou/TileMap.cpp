@@ -13,6 +13,12 @@ TileMap::TileMap(int s, float leftMargin, float topMargin) {
 
 }
 
+void TileMap::initSound() {
+    engine = irrklang::createIrrKlangDevice();
+    if (engine)
+        engine->play2D("sound/theme_soundtrack.mp3", true);
+}
+
 void TileMap::init(std::string const& fileName, int shaderProgramID, int backgroundProgram, float width, float height) {
     backgroundProgramID = backgroundProgram;
     float posX = marginLeft;
@@ -56,6 +62,7 @@ void TileMap::init(std::string const& fileName, int shaderProgramID, int backgro
     }
 
     updateInteractions();
+    initSound();
 }
 
 bool TileMap::insideMap(int posX, int posY) {
@@ -101,6 +108,14 @@ void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
              }
          }
      }
+}
+
+void TileMap::free() {
+    if (engine) {
+        engine->stopAllSounds();
+        engine->drop();
+    }
+   
 }
 
 void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir) {
@@ -152,6 +167,7 @@ void TileMap::updateInteractions() {
 
 }
 
+
 bool TileMap::moveTile(Direction const& dir, int i, int j) {
     auto dirPair = dir.getDir();
     bool moved = false;
@@ -161,18 +177,12 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     int newTileJ = j + xMove;
    
     if (insideMap(newTileI, newTileJ)) {
-        std::cout << "Inside!" << std::endl;
         auto collision = map[i][j].collide(map[newTileI][newTileJ]);
         if (collision == CollisionType::None) { // empty tile 
-            std::cout << "None!" << std::endl;
             map[i][j].move(dir);
-            std::cout << "MOVED" << std::endl;
             map[newTileI][newTileJ].addMovedTile(map[i][j]);
-            std::cout << "Added tile" << std::endl;
             map[i][j].removeMovedTile();
-            std::cout << "Removed " << std::endl;
             moved = true;
-            std::cout << "End collision interaction!" << std::endl;
         }
         else if (collision == CollisionType::Moveable) {
             if (moveTile(dir, newTileI, newTileJ)) {
@@ -214,10 +224,12 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
 
 void TileMap::move() {
     bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
+    if (moved) {
+        engine->play2D("sound/002.ogg", false);
+    }
 } 
 
 void TileMap::escape(int enemyType) {
-    std::cout << "Trying to escape!" << std::endl;
     std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
                      Direction(DirectionType::UP), Direction(DirectionType::DOWN) };
     for (auto const& dir : directions) {
@@ -225,13 +237,10 @@ void TileMap::escape(int enemyType) {
         if (insideMap(newPos.first, newPos.second) ){
             int type = getUpperType(newPos);
             if (enemyType == type / 10) {
-                std::cout << "Escaping..." << std::endl;
                 bool moved = moveTile(-dir, currentTile.first, currentTile.second);
-                std::cout << "Escaped!" << std::endl;
             }
         }
     }
-    std::cout << "Escape done fiuu" << std::endl;
 }
 
 
