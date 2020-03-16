@@ -24,8 +24,7 @@ public:
 	void free();
 	void init();
 	CollisionType collide(Tile const& other) const;
-	bool getCanMove() const; // move to dynamic 
-	void setCanMove(bool value); // move to dynamic 
+	
 	void setActive(bool value);
 	bool getActive() const;
 	void setCollisionType(CollisionType const& t);
@@ -69,7 +68,7 @@ private:
 	std::pair<int, int> currentTile;
 
 
-	bool canMove, isActive;
+	bool isActive;
 	float xPos, yPos, tileWidth, tileHeight;
 	std::stack<int> types;
 	

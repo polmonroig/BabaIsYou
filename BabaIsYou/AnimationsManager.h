@@ -5,7 +5,6 @@
 
 #include "SpriteSheet.h"
 #include "AnimatedSprite.h"
-#include "AnimatedSpriteSet.h"
 #include "Direction.h"
 
 

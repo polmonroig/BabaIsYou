@@ -23,13 +23,6 @@ void Cell::unsetCollider() {
 	}
 }
 
-bool Cell::getCanMove() const {
-	return upperTile.getCanMove();
-}
-
-void Cell::setCanMove(bool value) {
-	upperTile.setCanMove(value);
-}
 
 
 void Cell::setBackground(float posX, float posY, float width, float height) {

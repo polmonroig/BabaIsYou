@@ -4,7 +4,6 @@
 
 Tile::Tile() {
 	isActive = false;
-	canMove = false;
 	types = std::stack<int>();
 }
 
@@ -32,9 +31,6 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	pushType(tileType);
 }
 
-void Tile::setCanMove(bool value) {
-	canMove = value;
-}
 
 int Tile::getType() const {
 	if (types.empty()) {
@@ -55,7 +51,6 @@ void Tile::resetInteractions() {
 
 void Tile::init() {
 	isActive = true;
-	canMove = true;
 	float* vertices = calculateVertices();
 	
 	glGenVertexArrays(1, &vao);
@@ -73,10 +68,6 @@ void Tile::setCollisionType(CollisionType const& t) {
 
 CollisionType Tile::getCollisionType() const {
 	return collisionType;
-}
-
-bool Tile::getCanMove() const {
-	return canMove;
 }
 
 

@@ -18,7 +18,6 @@ public:
 
 	void move(Direction const& dir);
 
-	bool getCanMove() const;
 
 	CollisionType collide(Cell const& collisionCell) const;
 
@@ -27,8 +26,6 @@ public:
 	void removeMovedTile();
 
 	void destroyMovedTile();
-
-	void setCanMove(bool value);
 
 	void render();
 
