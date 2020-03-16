@@ -10,21 +10,6 @@ void AnimationsManager::init() {
 	createNames();
 	createOperators();
 	createProperties();
-
-	
-
-	
-
-
-
-
-
-
-	
-
-
-	
-
 }
 
 void AnimationsManager::createSprites() {
@@ -111,6 +96,13 @@ void AnimationsManager::createProperties() {
 	animationDefeat.generateSprites(sprites);
 	animationDefeat.setColor(glm::vec3(1, 1, 1));
 	animatedSprites.push_back(animationDefeat);
+
+	// create PLAY 
+	AnimatedSprite animationPlay;
+	animationPlay.setInitialCoordinates(sizeX * 7, sizeY * 33);
+	animationPlay.generateSprites(sprites);
+	animationPlay.setColor(glm::vec3(1, 1, 1));
+	animatedSprites.push_back(animationPlay);
 }
 
 void AnimationsManager::createOperators() {

@@ -5,7 +5,21 @@
 Tile::Tile() {
 	isActive = false;
 	canMove = false;
-	type = 9;
+	types = std::stack<int>();
+}
+
+void Tile::setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom) {
+	bLeft = borderLeft;
+	bRight = borderRight;
+	bTop = borderTop;
+	bBottom = borderBottom;
+}
+
+void Tile::insideBorders() {
+	if (xPos < bLeft)xPos = bRight - tileWidth/2;
+	else if (xPos >= bRight)xPos = bLeft;
+	if (yPos < bTop)yPos = bBottom - tileHeight/2;
+	else if (yPos >= bBottom)yPos = bTop ;
 }
 
 Tile::Tile(float x, float y, float width, float height, int tileType){
@@ -14,9 +28,8 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	tileWidth = width;
 	tileHeight = height;
 	collisionType = CollisionType::None;
-	type = tileType;
-	int animType = (type / 10) - 1;
-	pushAnimation(animType);
+	types = std::stack<int>();
+	pushType(tileType);
 }
 
 void Tile::setCanMove(bool value) {
@@ -24,14 +37,20 @@ void Tile::setCanMove(bool value) {
 }
 
 int Tile::getType() const {
-	return type;
+	if (types.empty()) {
+		return 9;
+	}
+	else {
+		return types.top();
+	}
+	
 }
 
 void Tile::resetInteractions() {
 	for (auto & it : interactions)delete it;
 	interactions.clear();
 	collisionType = CollisionType::None;
-	// missing memory manaagement
+	resetTypes();
 }
 
 void Tile::init() {
@@ -62,7 +81,7 @@ bool Tile::getCanMove() const {
 
 
 float* Tile::calculateVertices() {
-	float* texCoords = animations.top()->getTextureCoordinates();
+	float* texCoords = animation->getTextureCoordinates();
 
 	float vertices[30] = { xPos, yPos, 0.0, 
 							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
@@ -84,18 +103,27 @@ void Tile::move(Direction const& dir) {
 	auto dirPair = dir.getDir();
 	xPos += dirPair.first * tileWidth;
 	yPos += dirPair.second * tileHeight;
+	insideBorders();
 	sendVertices();
 }
 
-void Tile::pushAnimation(int animtype) {
-	auto manager = ServiceLocator::getAnimationsManager();
-	animations.push(&manager->getAnimatedSprite(animtype));
-	animations.top()->addReference();
+void Tile::pushType(int type) {
+	types.push(type);
+	setAnimation();
+	
 }
 
-void Tile::popAnimation(int animtype) {
-	animations.top()->removeReference();
-	animations.pop();
+void Tile::resetTypes() {
+	animation->removeReference();
+	while (types.size() > 1)types.pop();
+	setAnimation();
+}
+
+void Tile::setAnimation() {
+	int animType = (types.top() / 10) - 1;
+	auto manager = ServiceLocator::getAnimationsManager();
+	animation = &manager->getAnimatedSprite(animType);
+	animation->addReference();
 }
 
 
@@ -122,9 +150,9 @@ void Tile::addInteraction(Interaction*inter) {
 void Tile::render(){
 	if (isActive) {
 		sendVertices();
-		auto color = animations.top()->getColor();
+		auto color = animation->getColor();
 		ServiceLocator::getShaderManager()->setUniform( "color", color.x, color.y, color.z);
-		animations.top()->render();
+		animation->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(texCoordLocation);
@@ -140,7 +168,8 @@ void Tile::interact() {
 }
 
 bool Tile::isCategory(int t) const {
-	return (type % 10) == t;
+	if (types.empty())return false;
+	return (types.top() % 10) == t;
 }
 
 
@@ -153,7 +182,7 @@ CollisionType Tile::collide(Tile const& other) const {
 }
 
 void Tile::free(){
-	animations.top()->removeReference();
+	animation->removeReference();
 	glDeleteBuffers(1, &vbo);
 }
 

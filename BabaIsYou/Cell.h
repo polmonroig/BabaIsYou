@@ -2,6 +2,7 @@
 #define CELL_H
 
 #include "Tile.h"
+#include "Background.h"
 
 class Cell{
 
@@ -43,12 +44,17 @@ public:
 
 	void resetInteractions();
 
+	void pushType(int type);
 	
+	void setBackground(float posX, float posY, float width, float height);
 
 private:
 
 	Tile upperTile;
 	Tile lowerTile;
+	Background tileBackground;
+
+	bool interacted;
 
 };
 

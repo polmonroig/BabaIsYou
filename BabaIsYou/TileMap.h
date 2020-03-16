@@ -5,10 +5,11 @@
 #include <list>
 #include <iostream> // debug 
 #include <fstream>
+#include <random>
 #include <irrKlang.h>
 #pragma comment(lib, "irrKlang.lib")
 
-#include "Background.h"
+
 #include "Direction.h"
 #include "MoveInteraction.h"
 #include "PushInteraction.h"
@@ -37,27 +38,33 @@ public:
 
 private:
 	
+	static const int LOAD_SPEED = 8;
+
 	// typedefs to simplify expressions
 	typedef std::vector<Cell> CellVector;
 	typedef std::vector<CellVector> CellMatrix;
 
 	void applyInteraction(int nameType, int operatorType, int actionType);
 	int getUpperType(std::pair<int, int> pos)const;
-	bool insideMap(int posX, int posY);
+	void insideMap(int& posX, int& posY);
 	bool moveTile(Direction const& dir,  int i, int j);
 	void resetInteractions();
 	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
 	void initSound();
 	void updateInteractions();
+	void renderRow(int row);
+	void renderTiles();
+	void loadMap();
 
 	std::pair<int, int> currentTile;
 	Direction currentDirection;
 	int size;
 	float marginLeft;
 	float marginTop;
+	bool loaded;
 
-	Background background;
+	std::vector<std::pair<int, int>> cols;
 	irrklang::ISoundEngine* engine;
 
 	CellMatrix map;

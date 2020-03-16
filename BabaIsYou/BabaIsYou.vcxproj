@@ -154,7 +154,6 @@
     <ClCompile Include="DefeatInteraction.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="FearInteraction.cpp" />
-    <ClCompile Include="FileProcessor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameProgram.cpp" />
     <ClCompile Include="Interaction.cpp" />
@@ -183,7 +182,6 @@
     <ClInclude Include="DefeatInteraction.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="FearInteraction.h" />
-    <ClInclude Include="FileProcessor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameProgram.h" />
     <ClInclude Include="Interaction.h" />

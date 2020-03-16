@@ -46,6 +46,7 @@ public:
 	static const int PUSH = 17;
 	static const int STOP = 18;
 	static const int DEFEAT = 19;
+	static const int PLAY = 20;
 	
 
 	void init();

@@ -5,6 +5,7 @@ Cell::Cell(Tile & tile) {
 	lowerTile = tile;
 	upperTile = Tile();
 	lowerTile.init();
+	interacted = false;
 }
 
 void Cell::setCollider() {
@@ -30,7 +31,18 @@ void Cell::setCanMove(bool value) {
 	upperTile.setCanMove(value);
 }
 
+
+void Cell::setBackground(float posX, float posY, float width, float height) {
+	tileBackground = Background(posX, posY, width, height);
+	tileBackground.init();
+}
+
+void Cell::pushType(int type) {
+	upperTile.pushType(type);
+}
+
 void Cell::resetInteractions() {
+	interacted = false;
 	if (lowerTile.getActive() && lowerTile.isCategory(AnimationsManager::SPRITE))
 		lowerTile.resetInteractions();
 	if (upperTile.getActive() && upperTile.isCategory(AnimationsManager::SPRITE)) {
@@ -54,10 +66,18 @@ CollisionType Cell::collide(Cell const& collisionCell) const {
 }
 
 void Cell::interact() {
-	upperTile.interact();
+	if (!interacted) {
+		upperTile.interact();
+		interacted = true;
+	}
+	
 }
 
 void Cell::render(){
+	auto shaderManager = ServiceLocator::getShaderManager();
+	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
+	tileBackground.render();
+	shaderManager->use(ShaderManager::TILE_PROGRAM);
 	lowerTile.render();
 	upperTile.render();
 }

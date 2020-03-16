@@ -38,19 +38,22 @@ public:
 
 	int getType() const;
 
-	void pushAnimation(int animtype);
-
-	void popAnimation(int animtype);
+	void pushType(int animtype);
+	void resetTypes();
 
 	void addInteraction(Interaction* inter);
 
+	void setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom);
+
+	void insideBorders();
 	
 
 private:
 
-
+	int bLeft, bRight, bTop, bBottom;
 
 	void sendVertices();
+	void setAnimation();
 	float* calculateVertices();
 
 	GLuint vao, vbo;
@@ -58,7 +61,8 @@ private:
 	
 	CollisionType collisionType;
 
-	std::stack<AnimatedSprite*> animations;
+
+	AnimatedSprite* animation;
 	std::list<Interaction*> interactions;
 
 
@@ -67,7 +71,7 @@ private:
 
 	bool canMove, isActive;
 	float xPos, yPos, tileWidth, tileHeight;
-	int type;
+	std::stack<int> types;
 	
 
 	
