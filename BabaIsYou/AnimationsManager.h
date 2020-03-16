@@ -52,6 +52,7 @@ public:
 	void free();
 
 	AnimatedSprite* getAnimatedSprite(int id) ;
+	AnimatedSprite* getAnimatedLetter(int id);
 
 private:
 
@@ -70,9 +71,13 @@ private:
 
 	void createProperties();
 
+	void createLibrary();
+
 	SpriteSheet sprites;
 
 	std::vector<AnimatedSprite*> animatedSprites;
+
+	std::vector<AnimatedSprite*> library;
 
 };
 

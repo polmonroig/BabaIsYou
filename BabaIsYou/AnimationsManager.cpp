@@ -10,16 +10,35 @@ void AnimationsManager::init() {
 	createNames();
 	createOperators();
 	createProperties();
+	createLibrary();
+}
+
+void AnimationsManager::createLibrary() {
+	int nLetters = 21;
+	float initX = 0;
+	for (int i = 0; i < nLetters; ++i) {
+		AnimatedSprite* letter = new AnimatedSprite;
+		letter->setInitialCoordinates(initX, sizeY * 36);
+		letter->setColor(glm::vec3(1, 1, 1));
+		letter->generateSprites(sprites);
+		initX += sizeX;
+		library.push_back(letter);
+	}
+}
+
+AnimatedSprite* AnimationsManager::getAnimatedLetter(int id) {
+	return library[id];
 }
 
 void AnimationsManager::free() {
 	for (int i = 0; i < animatedSprites.size(); ++i)delete animatedSprites[i];
+	for (int i = 0; i < library.size(); ++i)delete library[i];
 }
 
 void AnimationsManager::createSprites() {
 	// create BABA
 	AnimatedSprite* animationBaba = new AnimatedSprite;
-	animationBaba->setFrameRate(5);
+	animationBaba->setFrameRate(9);
 	animationBaba->setSpritesSize(3);
 	animationBaba->setTextureDimensions(sizeX, sizeY);
 	animationBaba->setInitialCoordinates(0, 0);

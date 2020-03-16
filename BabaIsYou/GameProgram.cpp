@@ -38,10 +38,11 @@ void GameProgram::glut(int argc, char** argv) {
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(720, 720);
-
+	glutInitWindowPosition(0, 0);
+	glutInitWindowSize(1920, 1080);
+	
 	glutCreateWindow(argv[0]);
+	glutFullScreen();
 }
 
 void GameProgram::addCallbacks() {

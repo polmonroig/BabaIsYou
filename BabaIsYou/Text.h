@@ -3,44 +3,34 @@
 
 #include <string>
 #include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include "SpriteSheet.h"
+#include <vector>
+
+#include "AnimatedSprite.h"
 #include "ServiceLocator.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H 
 
-
-struct Character {
-	unsigned int textureID;
-	glm::ivec2 size;
-	glm::ivec2 bearing;
-	glm::ivec2 advance;
-};
 
 class Text{
 
 public:
 
-	Text();
 
-	void init(std::string const& fileName);
-	void render(std::string const& str, const glm::vec2& pixel, int size, const glm::vec4& color);
+	void init(std::string const& text, int posX, int posY, int size);
 
-
+	void render();
 
 private:
 
-	static const int ATLAS_FONT_SIZE = 64;
 
-	void initLibrary();
-	void initFont(std::string const& fileName);
+	void sendVertices(int i);
+	float* calculateVertices(int i);
 
-	int fontSize, textureSize, maxCharWidth, maxCharHeight;
-	FT_Face face;
+	std::vector<AnimatedSprite*> textAnimation;
+	float xPos, yPos, size;
+	std::vector<GLuint>vaos;
+	std::vector<GLuint>vbos;
 
-	static bool bLibInit;
-	static FT_Library library;
+	GLuint posLocation;
+	GLuint texCoordLocation;
 	
 };
 

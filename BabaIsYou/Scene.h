@@ -1,8 +1,8 @@
 #ifndef SCENE_H 
 #define SCENE_H 
 
-#define CAMERA_WIDTH 720
-#define CAMERA_HEIGHT 720
+#define CAMERA_WIDTH 1000
+#define CAMERA_HEIGHT 1000
 
 #include <glm/glm.hpp>
 
@@ -27,9 +27,6 @@ public:
 
 private:
 
-	static const int SIZE = 20;
-	static const int MARGIN_LEFT = 20;
-	static const int MARGIN_TOP = 20;
 	static const int MAX_LEVEL = 4;
 	const std::string LEVEL_FILE_NAME = "levels/level_";
 

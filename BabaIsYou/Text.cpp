@@ -1,59 +1,70 @@
 #include "Text.h"
 
 
-bool Text::bLibInit = false;
-FT_Library Text::library;
+void Text::init(std::string const& text, int posX, int posY, int size) {
+	xPos = posX;
+	yPos = posY;
+	this->size = size;
+	auto animManager = ServiceLocator::getAnimationsManager(); 
+	vaos = std::vector<GLuint>(text.size());
+	vbos = std::vector<GLuint>(text.size());
+	for (int i = 0; i < text.size(); ++i) {
+		int letterNumber = int(text[i]) - 65;
+		std::cout << "Getting letter: " << letterNumber << std::endl;
+		auto a = animManager->getAnimatedLetter(letterNumber);
+		a->addReference();
+		textAnimation.push_back(a);
 
-void Text::initLibrary() {
-	/*if (!bLibInit) {
-		if (FT_Init_FreeType(&library))
-			std::cerr << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
-		else bLibInit = true;
-	}*/
-}
-
-
-void Text::initFont(std::string const& fileName) {
-	/*if (FT_New_Face(library, fileName.c_str(), 0, &face)) {
-		std::cerr << "ERROR::FREETYPE: Failed to load font" << std::endl;
+		glGenVertexArrays(1, &vaos[i]);
+		glGenBuffers(1, &vbos[i]);
+		sendVertices(i);
+		auto shaderM = ServiceLocator::getShaderManager();
+		posLocation = shaderM->bindVertexAttribute("position", 3, 5 * sizeof(float), 0);
+		texCoordLocation = shaderM->bindVertexAttribute("texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	
 	}
-	else {
-		FT_Set_Pixel_Sizes(face, ATLAS_FONT_SIZE, ATLAS_FONT_SIZE);
-	}*/
-	
 }
 
-void Text::init(std::string const& fileName) {
-	initLibrary();
-	initFont(fileName);
-	
+
+float* Text::calculateVertices(int i) {
+	float* texCoords = textAnimation[i]->getTextureCoordinates();
+	i++;
+	float vertices[30] = { xPos * i, yPos, 0.0,
+							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
+						 xPos * i + size, yPos, 0.0,
+							texCoords[Sprite::TOP_RIGHT_X], texCoords[Sprite::TOP_RIGHT_Y],
+						 xPos * i + size, yPos + size, 0.0,
+							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
+						 xPos * i, yPos, 0.0,
+							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
+						 xPos* i + size, yPos + size,  0.0,
+							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
+						 xPos * i, yPos + size, 0.0,
+							texCoords[Sprite::BOTTOM_LEFT_X], texCoords[Sprite::BOTTOM_LEFT_Y] };
+
+	return vertices;
 }
 
-void Text::render(std::string const& str, const glm::vec2& pixel, int size, const glm::vec4& color){
-	int vp[4];
-	glm::mat4 projection, modelview;
-	glm::vec2 minTexCoord, maxTexCoord, pos = pixel;
-	auto shaderProgram = ServiceLocator::getShaderManager();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-	
-	glGetIntegerv(GL_VIEWPORT, vp);;
-	projection = glm::ortho(0.f, float(vp[2] - 1), float(vp[3] - 1), 0.f);
-	shaderProgram->setUniform("projection", projection);
-	shaderProgram->setUniform("color", color.r, color.g, color.b, color.a);
+void Text::sendVertices(int i) {
+	auto vertices = calculateVertices(i);
+	glBindVertexArray(vaos[i]);
+	glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);
+	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
+}
 
-	for (unsigned int i = 0; i < str.length(); i++)
-	{
-		modelview = glm::mat4(1.0f);
 
-		//	modelview = glm::translate(modelview, glm::vec3(pos.x + (float(size) / fontSize) * chars[str[i] - 32].bl, pos.y - (float(size) / fontSize) * chars[str[i] - 32].bt, 0.f));
-			//modelview = glm::scale(modelview, (float(size) / fontSize) * glm::vec3(chars[str[i] - 32].sx, chars[str[i] - 32].sy, 0.f));
-		shaderProgram->setUniform("modelview", modelview);
-		//	minTexCoord = glm::vec2(float(chars[str[i] - 32].tx) / textureSize, float(chars[str[i] - 32].ty) / textureSize);
-			//maxTexCoord = glm::vec2(float(chars[str[i] - 32].tx + chars[str[i] - 32].sx) / textureSize, float(chars[str[i] - 32].ty + chars[str[i] - 32].sy) / textureSize);
-		shaderProgram->setUniform("minTexCoord", minTexCoord.s, minTexCoord.t);
-		shaderProgram->setUniform("maxTexCoord", maxTexCoord.s, maxTexCoord.t);
-		//quad->render(textureAtlas);
-	//	pos.x += (float(size) / fontSize) * chars[str[i] - 32].ax;
+
+void Text::render() {
+	auto shader = ServiceLocator::getShaderManager(); 
+	shader->use(ShaderManager::TILE_PROGRAM);
+	for (int i = 0; i < textAnimation.size(); ++i) {
+		auto anim = textAnimation[i];
+		anim->render();
+		auto color = anim->getColor();
+		shader->setUniform("color", color.x, color.y, color.z);
+		glBindVertexArray(vaos[i]);
+		glEnableVertexAttribArray(posLocation);
+		glEnableVertexAttribArray(texCoordLocation);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 }

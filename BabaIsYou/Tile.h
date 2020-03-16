@@ -42,14 +42,12 @@ public:
 
 	void addInteraction(Interaction* inter);
 
-	void setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom);
 	void setIlum(float value);
-	void insideBorders();
+	
 	
 
 private:
 
-	int bLeft, bRight, bTop, bBottom;
 
 	void sendVertices();
 	void setAnimation();

@@ -18,9 +18,12 @@ void Scene::init(){
 void Scene::loadLevel() {
 	std::string fileName = LEVEL_FILE_NAME + std::to_string(currentLevel) + ".txt";
 	map.free();
-	map = TileMap(SIZE, MARGIN_LEFT, MARGIN_TOP);
-	map.init(fileName, CAMERA_WIDTH - 1, CAMERA_HEIGHT - 1);
-	projectionMatrix = glm::ortho(0.0f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.0f, 0.0f, 100.0f);
+	
+	auto width = glutGet(GLUT_WINDOW_WIDTH);
+	auto height = glutGet(GLUT_WINDOW_HEIGHT);
+	map = TileMap(width, height);
+	map.init(fileName, width - 1, height - 1);
+	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
 	currentTime = 0.0f;
 }
 

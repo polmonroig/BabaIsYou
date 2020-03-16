@@ -8,19 +8,8 @@ Tile::Tile() {
 	iluminationMultiplier = 1;
 }
 
-void Tile::setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom) {
-	bLeft = borderLeft;
-	bRight = borderRight;
-	bTop = borderTop;
-	bBottom = borderBottom;
-}
 
-void Tile::insideBorders() {
-	if (xPos < bLeft)xPos = bRight - tileWidth/2;
-	else if (xPos >= bRight)xPos = bLeft;
-	if (yPos < bTop)yPos = bBottom - tileHeight/2;
-	else if (yPos >= bBottom)yPos = bTop ;
-}
+
 
 Tile::Tile(float x, float y, float width, float height, int tileType){
 	xPos = x;
@@ -97,7 +86,6 @@ void Tile::move(Direction const& dir) {
 	auto dirPair = dir.getDir();
 	xPos += dirPair.first * tileWidth;
 	yPos += dirPair.second * tileHeight;
-	insideBorders();
 	sendVertices();
 }
 
