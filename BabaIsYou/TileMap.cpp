@@ -5,7 +5,7 @@ TileMap::TileMap(float winHeight, float winWidth) {
     windowHeight = winHeight;
 	windowWidth = winWidth;
     loaded = false;
-    
+    unloaded = true;
 
 }
 
@@ -69,7 +69,7 @@ void TileMap::init(std::string const& fileName, float width, float height) {
 }
 
 bool TileMap::insideMap(int posX, int posY) {
-    return posX >= 0 && posX < mapWidth && posY >= 0 && posY < mapHeight;
+    return posX >= 0 && posX < mapHeight && posY >= 0 && posY < mapWidth;
 }
 
 int TileMap::getUpperType(std::pair<int, int> pos)const {
@@ -90,6 +90,7 @@ void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType,
     }
     else if (animType == AnimationsManager::YOU) {
         map[i][j].setCollider();
+        map[i][j].addInteraction(new StopInteraction(&map[i][j]));
         map[i][j].addInteraction(new MoveInteraction(this));
     }
     else if (animType == AnimationsManager::WIN || animType == AnimationsManager::PLAY) {
@@ -192,6 +193,7 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     int newTileJ = j + xMove;
     
     if (insideMap(newTileI, newTileJ)) {
+        std::cout << "Moving: " << i << ", " << j << std::endl;
         auto collision = map[i][j].collide(map[newTileI][newTileJ]);
         if (collision == CollisionType::None) { // empty tile 
             map[i][j].move(dir);
@@ -219,27 +221,10 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     return moved;
 }
 
-// depending on the direction to take we need to move the tiles in an according order 
-// this are the cases and their ocurrences 
-// Case UP => Go down:
-// i = 0, j = 0, ++i, ++j => Normal path 
-// 
-// Case DOWN => Go up:
-// i = SIZE - 1, j = 0; --i; ++j 
-// 
-// Case LEFT => Go right 
-// i = 0, j 0= 0, ++i, ++j => transpose matrix 
-// 
-// Case RIGHT => Go left 
-// i = 0, j = SIZE, ++i, --j => tranpose matrix 
-
-// UP == LEFT BUT TRANSPOSED 
-// RIGHT = DOWN BUT TRANSPOSED 
 
 
 void TileMap::move() {
     bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
-    
     if (moved) {
         if(engine)
             engine->play2D("sound/002.ogg", false);
@@ -262,32 +247,84 @@ void TileMap::escape(int enemyType) {
     }
 }
 
+// depending on the direction to take we need to move the tiles in an according order 
+// this are the cases and their ocurrences 
+// Case UP => Go down:
+// i = 0, j = 0, ++i, ++j => Normal path 
+// 
+// Case DOWN => Go up:
+// i = SIZE - 1, j = 0; --i; ++j 
+// 
+// Case LEFT => Go right 
+// i = 0, j 0= 0, ++i, ++j => transpose matrix 
+// 
+// Case RIGHT => Go left 
+// i = 0, j = SIZE, ++i, --j => tranpose matrix 
+
+// UP == LEFT BUT TRANSPOSED 
+// RIGHT = DOWN BUT TRANSPOSED 
+
+
+void TileMap::upPath(Direction const& dir) {
+    for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            currentTile.first = i;
+            currentTile.second = j;
+            currentDirection = dir;
+            map[i][j].interact();
+        }
+    }
+}
+
+void TileMap::downPath(Direction const& dir) {
+    for (int i = mapHeight - 1; i >= 0; --i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            currentTile.first = i;
+            currentTile.second = j;
+            map[i][j].interact();
+        }
+    }
+}
+
+void TileMap::leftPath(Direction const& dir) {
+    for (int j = 0; j < mapWidth; ++j) {
+        for (int i = 0; i < mapHeight; ++i) {
+            currentTile.first = i;
+            currentTile.second = j;
+            map[i][j].interact();
+        }
+    }
+}
+
+void TileMap::rightPath(Direction const& dir) {
+    for (int j = mapWidth - 1; j >= 0; --j) {
+        for (int i = 0; i < mapHeight; ++i) {
+            currentTile.first = i;
+            currentTile.second = j;
+            map[i][j].interact();
+        }
+    }
+}
+
 
 void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
     if (loaded) {
-        for (int i = 0; i < mapHeight; ++i) {
-            for (int j = 0; j < mapWidth; ++j) {
-                int newI = i;
-                int newJ = j;
-                if (dir.isType(DirectionType::LEFT) || dir.isType(DirectionType::RIGHT)) {
-                    // transpose matrix 
-                    newI = j;
-                    newJ = i;
-                }
-                if (dir.isType(DirectionType::DOWN))
-                    newI = mapHeight - i - 1;
-                if (dir.isType(DirectionType::RIGHT))newJ = mapWidth - i - 1;
-                currentTile.first = newI;
-                currentTile.second = newJ;
-                currentDirection = dir;
-                map[newI][newJ].interact();
-            }
+        currentDirection = dir;
+        if (dir.isType(DirectionType::UP)) {
+            upPath(dir);
         }
-
+        else if (dir.isType(DirectionType::DOWN)) {
+            downPath(dir);
+        }
+        else if (dir.isType(DirectionType::LEFT)) {
+            leftPath(dir);
+        }
+        else {
+            rightPath(dir);
+        }
         updateInteractions();
     }
-  
 }
 
 
@@ -295,7 +332,7 @@ void TileMap::renderRow(int row) {
     int dir = cols[row].second;
     int iterations = 0;
     if (dir < 0) {
-        for (int i = cols[row].first; i < mapHeight; ++i) {
+        for (int i = cols[row].first; i < mapWidth; ++i) {
             map[row][i].render();
             iterations++;
         }
@@ -307,7 +344,7 @@ void TileMap::renderRow(int row) {
         }
     }
  
-    if (iterations < mapHeight)loaded = false;
+    if (iterations < mapWidth)loaded = false;
 }
 
 void TileMap::loadMap() {
@@ -331,29 +368,18 @@ void TileMap::loadMap() {
     }
 
     loaded = true;
-    for (int i = 0; i < mapHeight; ++i) {
+    for (int i = 0; i < mapWidth; ++i) {
         if (cols[i].second != 0)renderRow(i);
     }
 }
 
 void TileMap::unloadMap() {
-    for (int i = 0; i < LOAD_SPEED; ++i) {
-        int selectedRow = std::rand() % mapHeight;
-        else {
-            cols[selectedRow].first += cols[selectedRow].second;
-            if (cols[selectedRow].first < 0)cols[selectedRow].first = 0;
-            else if (cols[selectedRow].first >= mapWidth)cols[selectedRow].first = mapWidth - 1;
-        }
-    }
-
-    for (int i = 0; i < mapHeight; ++i) {
-        if (cols[i].second != 0)renderRow(i);
-    }
+  
 }
 
 void TileMap::renderTiles() {
-    for (int i = 0; i < mapWidth; ++i) {
-        for (int j = 0; j < mapHeight; ++j) {
+    for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
             map[i][j].render();
         }
     }
@@ -361,7 +387,7 @@ void TileMap::renderTiles() {
 }
 
 void TileMap::cleanMap() {
-
+    unloaded = false;
 }
 
 void TileMap::render() {

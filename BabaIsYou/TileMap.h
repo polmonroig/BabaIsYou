@@ -60,6 +60,10 @@ private:
 	void renderTiles();
 	void loadMap();
 
+	void upPath(Direction const& dir);
+	void downPath(Direction const& dir);
+	void leftPath(Direction const& dir);
+	void rightPath(Direction const& dir);
 	std::pair<int, int> currentTile;
 	Direction currentDirection;
 	int mapWidth;
@@ -68,6 +72,7 @@ private:
 	int mapHeight;
 
 	bool loaded;
+	bool unloaded;
 	std::vector<std::pair<int, int>> cols;
 	irrklang::ISoundEngine* engine;
 	CellMatrix map;
