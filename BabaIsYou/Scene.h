@@ -7,9 +7,11 @@
 #include <glm/glm.hpp>
 
 #include "TileMap.h"
+#include "Game.h"
 #include "Direction.h"
 #include "ServiceLocator.h"
 
+class Game;
 
 class Scene {
 
@@ -34,8 +36,10 @@ private:
 	void initTextures();
 	void initShaders();
 	void loadLevel();
+	void checkInput();
 
 	int currentLevel;
+
 	float currentTime;
 	
 	

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{8593c923-3152-488b-b739-1125bf4333f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
@@ -11,6 +8,18 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="levels">
+      <UniqueIdentifier>{ccab6b07-1769-4d08-9a45-82ecd7e17d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sound">
+      <UniqueIdentifier>{e651b3a6-3f5f-42f0-a332-8aa0709599e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="images">
+      <UniqueIdentifier>{df1951b7-4176-45c8-b577-46d07ce830e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{8593c923-3152-488b-b739-1125bf4333f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -89,9 +98,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatedSpriteSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -166,28 +172,55 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedSpriteSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
     <None Include="shaders\background.vert">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
     <None Include="shaders\simple.frag">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
     <None Include="shaders\simple.vert">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
     <None Include="shaders\text.frag">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
     <None Include="shaders\text.vert">
-      <Filter>Shaders</Filter>
+      <Filter>shaders</Filter>
     </None>
+    <None Include="sound\002.ogg">
+      <Filter>sound</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="levels\level_0.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_1.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_2.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_3.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_4.txt">
+      <Filter>levels</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound\theme_soundtrack.mp3">
+      <Filter>sound</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\sprite-sheet.png">
+      <Filter>images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 uniform sampler2D  sampler;
 uniform vec3 color;
+
 out vec4 FragColor;
 
 in vec2 vtexCoord;

@@ -24,6 +24,10 @@ void Cell::unsetCollider() {
 }
 
 
+void Cell::setIlum(float ilum) {
+	upperTile.setIlum(ilum);
+}
+
 
 void Cell::setBackground(float posX, float posY, float width, float height) {
 	tileBackground = Background(posX, posY, width, height);

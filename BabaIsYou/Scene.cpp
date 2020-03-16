@@ -2,7 +2,7 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
-
+#include <GL/glut.h>
 
 
 
@@ -34,6 +34,19 @@ void Scene::update(int deltaTime){
 		currentLevel++;
 		loadLevel();
 	}
+
+	
+}
+
+void Scene::checkInput() {
+	if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
+		move(Direction(DirectionType::RIGHT));
+	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
+		move(Direction(DirectionType::LEFT));
+	else if (Game::instance().getSpecialKey(GLUT_KEY_UP))
+		move(Direction(DirectionType::UP));
+	else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN))
+		move(Direction(DirectionType::DOWN));
 }
 
 void Scene::render(){

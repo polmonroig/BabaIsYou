@@ -5,6 +5,7 @@
 Tile::Tile() {
 	isActive = false;
 	types = std::stack<int>();
+	iluminationMultiplier = 1;
 }
 
 void Tile::setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom) {
@@ -23,6 +24,7 @@ void Tile::insideBorders() {
 
 Tile::Tile(float x, float y, float width, float height, int tileType){
 	xPos = x;
+	iluminationMultiplier = 1;
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
@@ -43,6 +45,7 @@ int Tile::getType() const {
 }
 
 void Tile::resetInteractions() {
+	iluminationMultiplier = 1.0f;
 	for (auto & it : interactions)delete it;
 	interactions.clear();
 	collisionType = CollisionType::None;
@@ -113,10 +116,13 @@ void Tile::resetTypes() {
 void Tile::setAnimation() {
 	int animType = (types.top() / 10) - 1;
 	auto manager = ServiceLocator::getAnimationsManager();
-	animation = &manager->getAnimatedSprite(animType);
+	animation = manager->getAnimatedSprite(animType);
 	animation->addReference();
 }
 
+void Tile::setIlum(float value) {
+	iluminationMultiplier = value;
+}
 
 
 void Tile::sendVertices() {
@@ -142,7 +148,7 @@ void Tile::render(){
 	if (isActive) {
 		sendVertices();
 		auto color = animation->getColor();
-		ServiceLocator::getShaderManager()->setUniform( "color", color.x, color.y, color.z);
+		ServiceLocator::getShaderManager()->setUniform( "color", color.x *iluminationMultiplier, color.y * iluminationMultiplier, color.z * iluminationMultiplier);
 		animation->render();
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(posLocation);

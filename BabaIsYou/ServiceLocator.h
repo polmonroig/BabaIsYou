@@ -12,6 +12,7 @@ public:
 	static ShaderManager* getShaderManager();
 	static AnimationsManager* getAnimationsManager();
 	static bool isGameEnd();
+
 	static void endGame();
 
 

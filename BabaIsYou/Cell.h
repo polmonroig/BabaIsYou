@@ -29,6 +29,8 @@ public:
 
 	void render();
 
+	void setIlum(float ilum);
+
 	void interact();
 
 	void addInteraction(Interaction* inter);

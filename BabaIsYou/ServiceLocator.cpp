@@ -6,6 +6,7 @@ AnimationsManager* ServiceLocator::animations = new AnimationsManager();
 bool ServiceLocator::gameEnd = false;
 
 
+
 ShaderManager* ServiceLocator::getShaderManager() {
 	return shaders;
 }
@@ -13,6 +14,7 @@ ShaderManager* ServiceLocator::getShaderManager() {
 void ServiceLocator::endGame() {
 	gameEnd = true;
 }
+
 
 bool ServiceLocator::isGameEnd() {
 	bool realValue = gameEnd;

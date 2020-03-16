@@ -147,7 +147,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
-    <ClCompile Include="AnimatedSpriteSet.cpp" />
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Cell.cpp" />
@@ -175,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
-    <ClInclude Include="AnimatedSpriteSet.h" />
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Cell.h" />
@@ -207,6 +205,20 @@
     <None Include="shaders\simple.vert" />
     <None Include="shaders\text.frag" />
     <None Include="shaders\text.vert" />
+    <None Include="sound\002.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="levels\level_0.txt" />
+    <Text Include="levels\level_1.txt" />
+    <Text Include="levels\level_2.txt" />
+    <Text Include="levels\level_3.txt" />
+    <Text Include="levels\level_4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound\theme_soundtrack.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\sprite-sheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

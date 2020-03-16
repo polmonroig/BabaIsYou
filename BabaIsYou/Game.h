@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Direction.h"
 
+class Scene;
 
 class Game{
 
@@ -40,7 +41,7 @@ private:
 	
 	
 	bool bPlay;                       // Continue to play game?
-	Scene scene;                      // Scene to render
+	Scene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 									  // we can have access at any time
 

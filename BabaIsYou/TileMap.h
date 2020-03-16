@@ -48,6 +48,7 @@ private:
 	int getUpperType(std::pair<int, int> pos)const;
 	void insideMap(int& posX, int& posY);
 	bool moveTile(Direction const& dir,  int i, int j);
+	void addIlumInteraction(std::pair<int, int> const& pos);
 	void resetInteractions();
 	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
@@ -63,7 +64,6 @@ private:
 	float marginLeft;
 	float marginTop;
 	bool loaded;
-
 	std::vector<std::pair<int, int>> cols;
 	irrklang::ISoundEngine* engine;
 

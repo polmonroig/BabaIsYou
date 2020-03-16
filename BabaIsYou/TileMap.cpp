@@ -97,6 +97,10 @@ void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType,
         map[i][j].setCollider();
         map[i][j].pushType((animType - AnimationsManager::N_SPRITES) * 10);
     }
+    else if (animType == AnimationsManager::DEFEAT) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new DefeatInteraction(&map[i][j]));
+    }
 }
 
 void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
@@ -136,6 +140,9 @@ void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir
             int nameType = getUpperType(namePos);
             int operatorType = getUpperType(operatorPos);
             int actionType = getUpperType(actionPos);
+            map[namePos.first][namePos.second].setIlum(2.0f);
+            map[operatorPos.first][operatorPos.second].setIlum(2.0f);
+            map[actionPos.first][actionPos.second].setIlum(2.0f);
             applyInteraction(nameType / 10, operatorType / 10, actionType);
         }
     }
@@ -145,10 +152,11 @@ void TileMap::resetInteractions() {
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             if (map[i][j].isCateogry(AnimationsManager::SPRITE)) {
-                map[i][j].resetInteractions();
                 map[i][j].unsetCollider();
+                map[i][j].resetInteractions();
             }
-
+            if (!map[i][j].isCateogry(AnimationsManager::SPRITE))
+                map[i][j].setIlum(1.0);
         }
     }
 }
@@ -162,6 +170,7 @@ void TileMap::updateInteractions() {
                 findInteractions({i, j}, DirectionType::DOWN);
                 findInteractions({i, j}, DirectionType::RIGHT);
             }
+            
         }
     }
 
@@ -330,6 +339,7 @@ void TileMap::render() {
  
     if (!loaded) {
         loadMap();
+        if(loaded)updateInteractions();
     }
     else {
         renderTiles();

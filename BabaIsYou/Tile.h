@@ -43,7 +43,7 @@ public:
 	void addInteraction(Interaction* inter);
 
 	void setBorders(int borderLeft, int borderRight, int borderTop, int borderBottom);
-
+	void setIlum(float value);
 	void insideBorders();
 	
 
@@ -64,6 +64,7 @@ private:
 	AnimatedSprite* animation;
 	std::list<Interaction*> interactions;
 
+	float iluminationMultiplier;
 
 	std::pair<int, int> currentTile;
 

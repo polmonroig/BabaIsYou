@@ -20,7 +20,7 @@ public:
 	static const int BABA = 1;
 	static const int ROCK = 2;
 	static const int WALL = 3;
-	static const int LAVA = 4;
+	static const int SKULL = 4;
 	static const int FLAG = 5;
 	static const int GRASS = 6;
 	
@@ -29,7 +29,7 @@ public:
 	static const int BABA_N = 7;
 	static const int ROCK_N = 8;
 	static const int WALL_N = 9;
-	static const int LAVA_N = 10;
+	static const int SKULL_N = 10;
 	static const int FLAG_N = 11;
 	static const int GRASS_N = 12;
 
@@ -49,8 +49,9 @@ public:
 	
 
 	void init();
+	void free();
 
-	AnimatedSprite& getAnimatedSprite(int id) ;
+	AnimatedSprite* getAnimatedSprite(int id) ;
 
 private:
 
@@ -71,7 +72,7 @@ private:
 
 	SpriteSheet sprites;
 
-	std::vector<AnimatedSprite> animatedSprites;
+	std::vector<AnimatedSprite*> animatedSprites;
 
 };
 
