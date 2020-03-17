@@ -69,7 +69,7 @@ void AnimationsManager::createSprites() {
 	AnimatedSprite* animationWall = new AnimatedSprite;
 	animationWall->setInitialCoordinates(sizeX * 19, sizeY * 21);
 	animationWall->generateSprites(sprites);
-	animationWall->setColor(glm::vec3(1, 1, 1));
+	animationWall->setColor(glm::vec3(0.6, 0.6, 0.75));
 	animatedSprites.push_back(animationWall);
 
 	// create SKULL 
@@ -114,21 +114,21 @@ void AnimationsManager::createProperties() {
 	AnimatedSprite* animationPush = new AnimatedSprite;
 	animationPush->setInitialCoordinates(sizeX * 2, sizeY * 42);
 	animationPush->generateSprites(sprites);
-	animationPush->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationPush->setColor(glm::vec3(0.38, 0.5, 0.5));
 	animatedSprites.push_back(animationPush);
 
 	// create STOP 
 	AnimatedSprite* animationStop = new AnimatedSprite;
 	animationStop->setInitialCoordinates(sizeX * 12, sizeY * 42);
 	animationStop->generateSprites(sprites);
-	animationStop->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationStop->setColor(glm::vec3(0.19, 0.32, 0.15));
 	animatedSprites.push_back(animationStop);
 
 	// create DEFEAT 
 	AnimatedSprite* animationDefeat = new AnimatedSprite;
 	animationDefeat->setInitialCoordinates(sizeX * 5, sizeY * 39);
 	animationDefeat->generateSprites(sprites);
-	animationDefeat->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationDefeat->setColor(glm::vec3(0.35, 0.15, 0.14));
 	animatedSprites.push_back(animationDefeat);
 
 	// create PLAY 
@@ -167,21 +167,21 @@ void AnimationsManager::createNames() {
 	AnimatedSprite* animationRock = new AnimatedSprite;
 	animationRock->setInitialCoordinates(sizeX * 11, sizeY * 33);
 	animationRock->generateSprites(sprites);
-	animationRock->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationRock->setColor(glm::vec3(0.325, 0.26, 0.115));
 	animatedSprites.push_back(animationRock);
 
 	// create wall
 	AnimatedSprite* animationWall = new AnimatedSprite;
 	animationWall->setInitialCoordinates(sizeX * 27, sizeY * 33);
 	animationWall->generateSprites(sprites);
-	animationWall->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationWall->setColor(glm::vec3(0.3, 0.3, 0.375));
 	animatedSprites.push_back(animationWall);
 
 	// create SKULL 
 	AnimatedSprite* animationLava = new AnimatedSprite;
 	animationLava->setInitialCoordinates(sizeX * 16, sizeY * 33);
 	animationLava->generateSprites(sprites);
-	animationLava->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animationLava->setColor(glm::vec3(0.14, 0.037, 0.315));
 	animatedSprites.push_back(animationLava);
 
 	// create flag 

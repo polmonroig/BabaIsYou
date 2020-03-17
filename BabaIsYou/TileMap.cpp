@@ -27,8 +27,8 @@ void TileMap::init(std::string const& fileName, float width, float height) {
     map = CellMatrix(mapHeight, CellVector(mapWidth));
     cols = std::vector<std::pair<int, int>>(mapWidth, { 0,0 });
     
-    float tileWidth = 40;
-    float tileHeight = 40;
+    float tileWidth = 50;
+    float tileHeight = 50;
     float marginLeft = (width - tileWidth * mapWidth) / 2.0;
     float marginTop = (height - tileHeight * mapHeight) / 2.0;
     float posX = marginLeft;
@@ -91,6 +91,10 @@ void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType,
     else if (animType == AnimationsManager::STOP) {
         map[i][j].setCollider();
         map[i][j].addInteraction(new StopInteraction(&map[i][j]));
+    }
+    else if (animType == AnimationsManager::PUSH) {
+        map[i][j].setCollider();
+        map[i][j].addInteraction(new PushInteraction(&map[i][j]));
     }
     else if (animType == AnimationsManager::YOU) {
         map[i][j].setCollider();
@@ -223,6 +227,7 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
         }
         else if (collision == CollisionType::Destroy) {
             map[i][j].destroyMovedTile();
+            moved = true;
         }
         else if (collision == CollisionType::Win) {
             if(engine)engine->play2D(WIN_SOUND.c_str(), false);
