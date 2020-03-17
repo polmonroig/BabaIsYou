@@ -2,6 +2,7 @@
 
 
 irrklang::ISoundEngine* TileMap::engine;
+bool TileMap::restarted = false;
 
 TileMap::TileMap(float winHeight, float winWidth) {
     windowHeight = winHeight;
@@ -260,6 +261,7 @@ void TileMap::escape(int enemyType) {
 
 void TileMap::reset() {
     if (engine)engine->play2D(RESET_SOUND.c_str(), false);
+    restarted = true;
     unloaded = false;
 }
 
@@ -410,7 +412,7 @@ bool TileMap::unloadMap() {
 void TileMap::render() {
  
     if (!loaded) {
-        if (firstLoad && engine){
+        if (!restarted && firstLoad && engine){
             engine->play2D(LOAD_SOUND.c_str(), false);
             firstLoad = false;
         }
@@ -421,6 +423,7 @@ void TileMap::render() {
         if(unloadMap())ServiceLocator::endGame();
     }
     else {
+        restarted = false;
         renderTiles();
     }
     

@@ -72,7 +72,7 @@ private:
 	static const int LOAD_SPEED = 8;
 	std::vector<std::string> BABA_MOVE_SOUND = { "sound/043.ogg", "sound/044.ogg", "sound/045.ogg", "sound/046.ogg" };
 	std::string  WIN_SOUND = "sound/042.ogg";
-	std::string  RESET_SOUND = "sound/041.ogg";
+	std::string  RESET_SOUND = "sound/085.ogg";
 	std::string  LOAD_SOUND = "sound/026.ogg"; // 26
 	std::string  THEME_SOUND = "sound/theme_soundtrack.mp3";
 
@@ -86,6 +86,7 @@ private:
 
 	bool loaded;
 	bool unloaded;
+	static bool restarted;
 	bool firstLoad;
 	
 	std::vector<std::pair<int, int>> cols;
