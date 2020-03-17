@@ -10,7 +10,18 @@ void AnimationsManager::init() {
 	createNames();
 	createOperators();
 	createProperties();
+	createExtras();
 	createLibrary();
+}
+
+void AnimationsManager::createExtras() {
+	AnimatedSprite* moveBall = new AnimatedSprite;
+	moveBall->setSpritesSize(1);
+	moveBall->setColor(glm::vec3(1, 1, 1));
+	moveBall->setInitialCoordinates(sizeX * 24, sizeY * 42);
+	moveBall->generateSprites(sprites);
+	animatedSprites.push_back(moveBall);
+
 }
 
 void AnimationsManager::createLibrary() {

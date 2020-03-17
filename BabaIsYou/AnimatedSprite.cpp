@@ -80,7 +80,7 @@ void AnimatedSprite::render() {
 
 	if (frame_counter >= max_frame * references) {
 		frame_counter = 0;
-		current_sprite = (current_sprite + 1) % size;
+		current_sprite = (current_sprite + 1) % sprites.size();
 	}
 	sprites[current_sprite].render();
 	frame_counter++;

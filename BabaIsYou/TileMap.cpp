@@ -76,6 +76,9 @@ int TileMap::getUpperType(std::pair<int, int> pos)const {
     return map[pos.first][pos.second].getType().second;
 }
 
+bool TileMap::isRestarting() const {
+    return !unloaded || !loaded;
+}
 
 void TileMap::applyInteractionType(int i, int j, int nameType, int operatorType, int actionType) {
     int animType = actionType / 10;
@@ -255,23 +258,10 @@ void TileMap::escape(int enemyType) {
     }
 }
 
-// depending on the direction to take we need to move the tiles in an according order 
-// this are the cases and their ocurrences 
-// Case UP => Go down:
-// i = 0, j = 0, ++i, ++j => Normal path 
-// 
-// Case DOWN => Go up:
-// i = SIZE - 1, j = 0; --i; ++j 
-// 
-// Case LEFT => Go right 
-// i = 0, j 0= 0, ++i, ++j => transpose matrix 
-// 
-// Case RIGHT => Go left 
-// i = 0, j = SIZE, ++i, --j => tranpose matrix 
-
-// UP == LEFT BUT TRANSPOSED 
-// RIGHT = DOWN BUT TRANSPOSED 
-
+void TileMap::reset() {
+    if (engine)engine->play2D(RESET_SOUND.c_str(), false);
+    unloaded = false;
+}
 
 void TileMap::upPath(Direction const& dir) {
     for (int i = 0; i < mapHeight; ++i) {
@@ -355,6 +345,8 @@ bool TileMap::renderRow(int row) {
     if (iterations < mapWidth)return false;
     return true;
 }
+
+
 
 void TileMap::loadMap() {
 

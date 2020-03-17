@@ -18,6 +18,7 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	tileWidth = width;
 	tileHeight = height;
 	collisionType = CollisionType::None;
+
 	types = std::stack<int>();
 	pushType(tileType);
 }

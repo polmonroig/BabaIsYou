@@ -60,6 +60,8 @@ private:
 
 
 	AnimatedSprite* animation;
+
+	
 	std::list<Interaction*> interactions;
 
 	float iluminationMultiplier;

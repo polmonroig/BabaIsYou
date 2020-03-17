@@ -14,8 +14,11 @@ void Scene::init(){
 }
 
 void Scene::restart() {
-	map.free();
-	loadLevel();
+	if (!map.isRestarting()) {
+		map.reset();
+		--currentLevel;
+	}
+	
 }
 
 

@@ -46,6 +46,9 @@ public:
 	static const int STOP = 18;
 	static const int DEFEAT = 19;
 	static const int PLAY = 20;
+
+	// extras
+	static const int MOVE_EFFECT = 21;
 	
 
 	void init();
@@ -70,6 +73,8 @@ private:
 	void createOperators();
 
 	void createProperties();
+
+	void createExtras();
 
 	void createLibrary();
 
