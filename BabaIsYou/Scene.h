@@ -25,6 +25,8 @@ public:
 
 	void render();
 
+	void restart();
+
 private:
 
 	static const int MAX_LEVEL = 4;

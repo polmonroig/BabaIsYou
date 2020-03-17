@@ -70,6 +70,12 @@ void Cell::interact() {
 	
 }
 
+void Cell::free() {
+	if(upperTile.getActive())upperTile.free();
+	if(lowerTile.getActive())lowerTile.free();
+	tileBackground.free();
+}
+
 void Cell::render(){
 	auto shaderManager = ServiceLocator::getShaderManager();
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);

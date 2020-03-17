@@ -13,6 +13,10 @@ void Scene::init(){
 	loadLevel(); 
 }
 
+void Scene::restart() {
+	map.free();
+	loadLevel();
+}
 
 
 void Scene::loadLevel() {
@@ -35,6 +39,7 @@ void Scene::update(int deltaTime){
 	currentTime += deltaTime;
 	if (ServiceLocator::isGameEnd() && currentLevel < MAX_LEVEL) {
 		currentLevel++;
+		map.free();
 		loadLevel();
 	}
 

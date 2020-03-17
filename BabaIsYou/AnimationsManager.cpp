@@ -190,6 +190,6 @@ void AnimationsManager::createNames() {
 
 
 
-AnimatedSprite* AnimationsManager::getAnimatedSprite(int id) {
+AnimatedSprite* AnimationsManager::getAnimatedSprite(int id) { 
 	return animatedSprites[id];
 }

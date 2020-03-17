@@ -17,6 +17,7 @@
 #include "WinInteraction.h"
 #include "FearInteraction.h"
 #include "StopInteraction.h"
+#include "Text.h"
 #include "Cell.h"
 
 
@@ -30,16 +31,16 @@ public:
 	TileMap(float leftMargin, float topMargin);
 
 	void init(std::string const& fileName, float width, float height);
-	void cleanMap();
 	void movePlayerTiles(Direction const& dir);
 	void move();
 	void escape(int enemyType);
 	void render();
 	void free();
 
+
 private:
 	
-	static const int LOAD_SPEED = 8;
+	
 
 	// typedefs to simplify expressions
 	typedef std::vector<Cell> CellVector;
@@ -50,20 +51,29 @@ private:
 	bool insideMap(int posX, int posY);
 
 	bool moveTile(Direction const& dir,  int i, int j);
-	void unloadMap();
 	void resetInteractions();
 	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
 	void initSound();
 	void updateInteractions();
-	void renderRow(int row);
+	bool renderRow(int row);
 	void renderTiles();
 	void loadMap();
+	bool unloadMap();
 
 	void upPath(Direction const& dir);
 	void downPath(Direction const& dir);
 	void leftPath(Direction const& dir);
 	void rightPath(Direction const& dir);
+
+
+	static const int LOAD_SPEED = 8;
+	std::vector<std::string> BABA_MOVE_SOUND = { "sound/043.ogg", "sound/044.ogg", "sound/045.ogg", "sound/046.ogg" };
+	std::string  WIN_SOUND = "sound/042.ogg";
+	std::string  LOAD_SOUND = "sound/026.ogg"; // 26
+	std::string  THEME_SOUND = "sound/theme_soundtrack.mp3";
+
+
 	std::pair<int, int> currentTile;
 	Direction currentDirection;
 	int mapWidth;
@@ -73,8 +83,11 @@ private:
 
 	bool loaded;
 	bool unloaded;
+	bool firstLoad;
+	
 	std::vector<std::pair<int, int>> cols;
-	irrklang::ISoundEngine* engine;
+	static irrklang::ISoundEngine* engine;
+	Text winText;
 	CellMatrix map;
 };
 

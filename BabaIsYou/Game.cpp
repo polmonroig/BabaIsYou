@@ -37,6 +37,8 @@ void Game::keyPressed(int key)
 {
 	if (key == 27) // Escape code
 		bPlay = false;
+	if (key == 'r')
+		scene->restart();
 
 	keys[key] = true;
 }

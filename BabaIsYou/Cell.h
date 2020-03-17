@@ -47,6 +47,8 @@ public:
 	
 	void setBackground(float posX, float posY, float width, float height);
 
+	void free();
+
 private:
 
 	Tile upperTile;

@@ -167,7 +167,7 @@ CollisionType Tile::collide(Tile const& other) const {
 }
 
 void Tile::free(){
-	animation->removeReference();
+	resetInteractions();
 	glDeleteBuffers(1, &vbo);
 }
 

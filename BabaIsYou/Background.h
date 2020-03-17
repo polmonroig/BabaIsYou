@@ -12,6 +12,7 @@ public:
 	Background(float x, float y, float width, float height);
 	void init();
 	void render();
+	void free();
 
 private:
 	

@@ -9,6 +9,10 @@ Background::Background(float xPos, float yPos, float width, float height) {
 }
 
 
+void Background::free() {
+	glDeleteBuffers(1, &vbo);
+}
+
 void Background::init() {
 
 	float vertices[12] = { xPos, yPos,

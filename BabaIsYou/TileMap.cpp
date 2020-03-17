@@ -1,23 +1,23 @@
 #include "TileMap.h"
 
 
+irrklang::ISoundEngine* TileMap::engine;
+
 TileMap::TileMap(float winHeight, float winWidth) {
     windowHeight = winHeight;
 	windowWidth = winWidth;
     loaded = false;
+    firstLoad = true;
     unloaded = true;
-
 }
 
 void TileMap::initSound() {
     engine = irrklang::createIrrKlangDevice();
-    if (engine)
-        engine->play2D("sound/theme_soundtrack.mp3", true);
+    //if (engine)
+       // engine->play2D(THEME_SOUND.c_str(), true);
 }
 
 void TileMap::init(std::string const& fileName, float width, float height) {
-
-    std::cout << "Window Size: " << width << ", " << height << std::endl;
     
     std::ifstream file;
     file.open(fileName);
@@ -125,9 +125,17 @@ void TileMap::applyInteraction(int nameType, int operatorType, int actionType) {
 }
 
 void TileMap::free() {
+
+    // free cells
+    for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            map[i][j].free();
+        }
+    }
+    
+    // free sound 
     if (engine) {
-        engine->stopAllSounds();
-        engine->drop();
+       // engine->stopAllSounds();
     }
    
 }
@@ -193,7 +201,6 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
     int newTileJ = j + xMove;
     
     if (insideMap(newTileI, newTileJ)) {
-        std::cout << "Moving: " << i << ", " << j << std::endl;
         auto collision = map[i][j].collide(map[newTileI][newTileJ]);
         if (collision == CollisionType::None) { // empty tile 
             map[i][j].move(dir);
@@ -214,7 +221,8 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
             map[i][j].destroyMovedTile();
         }
         else if (collision == CollisionType::Win) {
-            ServiceLocator::endGame();
+            if(engine)engine->play2D(WIN_SOUND.c_str(), false);
+            unloaded = false;
         }
     }
     
@@ -227,7 +235,7 @@ void TileMap::move() {
     bool moved = moveTile(currentDirection, currentTile.first, currentTile.second);
     if (moved) {
         if(engine)
-            engine->play2D("sound/002.ogg", false);
+            engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
     }
 } 
 
@@ -288,11 +296,11 @@ void TileMap::downPath(Direction const& dir) {
 
 void TileMap::leftPath(Direction const& dir) {
     for (int j = 0; j < mapWidth; ++j) {
-        for (int i = 0; i < mapHeight; ++i) {
-            currentTile.first = i;
-            currentTile.second = j;
-            map[i][j].interact();
-        }
+for (int i = 0; i < mapHeight; ++i) {
+    currentTile.first = i;
+    currentTile.second = j;
+    map[i][j].interact();
+}
     }
 }
 
@@ -328,7 +336,7 @@ void TileMap::movePlayerTiles(Direction const& dir) {
 }
 
 
-void TileMap::renderRow(int row) {
+bool TileMap::renderRow(int row) {
     int dir = cols[row].second;
     int iterations = 0;
     if (dir < 0) {
@@ -343,12 +351,13 @@ void TileMap::renderRow(int row) {
             iterations++;
         }
     }
- 
-    if (iterations < mapWidth)loaded = false;
+
+    if (iterations < mapWidth)return false;
+    return true;
 }
 
 void TileMap::loadMap() {
-    
+
     for (int i = 0; i < LOAD_SPEED; ++i) {
         int selectedRow = std::rand() % mapHeight;
         if (cols[selectedRow].second == 0) {
@@ -369,13 +378,10 @@ void TileMap::loadMap() {
 
     loaded = true;
     for (int i = 0; i < mapWidth; ++i) {
-        if (cols[i].second != 0)renderRow(i);
+        if (cols[i].second != 0)loaded = renderRow(i) & loaded;
     }
 }
 
-void TileMap::unloadMap() {
-  
-}
 
 void TileMap::renderTiles() {
     for (int i = 0; i < mapHeight; ++i) {
@@ -386,18 +392,41 @@ void TileMap::renderTiles() {
 
 }
 
-void TileMap::cleanMap() {
-    unloaded = false;
+
+bool TileMap::unloadMap() {
+    for (int i = 0; i < LOAD_SPEED; ++i) {
+        int selectedRow = std::rand() % mapHeight;
+        if ((cols[selectedRow].first == 0 && cols[selectedRow].second == 1) 
+            || (cols[selectedRow].first == mapWidth - 1 && cols[selectedRow].second == -1)){
+            cols[selectedRow].second = 0;
+        }
+        else {
+            cols[selectedRow].first -= cols[selectedRow].second;
+            if (cols[selectedRow].first < 0)cols[selectedRow].first = 0;
+            else if (cols[selectedRow].first >= mapWidth)cols[selectedRow].first = mapWidth - 1;
+        }
+    }
+
+    unloaded = true;
+    for (int i = 0; i < mapWidth; ++i) {
+        if (cols[i].second != 0)unloaded = renderRow(i) & unloaded;
+    }
+    return unloaded;
 }
+
 
 void TileMap::render() {
  
     if (!loaded) {
+        if (firstLoad && engine){
+            engine->play2D(LOAD_SOUND.c_str(), false);
+            firstLoad = false;
+        }
         loadMap();
         if(loaded)updateInteractions();
     }
     else if (!unloaded) {
-
+        if(unloadMap())ServiceLocator::endGame();
     }
     else {
         renderTiles();
