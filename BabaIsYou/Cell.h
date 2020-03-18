@@ -21,11 +21,8 @@ public:
 
 	void add(Tile& t);
 
-	void move(Cell& dir);
-
-	void pushType(Type const& old, Type const& newT) {
-
-	}
+	std::pair<bool, bool> move(Cell& dir);
+	std::pair<bool, bool> moveMarked(Cell& dir);
 
 	void render();
 

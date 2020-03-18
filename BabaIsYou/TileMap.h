@@ -55,8 +55,11 @@ private:
 	void updateInteractions();
 	bool renderRow(int row);
 	void renderTiles();
+	bool moveMarked(std::pair<int, int> const& pos, Direction const& dir);
 	void loadMap();
 	bool unloadMap();
+
+	void tryMove(int i, int j, Direction const& dir);
 
 	void upPath(Direction const& dir);
 	void downPath(Direction const& dir);

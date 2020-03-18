@@ -126,7 +126,6 @@ Type const& TileMap::getBottomType(std::pair<int, int> const& pos) const {
 
 
 void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir)  {
-    std::cout << "start_find_interaction" << std::endl;
     auto operatorPos = Direction::move(namePos, dir);
     if (insideMap(operatorPos) ){
         if (map[operatorPos.first][operatorPos.second].hasCategory(AnimationsManager::OPERATOR)) {
@@ -146,7 +145,6 @@ void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir
             }
         }
     }
-    std::cout << "send_find_interaction" << std::endl;
 }
 
 void TileMap::updateInteractions()  {
@@ -202,8 +200,7 @@ bool TileMap::moveTile(Direction const& dir, int i, int j) {
 
 void TileMap::move() {
    /* if (moved) {
-        if(engine)
-            engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+       
     }*/
 } 
 
@@ -231,13 +228,56 @@ void TileMap::reset() {
 
 }
 
+bool TileMap::moveMarked(std::pair<int, int> const& pos, Direction const& dir) {
+    auto newPos = Direction::move(pos, dir);
+    if (insideMap(newPos)) {
+        auto canMove = map[pos.first][pos.second].moveMarked(map[newPos.first][newPos.second]);
+        if (canMove.first && canMove.second) { // can be moved
+            // move(pos.first, pos.second)
+            if (engine)
+                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+        }
+        else if (canMove.first) { // can move if marked
+            bool moved = moveMarked(newPos, dir);
+            if (moved && engine) {
+                // move(pos.first, pos.second)
+                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+            }
+                
+        }
+        else {
+            bool moved = moveMarked(newPos, dir); // move marked
+        }
+    } 
+}
+
+void TileMap::tryMove(int i, int j, Direction const& dir) {
+    auto newPos = Direction::move({ i, j }, dir);
+    if (insideMap(newPos)) {
+        auto canMove = map[i][j].move(map[newPos.first][newPos.second]);
+        if (canMove.first && canMove.second) { // can be moved
+            // move(i, j)
+            if (engine)
+                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+        }
+        else if (canMove.first) { // can move if marked
+            bool moved = moveMarked(newPos, dir);
+            if (moved && engine) {
+                // move(i, j)
+                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+            }
+                
+        }
+        else {
+            bool moved = moveMarked(newPos, dir); // move marked
+        }
+    }
+}
+
 void TileMap::upPath(Direction const& dir) {
     for (int i = 0; i < mapHeight; ++i) {
         for (int j = 0; j < mapWidth; ++j) {
-            auto newPos = Direction::move({ i, j }, dir);
-            if (insideMap(newPos)) {
-                map[i][j].move(map[newPos.first][newPos.second]);
-            }
+            tryMove(i, j, dir);
         }
     }
 }
@@ -245,10 +285,7 @@ void TileMap::upPath(Direction const& dir) {
 void TileMap::downPath(Direction const& dir) {
     for (int i = mapHeight - 1; i >= 0; --i) {
         for (int j = 0; j < mapWidth; ++j) {
-            auto newPos = Direction::move({ i, j }, dir);
-            if (insideMap(newPos)) {
-                map[i][j].move(map[newPos.first][newPos.second]);
-            }
+            tryMove(i, j, dir);
         }
     }
 }
@@ -256,10 +293,7 @@ void TileMap::downPath(Direction const& dir) {
 void TileMap::leftPath(Direction const& dir) {
     for (int j = 0; j < mapWidth; ++j) {
         for (int i = 0; i < mapHeight; ++i) {
-            auto newPos = Direction::move({ i, j }, dir);
-            if (insideMap(newPos)) {
-                map[i][j].move(map[newPos.first][newPos.second]);
-            }
+            tryMove(i, j, dir);
         }
     }
 }
@@ -267,11 +301,7 @@ void TileMap::leftPath(Direction const& dir) {
 void TileMap::rightPath(Direction const& dir) {
     for (int j = mapWidth - 1; j >= 0; --j) {
         for (int i = 0; i < mapHeight; ++i) {
-            auto newPos = Direction::move({ i, j }, dir);
-            if (insideMap(newPos)) {
-                map[i][j].move(map[newPos.first][newPos.second]);
-            }
-
+            tryMove(i, j, dir);
         }
     }
 }

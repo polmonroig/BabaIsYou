@@ -12,6 +12,10 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	pushType(tileType);
 }
 
+void Tile::setFlag(bool value) {
+	flag = value;
+}
+
 
 Type const& Tile::getType() const {
 	if (types.empty()) {

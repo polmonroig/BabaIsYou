@@ -37,8 +37,13 @@ void Cell::setBackground(float posX, float posY, float width, float height) {
 	tileBackground.init();
 }
 
+std::pair<bool, bool> Cell::moveMarked(Cell& dir) {
 
-void Cell::move(Cell& dir) {
+}
+
+// canMove = {currentTile could move if the next tile can move, nextTile can Move or should move}
+std::pair<bool, bool> Cell::move(Cell& dir) {
+	std::pair<bool, bool> canMove{true, true};
 	for (auto& tile : tiles) {
 		if (InteractionsTable::find(tile.getType(), YouInteraction::YOU_ID)) {
 			for (auto& otherTile : dir.tiles) {
@@ -49,6 +54,7 @@ void Cell::move(Cell& dir) {
 			}
 		}
 	}
+	return canMove;
 }
 
 

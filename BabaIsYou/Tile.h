@@ -27,6 +27,7 @@ public:
 
 	Type const& getType() const;
 
+	void setFlag(bool value);
 
 	void setIlum(float value);
 	
@@ -45,6 +46,8 @@ private:
 	AnimatedSprite* animation;
 
 	TypeStack types;
+
+	bool flag;
 	
 
 	
