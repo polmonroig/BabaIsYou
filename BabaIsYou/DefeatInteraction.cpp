@@ -1,10 +1,12 @@
 #include "DefeatInteraction.h"
 
 
-DefeatInteraction::DefeatInteraction(Cell* movableTile) {
-	movable = movableTile;
+
+
+void DefeatInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
 }
 
-void DefeatInteraction::interact() {
-	movable->setCollisionType(CollisionType::Destroy);
+int DefeatInteraction::ID() const{
+	return DEFEAT_ID;
 }

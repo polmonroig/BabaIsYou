@@ -1,11 +1,11 @@
-#include "MoveInteraction.h"
+#include "YouInteraction.h"
 
 
 
-MoveInteraction::MoveInteraction(TileMap* map) {
-	mapReference = map;
+void YouInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
 }
 
-void MoveInteraction::interact() {
-	mapReference->move();
+int YouInteraction::ID() const {
+	return YOU_ID;
 }

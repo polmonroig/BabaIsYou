@@ -2,20 +2,20 @@
 #define DEFEAT_INTERACTION_H
 
 #include "Interaction.h"
-#include "Cell.h"
 
 class DefeatInteraction : public Interaction {
 
 public:
 
-	DefeatInteraction(Cell* movableTile);
+	virtual void interact(Tile& movedTile, Tile& otherTile) final;
 
-	virtual void interact() final;
 
+	virtual int ID() const  final;
+
+	static const int DEFEAT_ID = 0;
 
 private:
 
-	Cell* movable;
 
 };
 

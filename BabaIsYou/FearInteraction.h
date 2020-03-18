@@ -3,22 +3,22 @@
 
 
 #include "Interaction.h"
-#include "TileMap.h"
 
-
-class TileMap;
 
 class FearInteraction : public Interaction {
 
 public:
 
-	FearInteraction(TileMap* map, int enemy);
+	FearInteraction(int enemy);
 
-	virtual void interact() final;
+	virtual void interact(Tile& movedTile, Tile& otherTile) final;
+
+	virtual int ID()const  final;
+
+	static const int FEAR_ID = 1;
 
 private:
 
-	TileMap* mapReference;
 	int enemyType;
 
 };

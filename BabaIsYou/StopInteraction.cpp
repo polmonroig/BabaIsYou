@@ -2,10 +2,11 @@
 
 
 
-StopInteraction::StopInteraction(Cell* movableTile) {
-	movable = movableTile;
+void StopInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
 }
 
-void StopInteraction::interact() {
-	movable->setCollisionType(CollisionType::Fixed);
+int StopInteraction::ID() const {
+	return STOP_ID;
+
 }

@@ -1,16 +1,20 @@
 #ifndef INTERACTION_H 
 #define INTERACTION_H 
 
+#include "Tile.h"
+
+
 
 class Interaction{
 
 public:
 
-
-	virtual void interact() = 0;
-
-
 	
+	virtual int ID() const = 0;
+
+	virtual void interact(Tile& movedTile, Tile& otherTile) = 0;
+
+
 
 };
 

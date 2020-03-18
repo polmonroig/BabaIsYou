@@ -2,14 +2,6 @@
 #include <GL/gl.h>
 #include "Tile.h"
 
-Tile::Tile() {
-	isActive = false;
-	types = std::stack<int>();
-	iluminationMultiplier = 1;
-}
-
-
-
 
 Tile::Tile(float x, float y, float width, float height, int tileType){
 	xPos = x;
@@ -17,35 +9,21 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
-	collisionType = CollisionType::None;
-
-	types = std::stack<int>();
 	pushType(tileType);
 }
 
 
-int Tile::getType() const {
+Type const& Tile::getType() const {
 	if (types.empty()) {
-		return 9;
+		std::cout << "ERRROOOR" << std::endl;
 	}
-	else {
-		return types.top();
-	}
-	
+	std::cout << types.top().id << std::endl;
+	return types.top();
 }
 
-void Tile::resetInteractions() {
-	iluminationMultiplier = 1.0f;
-	for (auto & it : interactions)delete it;
-	interactions.clear();
-	collisionType = CollisionType::None;
-	resetTypes();
-}
 
 void Tile::init() {
-	isActive = true;
 	float* vertices = calculateVertices();
-	
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	sendVertices();
@@ -53,14 +31,6 @@ void Tile::init() {
 	posLocation = shaderM->bindVertexAttribute("position", 3, 5 * sizeof(float), 0);
 	texCoordLocation = shaderM->bindVertexAttribute( "texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
-}
-
-void Tile::setCollisionType(CollisionType const& t) {
-	collisionType = t;
-}
-
-CollisionType Tile::getCollisionType() const {
-	return collisionType;
 }
 
 
@@ -96,14 +66,8 @@ void Tile::pushType(int type) {
 	
 }
 
-void Tile::resetTypes() {
-	animation->removeReference();
-	while (types.size() > 1)types.pop();
-	setAnimation();
-}
-
 void Tile::setAnimation() {
-	int animType = (types.top() / 10) - 1;
+	int animType = types.getID() - 1;
 	auto manager = ServiceLocator::getAnimationsManager();
 	animation = manager->getAnimatedSprite(animType);
 	animation->addReference();
@@ -121,54 +85,23 @@ void Tile::sendVertices() {
 	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
 }
 
-void Tile::setActive(bool value) {
-	isActive = value;
-}
 
-bool Tile::getActive() const{
-	return isActive;
-}
-
-void Tile::addInteraction(Interaction*inter) {
-	interactions.push_back(inter);
-}
 
 void Tile::render(){
-	if (isActive) {
-		sendVertices();
-		auto color = animation->getColor();
-		ServiceLocator::getShaderManager()->setUniform( "color", color.x *iluminationMultiplier, color.y * iluminationMultiplier, color.z * iluminationMultiplier);
-		animation->render();
-		glBindVertexArray(vao);
-		glEnableVertexAttribArray(posLocation);
-		glEnableVertexAttribArray(texCoordLocation);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-	}
+	sendVertices();
+	auto color = animation->getColor();
+	ServiceLocator::getShaderManager()->setUniform( "color", color.x *iluminationMultiplier, color.y * iluminationMultiplier, color.z * iluminationMultiplier);
+	animation->render();
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(texCoordLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	
 }
 
-void Tile::interact() {
-	for (auto it = interactions.begin(); interactions.size() > 0 && it != interactions.end(); ++it) {
-		(*it)->interact();
-	}
-}
-
-bool Tile::isCategory(int t) const {
-	if (types.empty())return false;
-	return (types.top() % 10) == t;
-}
-
-
-// pre: the two tiles are adjecent and the current tile is 
-//		moved toward the second tile => thus it collides unles 
-//		it is inactive 
-CollisionType Tile::collide(Tile const& other) const {
-	if (collisionType == CollisionType::Win)return collisionType;
-	return other.getCollisionType();
-}
 
 void Tile::free(){
-	resetInteractions();
+	//animation->removeReference();
 	glDeleteBuffers(1, &vbo);
 }
 

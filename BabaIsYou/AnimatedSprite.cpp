@@ -73,11 +73,12 @@ glm::vec3 AnimatedSprite::getColor() const {
 }
 
 void AnimatedSprite::removeReference() {
+
 	references--;
 }
 
 void AnimatedSprite::render() {
-
+	
 	if (frame_counter >= max_frame * references) {
 		frame_counter = 0;
 		current_sprite = (current_sprite + 1) % sprites.size();

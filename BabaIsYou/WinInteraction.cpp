@@ -1,10 +1,11 @@
 #include "WinInteraction.h"
 
 
-WinInteraction::WinInteraction(Cell* movableTile) {
-	movable = movableTile;
+void WinInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
 }
 
-void WinInteraction::interact() {
-	movable->setCollisionType(CollisionType::Win);
+int WinInteraction::ID() const {
+	return WIN_ID;
+
 }

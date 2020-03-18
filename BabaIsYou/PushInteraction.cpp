@@ -2,10 +2,10 @@
 
 
 
-PushInteraction::PushInteraction(Cell* movableTile) {
-	movable = movableTile;
+void PushInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
 }
 
-void PushInteraction::interact()  {
-	movable->setCollisionType(CollisionType::Moveable);
+int PushInteraction::ID() const {
+	return PUSH_ID;
 }

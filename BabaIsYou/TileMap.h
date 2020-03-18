@@ -10,14 +10,9 @@
 #pragma comment(lib, "irrKlang.lib")
 
 
+
 #include "Direction.h"
-#include "MoveInteraction.h"
-#include "PushInteraction.h"
-#include "DefeatInteraction.h"
-#include "WinInteraction.h"
-#include "FearInteraction.h"
-#include "StopInteraction.h"
-#include "Text.h"
+
 #include "Cell.h"
 
 
@@ -50,13 +45,11 @@ private:
 	typedef std::vector<Cell*> CellRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
-	void applyInteraction(int nameType, int operatorType, int actionType);
-	int getUpperType(std::pair<int, int> pos)const;
-	bool insideMap(int posX, int posY);
+	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType)const;
+	bool insideMap(std::pair<int, int> const& pos)const;
 
 	bool moveTile(Direction const& dir,  int i, int j);
-	void resetInteractions();
-	void applyInteractionType(int i, int j, int nameType, int operatorType, int actionType);
+	Type const& getBottomType(std::pair<int, int> const& pos)const;
 	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
 	void initSound();
 	void updateInteractions();
@@ -78,9 +71,6 @@ private:
 	std::string  LOAD_SOUND = "sound/026.ogg"; // 26
 	std::string  THEME_SOUND = "sound/theme_soundtrack.mp3";
 
-
-	std::pair<int, int> currentTile;
-	Direction currentDirection;
 	int mapWidth;
 	int windowHeight;
 	int windowWidth;
@@ -95,9 +85,9 @@ private:
 	std::vector<std::pair<int, int>> cols;
 	static irrklang::ISoundEngine* engine;
 	static  irrklang::ISound* backgroundMusic;
-	Text winText;
+
 	CellMatrix map;
-	CellRefVector rules;
+	CellRefVector names;
 };
 
 

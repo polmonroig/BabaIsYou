@@ -1,10 +1,17 @@
 #include "FearInteraction.h"
 
-FearInteraction::FearInteraction(TileMap* map, int enemy) {
-	mapReference = map;
+
+FearInteraction::FearInteraction(int enemy) {
 	enemyType = enemy;
 }
 
-void FearInteraction::interact()  {
-	mapReference->escape(enemyType);
+
+void FearInteraction::interact(Tile& movedTile, Tile& otherTile) {
+
+}
+
+
+
+int FearInteraction::ID() const {
+	return FEAR_ID;
 }

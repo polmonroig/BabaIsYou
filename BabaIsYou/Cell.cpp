@@ -1,36 +1,34 @@
 #include "Cell.h"
 
 
-Cell::Cell(int i, int j, Tile & tile) {
-	lowerTile = tile;
-	upperTile = Tile();
-	lowerTile.init();
-	interacted = false;
+Cell::Cell(int i, int j) {
 	index = { i, j };
 }
 
-std::pair<int, int> Cell::getIndex() const{
-	return index; 
+void Cell::setIlum(float ilum) {
+	for (auto& tile : tiles) {
+		tile.setIlum(ilum);
+	}
 }
 
-void Cell::setCollider() {
-	if (!upperTile.getActive()) {
-		upperTile = lowerTile;
-		lowerTile = Tile();
+
+void Cell::add(Tile & t) {
+	t.init();
+	tiles.insert(tiles.begin(), t);
+}
+
+std::vector<Type> const& Cell::getTypes() const {
+	std::vector<Type> types;
+	types.reserve(tiles.size());
+	for (auto const& tile : tiles) {
+		types.push_back(tile.getType());
 	}
 	
+	return types;
 }
 
-void Cell::unsetCollider() {
-	if (!lowerTile.getActive()) {
-		lowerTile = upperTile;
-		upperTile = Tile();
-	}
-}
-
-
-void Cell::setIlum(float ilum) {
-	upperTile.setIlum(ilum);
+std::pair<int, int>const& Cell::getIndex() const {
+	return index;
 }
 
 
@@ -39,48 +37,31 @@ void Cell::setBackground(float posX, float posY, float width, float height) {
 	tileBackground.init();
 }
 
-void Cell::pushType(int type) {
-	upperTile.pushType(type);
+
+void Cell::move(Cell& dir) {
+	for (auto& tile : tiles) {
+		if (InteractionsTable::find(tile.getType(), YouInteraction::YOU_ID)) {
+			for (auto& otherTile : dir.tiles) {
+				auto interactions = InteractionsTable::getInteractions(otherTile.getType());
+				for (auto const& it : interactions) {
+					it->interact(tile, otherTile);
+				}
+			}
+		}
+	}
 }
 
-void Cell::resetInteractions() {
-	interacted = false;
-	if (lowerTile.getActive() && lowerTile.isCategory(AnimationsManager::SPRITE))
-		lowerTile.resetInteractions();
-	if (upperTile.getActive() && upperTile.isCategory(AnimationsManager::SPRITE)) {
-		upperTile.resetInteractions();
+
+bool Cell::hasCategory(int c) const {
+	for (auto const& tile : tiles) {
+		auto type = tile.getType();
+		if (type.category == c)return true;
 	}
-		
-
-
-}
-
-void Cell::move(Direction const& dir) {
-	upperTile.move(dir);
-}
-
-CollisionType Cell::collide(Cell const& collisionCell) const {
-
-	if (collisionCell.upperTile.getActive()) {
-		return upperTile.collide(collisionCell.upperTile);
-	}
-	else if (collisionCell.lowerTile.getActive()) {
-		return upperTile.collide(collisionCell.lowerTile);
-	}
-	else return CollisionType::None;
-}
-
-void Cell::interact() {
-	if (!interacted) {
-		upperTile.interact();
-		interacted = true;
-	}
-	
+	return false;
 }
 
 void Cell::free() {
-	if(upperTile.getActive())upperTile.free();
-	if(lowerTile.getActive())lowerTile.free();
+	for (auto& tile : tiles)tile.free();
 	tileBackground.free();
 }
 
@@ -89,38 +70,6 @@ void Cell::render(){
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
 	tileBackground.render();
 	shaderManager->use(ShaderManager::TILE_PROGRAM);
-	lowerTile.render();
-	upperTile.render();
+	for (auto& tile : tiles)tile.render();
 }
 
-void Cell::addMovedTile(Cell const& movedCell) {
-	if (upperTile.getActive())lowerTile = upperTile;
-	upperTile = movedCell.upperTile;
-}
-
-bool Cell::isCateogry(int t) const {
-	return upperTile.isCategory(t);
-}
-
-std::pair<int, int> Cell::getType() const {
-	return { lowerTile.getType(), upperTile.getType() };
-}
-
-
-void Cell::destroyMovedTile() {
-	upperTile.free();
-	removeMovedTile();
-}
-
-void Cell::removeMovedTile() {
-	upperTile = Tile();
-}
-
-void Cell::setCollisionType(CollisionType const& type) {
-	upperTile.setCollisionType(type);
-}
-
-
-void Cell::addInteraction(Interaction* inter) {
-	upperTile.addInteraction(inter);
-}

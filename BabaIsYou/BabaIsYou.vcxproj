@@ -156,7 +156,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameProgram.cpp" />
     <ClCompile Include="Interaction.cpp" />
+    <ClCompile Include="InteractionsTable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NullInteraction.cpp" />
     <ClCompile Include="PushInteraction.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="MoveInteraction.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TypeStack.cpp" />
     <ClCompile Include="WinInteraction.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +186,11 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameProgram.h" />
     <ClInclude Include="Interaction.h" />
+    <ClInclude Include="InteractionsTable.h" />
+    <ClInclude Include="NullInteraction.h" />
     <ClInclude Include="PushInteraction.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="MoveInteraction.h" />
+    <ClInclude Include="YouInteraction.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
@@ -196,6 +201,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TypeStack.h" />
     <ClInclude Include="WinInteraction.h" />
   </ItemGroup>
   <ItemGroup>

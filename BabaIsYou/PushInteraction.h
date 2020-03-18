@@ -2,20 +2,18 @@
 #define MOVABLE_INTERACTION_H
 
 #include "Interaction.h"
-#include "Cell.h"
 
 class PushInteraction : public Interaction{
 
 public:
 
-	PushInteraction(Cell* movableTile);
 
-	virtual void interact() final;
+	virtual void interact(Tile& movedTile, Tile& otherTile) final;
 
+	virtual int ID()const  final;
 
-private:
+	static const int PUSH_ID = 3;
 
-	Cell* movable;
 
 };
 

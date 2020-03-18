@@ -1,10 +1,10 @@
-#ifndef STOP_INTERACTION_H
-#define STOP_INTERACTION_H
+#ifndef MOVE_INTERACTION_H
+#define MOVE_INTERACTION_H 
 
 #include "Interaction.h"
 
 
-class StopInteraction : public Interaction {
+class YouInteraction : public Interaction{
 
 public:
 
@@ -12,11 +12,13 @@ public:
 
 	virtual int ID()const  final;
 
-	static const int STOP_ID = 4;
+	static const int YOU_ID = 2;
 
+private:
 
 
 };
 
 
 #endif 
+

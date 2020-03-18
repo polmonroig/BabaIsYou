@@ -3,6 +3,13 @@
 
 #include "Tile.h"
 #include "Background.h"
+#include "YouInteraction.h"
+#include "PushInteraction.h"
+#include "DefeatInteraction.h"
+#include "WinInteraction.h"
+#include "FearInteraction.h"
+#include "StopInteraction.h"
+#include "InteractionsTable.h"
 
 class Cell{
 
@@ -10,51 +17,36 @@ public:
 
 	Cell() = default;
 
-	explicit Cell(int i, int j, Tile & tile);
+	Cell(int i, int j);
 
-	void setCollider();
+	void add(Tile& t);
 
-	void unsetCollider();
+	void move(Cell& dir);
 
-	void move(Direction const& dir);
+	void pushType(Type const& old, Type const& newT) {
 
-	std::pair<int, int> getIndex() const;
-
-	CollisionType collide(Cell const& collisionCell) const;
-
-	void addMovedTile(Cell const& movedCell);
-
-	void removeMovedTile();
-
-	void destroyMovedTile();
+	}
 
 	void render();
 
+	std::vector< Type>const& getTypes() const;
+
+	bool hasCategory(int c) const;
+
+
 	void setIlum(float ilum);
 
-	void interact();
-
-	void addInteraction(Interaction* inter);
-
-	bool isCateogry(int t) const;
-
-	void setCollisionType(CollisionType const& type);
-
-	std::pair<int, int>  getType() const;
-
-	void resetInteractions();
-
-	void pushType(int type);
-	
 	void setBackground(float posX, float posY, float width, float height);
+
+	std::pair<int, int>const& getIndex() const;
 
 	void free();
 
 private:
 
-	Tile upperTile;
-	Tile lowerTile;
 	std::pair<int, int> index;
+
+	std::list<Tile> tiles;
 	Background tileBackground;
 
 	bool interacted;
