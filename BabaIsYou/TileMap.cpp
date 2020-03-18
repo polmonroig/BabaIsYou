@@ -77,33 +77,25 @@ bool TileMap::isRestarting() const {
 }
 
 void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType) const{
-    std::cout << "Start_applyInteraction" << std::endl;
+    Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, nameType.category);
    if (operatorType.id == AnimationsManager::FEAR) {
-       std::cout << "A" << std::endl;
-        InteractionsTable::insert(nameType, new FearInteraction(actionType.id - AnimationsManager::N_SPRITES));
+        InteractionsTable::insert(realType, new FearInteraction(actionType.id - AnimationsManager::N_SPRITES));
     }
     else if (actionType.id == AnimationsManager::STOP) {
-       std::cout << "B" << std::endl;
-        InteractionsTable::insert(nameType, new StopInteraction());
+        InteractionsTable::insert(realType, new StopInteraction());
     }
     else if (actionType.id == AnimationsManager::PUSH) {
-       std::cout << "C" << std::endl;
-        InteractionsTable::insert(nameType, new PushInteraction());
+        InteractionsTable::insert(realType, new PushInteraction());
     }
     else if (actionType.id == AnimationsManager::YOU) {
-       std::cout << "D" << std::endl;
-        InteractionsTable::insert(nameType, new YouInteraction());
+        InteractionsTable::insert(realType, new YouInteraction());
     }
     else if (actionType.id == AnimationsManager::WIN || actionType.id == AnimationsManager::PLAY) {
-       std::cout << "F" << std::endl;
-        InteractionsTable::insert(nameType, new WinInteraction());
+        InteractionsTable::insert(realType, new WinInteraction());
     }
     else if (actionType.id == AnimationsManager::DEFEAT) {
-       std::cout << "G" << std::endl;
-        InteractionsTable::insert(nameType, new DefeatInteraction());
-        std::cout << "G" << std::endl;
+        InteractionsTable::insert(realType, new DefeatInteraction());
     }
-    std::cout << "End_applyInteraction" << std::endl;
     // ELSE IF = > OPERATOR = IS AND ACTIONTYPE = NAME => PUSH TYPE 
 }
 
@@ -119,15 +111,15 @@ void TileMap::free() {
    
 }
 
-Type const& TileMap::getBottomType(std::pair<int, int> const& pos) const {
+Type TileMap::getBottomType(std::pair<int, int> const& pos) const {
     auto types = map[pos.first][pos.second].getTypes();
     return types[0];
 }
 
 
-void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir)  {
+void TileMap::findInteractions(std::pair<int, int> const& namePos, Direction const& dir)  {
     auto operatorPos = Direction::move(namePos, dir);
-    if (insideMap(operatorPos) ){
+    if (map[namePos.first][namePos.second].hasCategory(AnimationsManager::NAME) && insideMap(operatorPos) ){
         if (map[operatorPos.first][operatorPos.second].hasCategory(AnimationsManager::OPERATOR)) {
             auto actionPos = Direction::move(operatorPos, dir);
             if (insideMap(actionPos)) {
@@ -148,61 +140,14 @@ void TileMap::findInteractions(std::pair<int, int> namePos, Direction const& dir
 }
 
 void TileMap::updateInteractions()  {
-
     for (int i = 0; i < names.size(); ++i) {
         findInteractions(names[i]->getIndex(), DirectionType::DOWN);
         findInteractions(names[i]->getIndex(), DirectionType::RIGHT);
     }
-
-}
-
-
-bool TileMap::moveTile(Direction const& dir, int i, int j) {
-    bool moved = false;
-   /* auto dirPair = dir.getDir();
-    
-    int xMove = dirPair.first;
-    int yMove = dirPair.second;
-    int newTileI = i + yMove;
-    int newTileJ = j + xMove;
-    
-    if (insideMap(newTileI, newTileJ)) {
-        auto collision = map[i][j].collide(map[newTileI][newTileJ]);
-        if (collision == CollisionType::None) { // empty tile 
-            map[i][j].move(dir);
-            map[newTileI][newTileJ].addMovedTile(map[i][j]);
-            map[i][j].removeMovedTile();
-            moved = true;
-        }
-        else if (collision == CollisionType::Moveable) {
-            if (moveTile(dir, newTileI, newTileJ)) {
-                map[i][j].move(dir); // check if can be moved correctly 
-                map[newTileI][newTileJ].addMovedTile(map[i][j]);
-                map[i][j].removeMovedTile();
-                moved = true;
-            }
-
-        }
-        else if (collision == CollisionType::Destroy) {
-            map[i][j].destroyMovedTile();
-            moved = true;
-        }
-        else if (collision == CollisionType::Win) {
-            if(engine)engine->play2D(WIN_SOUND.c_str(), false);
-            unloaded = false;
-        }
-    }
-    */
-    return moved;
 }
 
 
 
-void TileMap::move() {
-   /* if (moved) {
-       
-    }*/
-} 
 
 void TileMap::escape(int enemyType) {
    /* std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
@@ -228,47 +173,69 @@ void TileMap::reset() {
 
 }
 
+void TileMap::moveTile(std::pair<int, int> const& initialPos, Direction const& dir) {
+    auto dirPair = dir.getDir();
+    int xMove = dirPair.first;
+    int yMove = dirPair.second;
+    int newTileI = initialPos.first + yMove;
+    int newTileJ = initialPos.second + xMove;
+   /*std::cout << "IntitialPos: " << initialPos.first << ", " << initialPos.second << std::endl;
+    std::cout << "Newpos: " << newTileI << ", " << newTileJ << std::endl;*/
+    map[initialPos.first][initialPos.second].moveTo(map[newTileI][newTileJ], dir);
+}
+
 bool TileMap::moveMarked(std::pair<int, int> const& pos, Direction const& dir) {
-    auto newPos = Direction::move(pos, dir);
+    auto dirPair = dir.getDir();
+    int xMove = dirPair.first;
+    int yMove = dirPair.second;
+    int newTileI = pos.first + yMove;
+    int newTileJ = pos.second + xMove;
+    std::pair<int, int> newPos = { newTileI, newTileJ };
+    bool moved = true;
+    std::cout << "IntitialPos: " << pos.first << ", " << pos.second << std::endl;
+    std::cout << "Newpos: " << newTileI << ", " << newTileJ << std::endl;
     if (insideMap(newPos)) {
         auto canMove = map[pos.first][pos.second].moveMarked(map[newPos.first][newPos.second]);
         if (canMove.first && canMove.second) { // can be moved
-            // move(pos.first, pos.second)
-            if (engine)
-                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+            moveTile(pos, dir);
         }
         else if (canMove.first) { // can move if marked
-            bool moved = moveMarked(newPos, dir);
-            if (moved && engine) {
-                // move(pos.first, pos.second)
-                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+            moved = moveMarked(newPos, dir);
+            if (moved) {
+                moveTile(pos, dir);
             }
                 
         }
-        else {
-            bool moved = moveMarked(newPos, dir); // move marked
+        else if(canMove.second){
+            moved = moveMarked(newPos, dir); // move marked
         }
     } 
+    return moved;
 }
 
 void TileMap::tryMove(int i, int j, Direction const& dir) {
-    auto newPos = Direction::move({ i, j }, dir);
+    auto dirPair = dir.getDir();
+    int xMove = dirPair.first;
+    int yMove = dirPair.second;
+    int newTileI = i + yMove;
+    int newTileJ = j + xMove;
+    std::pair<int, int> newPos = { newTileI, newTileJ };
     if (insideMap(newPos)) {
         auto canMove = map[i][j].move(map[newPos.first][newPos.second]);
         if (canMove.first && canMove.second) { // can be moved
-            // move(i, j)
+            moveTile({ i, j}, dir);
             if (engine)
                 engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
         }
         else if (canMove.first) { // can move if marked
             bool moved = moveMarked(newPos, dir);
             if (moved && engine) {
-                // move(i, j)
+                moveTile({ i, j }, dir);
                 engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
             }
                 
         }
-        else {
+        else if (canMove.second) {
             bool moved = moveMarked(newPos, dir); // move marked
         }
     }

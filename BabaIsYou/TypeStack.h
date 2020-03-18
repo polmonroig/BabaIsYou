@@ -15,6 +15,11 @@ struct Type {
 		id = code / 10;
 	}
 
+	Type(int i, int c) {
+		category = c;
+		id = i;
+	}
+
 };
 
 

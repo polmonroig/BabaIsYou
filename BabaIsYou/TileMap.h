@@ -27,7 +27,6 @@ public:
 
 	void init(std::string const& fileName);
 	void movePlayerTiles(Direction const& dir);
-	void move();
 	void escape(int enemyType);
 	bool isRestarting() const;
 	void reset();
@@ -48,9 +47,9 @@ private:
 	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType)const;
 	bool insideMap(std::pair<int, int> const& pos)const;
 
-	bool moveTile(Direction const& dir,  int i, int j);
-	Type const& getBottomType(std::pair<int, int> const& pos)const;
-	void findInteractions(std::pair<int, int> namePos, Direction const& dir);
+	void moveTile(std::pair<int, int> const& initialPos, Direction const& dir);
+	Type getBottomType(std::pair<int, int> const& pos)const;
+	void findInteractions(std::pair<int, int> const& namePos, Direction const& dir);
 	void initSound();
 	void updateInteractions();
 	bool renderRow(int row);

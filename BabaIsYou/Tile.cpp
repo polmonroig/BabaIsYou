@@ -3,12 +3,17 @@
 #include "Tile.h"
 
 
+Tile::Tile() {
+	types.push(Type(9));
+}
+
 Tile::Tile(float x, float y, float width, float height, int tileType){
 	xPos = x;
 	iluminationMultiplier = 1;
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
+	types.push(Type(9));
 	pushType(tileType);
 }
 
@@ -16,12 +21,11 @@ void Tile::setFlag(bool value) {
 	flag = value;
 }
 
+bool Tile::getFlag() const {
+	return flag;
+}
 
-Type const& Tile::getType() const {
-	if (types.empty()) {
-		std::cout << "ERRROOOR" << std::endl;
-	}
-	std::cout << types.top().id << std::endl;
+Type Tile::getType() const {
 	return types.top();
 }
 

@@ -15,7 +15,7 @@ public:
 
 	
 
-	Tile()=default;
+	Tile();
 	Tile( float x, float y, float width, float height, int tileType);
 	void render();
 	void free();
@@ -25,9 +25,11 @@ public:
 
 	void pushType(int animtype);
 
-	Type const& getType() const;
+	Type getType() const;
 
 	void setFlag(bool value);
+	
+	bool getFlag() const;
 
 	void setIlum(float value);
 	

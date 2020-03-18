@@ -22,11 +22,12 @@ public:
 	void add(Tile& t);
 
 	std::pair<bool, bool> move(Cell& dir);
+	void moveTo(Cell& other, Direction const& dir);
 	std::pair<bool, bool> moveMarked(Cell& dir);
 
 	void render();
 
-	std::vector< Type>const& getTypes() const;
+	std::vector<Type> getTypes() const;
 
 	bool hasCategory(int c) const;
 
