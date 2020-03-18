@@ -29,7 +29,8 @@ void Scene::loadLevel() {
 	auto width = glutGet(GLUT_WINDOW_WIDTH);
 	auto height = glutGet(GLUT_WINDOW_HEIGHT);
 	map = TileMap(width, height);
-	map.init(fileName, width - 1, height - 1);
+	if (currentLevel == 0)map.setBackgroundMusic(true);
+	map.init(fileName);
 	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
 	currentTime = 0.0f;
 }

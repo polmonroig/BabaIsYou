@@ -28,9 +28,9 @@ public:
 
 	TileMap() = default;
 
-	TileMap(float leftMargin, float topMargin);
+	TileMap(float winWidth, float winHeight);
 
-	void init(std::string const& fileName, float width, float height);
+	void init(std::string const& fileName);
 	void movePlayerTiles(Direction const& dir);
 	void move();
 	void escape(int enemyType);
@@ -38,6 +38,7 @@ public:
 	void reset();
 	void render();
 	void free();
+	void setBackgroundMusic(bool value);
 
 
 private:
@@ -46,6 +47,7 @@ private:
 
 	// typedefs to simplify expressions
 	typedef std::vector<Cell> CellVector;
+	typedef std::vector<Cell*> CellRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
 	void applyInteraction(int nameType, int operatorType, int actionType);
@@ -86,13 +88,16 @@ private:
 
 	bool loaded;
 	bool unloaded;
+	bool playThemeSound;
 	static bool restarted;
 	bool firstLoad;
 	
 	std::vector<std::pair<int, int>> cols;
 	static irrklang::ISoundEngine* engine;
+	static  irrklang::ISound* backgroundMusic;
 	Text winText;
 	CellMatrix map;
+	CellRefVector rules;
 };
 
 

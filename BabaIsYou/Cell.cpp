@@ -1,11 +1,16 @@
 #include "Cell.h"
 
 
-Cell::Cell(Tile & tile) {
+Cell::Cell(int i, int j, Tile & tile) {
 	lowerTile = tile;
 	upperTile = Tile();
 	lowerTile.init();
 	interacted = false;
+	index = { i, j };
+}
+
+std::pair<int, int> Cell::getIndex() const{
+	return index; 
 }
 
 void Cell::setCollider() {
@@ -58,6 +63,9 @@ CollisionType Cell::collide(Cell const& collisionCell) const {
 
 	if (collisionCell.upperTile.getActive()) {
 		return upperTile.collide(collisionCell.upperTile);
+	}
+	else if (collisionCell.lowerTile.getActive()) {
+		return upperTile.collide(collisionCell.lowerTile);
 	}
 	else return CollisionType::None;
 }

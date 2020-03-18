@@ -2,23 +2,24 @@
 
 
 irrklang::ISoundEngine* TileMap::engine;
+irrklang::ISound* TileMap::backgroundMusic;
 bool TileMap::restarted = false;
 
-TileMap::TileMap(float winHeight, float winWidth) {
+TileMap::TileMap(float winWidth, float winHeight) {
     windowHeight = winHeight;
 	windowWidth = winWidth;
     loaded = false;
     firstLoad = true;
     unloaded = true;
+    playThemeSound = false;
 }
 
 void TileMap::initSound() {
     engine = irrklang::createIrrKlangDevice();
-    //if (engine)
-       // engine->play2D(THEME_SOUND.c_str(), true);
+    
 }
 
-void TileMap::init(std::string const& fileName, float width, float height) {
+void TileMap::init(std::string const& fileName) {
     
     std::ifstream file;
     file.open(fileName);
@@ -27,14 +28,14 @@ void TileMap::init(std::string const& fileName, float width, float height) {
     map = CellMatrix(mapHeight, CellVector(mapWidth));
     cols = std::vector<std::pair<int, int>>(mapWidth, { 0,0 });
     
-    float tileWidth = 50;
-    float tileHeight = 50;
-    float marginLeft = (width - tileWidth * mapWidth) / 2.0;
-    float marginTop = (height - tileHeight * mapHeight) / 2.0;
+    float tileWidth = windowWidth / 40.0;
+    float tileHeight = windowWidth / 40.0;
+    float marginLeft = (windowWidth - tileWidth * mapWidth) / 2.0;
+    float marginTop = (windowHeight - tileHeight * mapHeight) / 2.0;
     float posX = marginLeft;
     float posY = marginTop;
-    float borderRight = (width - marginLeft * 2);
-    float borderBottom = (height - marginTop * 2);
+    float borderRight = (windowWidth - marginLeft * 2);
+    float borderBottom = (windowHeight - marginTop * 2);
 
    
     for (int i = 0; i < mapHeight; ++i) {
@@ -48,12 +49,13 @@ void TileMap::init(std::string const& fileName, float width, float height) {
             else {
                 int type = tileCode % 10;
                 auto tile = Tile(posX, posY, tileWidth, tileHeight, tileCode);
-                map[i][j] = Cell(tile);
+                map[i][j] = Cell(i, j, tile);
               
                
                 if (type != AnimationsManager::SPRITE) {
                     map[i][j].setCollider();
                     map[i][j].addInteraction(new PushInteraction(&map[i][j]));
+                    rules.push_back(&map[i][j]);
                 }
             }
             map[i][j].setBackground(posX, posY, tileWidth, tileHeight);
@@ -141,10 +143,6 @@ void TileMap::free() {
         }
     }
     
-    // free sound 
-    if (engine) {
-       // engine->stopAllSounds();
-    }
    
 }
 
@@ -187,15 +185,11 @@ void TileMap::resetInteractions() {
 void TileMap::updateInteractions() {
 
     resetInteractions();
-    for (int i = 0; i < mapHeight; ++i) {
-        for (int j = 0; j < mapWidth; ++j) {
-            if (map[i][j].isCateogry(AnimationsManager::NAME)) {
-                findInteractions({i, j}, DirectionType::DOWN);
-                findInteractions({i, j}, DirectionType::RIGHT);
-            }
-            
-        }
+    for (int i = 0; i < rules.size(); ++i) {
+        findInteractions(rules[i]->getIndex(), DirectionType::DOWN);
+        findInteractions(rules[i]->getIndex(), DirectionType::RIGHT);
     }
+
 
 }
 
@@ -413,6 +407,10 @@ bool TileMap::unloadMap() {
     return unloaded;
 }
 
+void TileMap::setBackgroundMusic(bool value) {
+    playThemeSound = value;
+}
+
 
 void TileMap::render() {
  
@@ -422,9 +420,20 @@ void TileMap::render() {
             firstLoad = false;
         }
         loadMap();
-        if(loaded)updateInteractions();
+        if (loaded) {
+            if (engine && playThemeSound) {
+                backgroundMusic = engine->play2D(THEME_SOUND.c_str(), true, false, true);
+            }
+                
+            updateInteractions();
+        }
     }
     else if (!unloaded) {
+        if (engine && playThemeSound) {
+            playThemeSound = false;
+            backgroundMusic->stop();
+            backgroundMusic->drop();
+        }
         if(unloadMap())ServiceLocator::endGame();
     }
     else {

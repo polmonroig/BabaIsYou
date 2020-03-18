@@ -10,7 +10,7 @@ public:
 
 	Cell() = default;
 
-	explicit Cell(Tile & tile);
+	explicit Cell(int i, int j, Tile & tile);
 
 	void setCollider();
 
@@ -18,6 +18,7 @@ public:
 
 	void move(Direction const& dir);
 
+	std::pair<int, int> getIndex() const;
 
 	CollisionType collide(Cell const& collisionCell) const;
 
@@ -53,6 +54,7 @@ private:
 
 	Tile upperTile;
 	Tile lowerTile;
+	std::pair<int, int> index;
 	Background tileBackground;
 
 	bool interacted;
