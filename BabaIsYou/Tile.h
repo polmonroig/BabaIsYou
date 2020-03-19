@@ -30,7 +30,9 @@ public:
 
 	void move(Direction const& dir);
 
-	void pushType(int animtype);
+	void pushType(Type const& animtype);
+
+	void resetType();
 
 	Type getType() const;
 

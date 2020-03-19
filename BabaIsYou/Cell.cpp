@@ -3,10 +3,24 @@
 
 void Cell::setIlum(float ilum) {
 	for (auto& tile : tiles) {
+		if(tile->getType().category != AnimationsManager::SPRITE)
 		tile->setIlum(ilum);
 	}
 }
 
+void Cell::resetTypes(){
+	for (auto& tile : tiles) {
+		if(tile->getType().category == AnimationsManager::SPRITE)
+			tile->resetType();
+	}
+}
+
+void Cell::pushType(Type const& origin, Type const& pushed) {
+	for (auto& tile : tiles) {
+		if (tile->getType().id == origin.id)
+			tile->pushType(pushed);
+	}
+}
 
 void Cell::add(Tile * t) {
 	t->init();
@@ -32,11 +46,9 @@ bool Cell::selfInteract() {
 		Tile* tile1 = *t1;
 		for (auto t2 = tiles.begin(); t2 != tiles.end(); ++t2) {
 			Tile* tile2 = *t2;
-			if (&(*tile1) != &(*tile2)) {
-				auto interactions = InteractionsTable::getInteractions(tile2->getType());
-				for (auto const& interaction : interactions) {
-					interaction->interact(*tile1, *tile2);
-				}
+			auto interactions = InteractionsTable::getInteractions(tile2->getType());
+			for (auto const& interaction : interactions) {
+				interaction->interact(*tile1, *tile2);
 			}
 		}
 		if (tile1->getFlag() == State::Win)win = true;

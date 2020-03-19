@@ -69,14 +69,14 @@ void AnimationsManager::createSprites() {
 	AnimatedSprite* animationWall = new AnimatedSprite;
 	animationWall->setInitialCoordinates(sizeX * 19, sizeY * 21);
 	animationWall->generateSprites(sprites);
-	animationWall->setColor(glm::vec3(0.6, 0.6, 0.75));
+	animationWall->setColor(glm::vec3(0.16, 0.19, 0.25));
 	animatedSprites.push_back(animationWall);
 
 	// create SKULL 
 	AnimatedSprite* animationLava = new AnimatedSprite;
 	animationLava->setInitialCoordinates(sizeX * 11, sizeY * 15);
 	animationLava->generateSprites(sprites);
-	animationLava->setColor(glm::vec3(0.9,0.34,0.027));
+	animationLava->setColor(glm::vec3(0.7, 0.3, 0.3));
 	animatedSprites.push_back(animationLava);
 
 	// create flag 
@@ -88,9 +88,9 @@ void AnimationsManager::createSprites() {
 
 	// create grass 
 	AnimatedSprite* animationGrass = new AnimatedSprite;
-	animationGrass->setInitialCoordinates(sizeX * 14, sizeY * 24);
+	animationGrass->setInitialCoordinates(0, sizeY * 51);
 	animationGrass->generateSprites(sprites);
-	animationGrass->setColor(glm::vec3(1, 1, 1));
+	animationGrass->setColor(glm::vec3(0.164, 0.19215, 0.14117));
 	animatedSprites.push_back(animationGrass);
 }
 
@@ -181,7 +181,7 @@ void AnimationsManager::createNames() {
 	AnimatedSprite* animationLava = new AnimatedSprite;
 	animationLava->setInitialCoordinates(sizeX * 16, sizeY * 33);
 	animationLava->generateSprites(sprites);
-	animationLava->setColor(glm::vec3(0.14, 0.037, 0.315));
+	animationLava->setColor(glm::vec3(0.45, 0.17, 0.135)); 
 	animatedSprites.push_back(animationLava);
 
 	// create flag 

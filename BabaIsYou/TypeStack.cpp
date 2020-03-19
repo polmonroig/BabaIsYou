@@ -20,6 +20,13 @@ int TypeStack::getID() const {
 	return types.top().id;
 }
 
+void TypeStack::clear() {
+	while (types.size() > 1) {
+		types.pop();
+	}
+
+}
+
 bool TypeStack::empty() const {
 	return types.empty();
 }

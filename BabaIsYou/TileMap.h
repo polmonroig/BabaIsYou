@@ -44,7 +44,7 @@ private:
 	typedef std::vector<Tile*> TileRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
-	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType)const;
+	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType);
 	bool insideMap(std::pair<int, int> const& pos)const;
 	void interactWithSelfCell();
 	void resetInteractions();
@@ -58,6 +58,7 @@ private:
 	bool moveMarked(std::pair<int, int> const& pos, Direction const& dir);
 	void loadMap();
 	bool unloadMap();
+	void pushType(Type const& origin, Type const& pushed);
 
 	void tryMove(int i, int j, Direction const& dir);
 

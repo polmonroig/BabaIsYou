@@ -3,7 +3,6 @@
 
 
 void PushInteraction::interact(Tile& movedTile, Tile& otherTile) {
-	std::cout << "PushInteraction" << std::endl;
 	otherTile.setFlag(State::Move);
 }
 

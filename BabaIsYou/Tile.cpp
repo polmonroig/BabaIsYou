@@ -4,7 +4,6 @@
 
 
 Tile::Tile() {
-	types.push(Type(9));
 	index = { 0,0 };
 }
 
@@ -14,7 +13,6 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	yPos = y;
 	tileWidth = width;
 	tileHeight = height;
-	types.push(Type(9));
 	flag = State::Stop;
 	index = { 0,0 };
 	pushType(tileType);
@@ -83,7 +81,13 @@ void Tile::move(Direction const& dir) {
 	sendVertices();
 }
 
-void Tile::pushType(int type) {
+
+void Tile::resetType() {
+	types.clear();
+	setAnimation();
+}
+
+void Tile::pushType(Type const& type) {
 	types.push(type);
 	setAnimation();
 	

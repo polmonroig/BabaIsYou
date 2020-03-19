@@ -77,8 +77,16 @@ bool TileMap::isRestarting() const {
     return !unloaded || !loaded;
 }
 
-void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType) const{
-    Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, nameType.category);
+void TileMap::pushType(Type const& origin, Type const& pushed) {
+    for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            map[i][j].pushType(origin, pushed);
+        }
+    }
+}
+
+void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType) {
+    Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
    if (operatorType.id == AnimationsManager::FEAR) {
         InteractionsTable::insert(realType, new FearInteraction(realType.id));
     }
@@ -94,10 +102,13 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
     else if (actionType.id == AnimationsManager::WIN || actionType.id == AnimationsManager::PLAY) {
         InteractionsTable::insert(realType, new WinInteraction());
     }
+    else if (actionType.category == AnimationsManager::NAME) {
+       Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
+       pushType(realType, pushedType);
+   }
     else if (actionType.id == AnimationsManager::DEFEAT) {
         InteractionsTable::insert(realType, new DefeatInteraction());
     }
-    // ELSE IF = > OPERATOR = IS AND ACTIONTYPE = NAME => PUSH TYPE 
 }
 
 void TileMap::free() {
@@ -141,18 +152,16 @@ void TileMap::findInteractions(std::pair<int, int> const& namePos, Direction con
 }
 
 void TileMap::updateInteractions()  {
-    std::cout << "Update interactions" << std::endl;
+    resetInteractions();
     for (int i = 0; i < names.size(); ++i) {
         auto index = names[i]->getIndex();
-        std::cout << "Index for " << i << ": " << names[i]->getIndex().first << ", " << names[i]->getIndex().second << std::endl;
         findInteractions(index, DirectionType::DOWN);
         findInteractions(index, DirectionType::RIGHT);
     }
-    std::cout << "END UPDATE interactions" << std::endl;
 }
 
 
-
+// 1. 
 
 void TileMap::escape(int enemyType) {
    /* std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
@@ -175,7 +184,6 @@ void TileMap::reset() {
     restarted = true;
     unloaded = false;
     InteractionsTable::free();
-
 }
 
 void TileMap::moveTile(std::pair<int, int> const& initialPos, Direction const& dir) {
@@ -296,7 +304,13 @@ void TileMap::resetInteractions() {
     for (int i = 0; i < properties.size(); ++i)properties[i]->setIlum(1.0f);
     for (int i = 0; i < operators.size(); ++i)operators[i]->setIlum(1.0f);
     for (int i = 0; i < names.size(); ++i)names[i]->setIlum(1.0f);
+    for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            map[i][j].resetTypes();
+        }
+    }
     InteractionsTable::free();
+    
     
 }
 
@@ -305,7 +319,6 @@ void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
     if (loaded) {
         // update interactions before
-        resetInteractions();
         updateInteractions();
         if (dir.isType(DirectionType::UP)) {
             upPath(dir);
@@ -320,7 +333,6 @@ void TileMap::movePlayerTiles(Direction const& dir) {
             rightPath(dir);
         }
         // update interacitons after
-        resetInteractions();
         updateInteractions();
         interactWithSelfCell();
         

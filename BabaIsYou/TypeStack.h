@@ -33,6 +33,8 @@ public:
 
 	void pop();
 
+	void clear();
+
 	int getCategory() const;
 
 	int getID() const;
