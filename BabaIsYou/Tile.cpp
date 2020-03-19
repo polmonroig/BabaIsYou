@@ -5,6 +5,7 @@
 
 Tile::Tile() {
 	types.push(Type(9));
+	index = { 0,0 };
 }
 
 Tile::Tile(float x, float y, float width, float height, int tileType){
@@ -15,11 +16,22 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	tileHeight = height;
 	types.push(Type(9));
 	flag = State::Stop;
+	index = { 0,0 };
 	pushType(tileType);
 }
 
 void Tile::setFlag(State value) {
+	
 	flag = value;
+}
+
+void Tile::setIndex(int i, int j) {
+	index.first = i;
+	index.second = j;
+}
+
+std::pair<int, int> Tile::getIndex() const {
+	return index;
 }
 
 State Tile::getFlag() const {
@@ -64,6 +76,8 @@ float* Tile::calculateVertices() {
 
 void Tile::move(Direction const& dir) {
 	auto dirPair = dir.getDir();
+	index.first += dirPair.second;
+	index.second += dirPair.first;
 	xPos += dirPair.first * tileWidth;
 	yPos += dirPair.second * tileHeight;
 	sendVertices();

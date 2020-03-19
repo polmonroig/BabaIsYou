@@ -44,14 +44,17 @@ void TileMap::init(std::string const& fileName) {
         for (int j = 0; j < mapWidth; ++j) {
             
             file >> tileCode;
-            map[i][j] = Cell(i, j);
+            map[i][j] = Cell();
             if(tileCode != 0){
                 Type currentType(tileCode);
-                auto tile = Tile(posX, posY, tileWidth, tileHeight, tileCode);
+                auto tile = new Tile(posX, posY, tileWidth, tileHeight, tileCode);
+                tile->setIndex(i, j);
                 map[i][j].add(tile);
                 if (currentType.category != AnimationsManager::SPRITE) {
                     InteractionsTable::insert(currentType, new PushInteraction());
-                    if (currentType.category == AnimationsManager::NAME)names.push_back(&map[i][j]);
+                    if (currentType.category == AnimationsManager::NAME)names.push_back(tile);
+                    else if (currentType.category == AnimationsManager::OPERATOR)operators.push_back(tile);
+                    else if (currentType.category == AnimationsManager::PROPERTY) properties.push_back(tile);
                 }
             }
             map[i][j].setBackground(posX, posY, tileWidth, tileHeight);
@@ -62,9 +65,7 @@ void TileMap::init(std::string const& fileName) {
         posY += tileHeight;
         posX = marginLeft;
     }
-    updateInteractions();
     initSound();
-    
 }
 
 bool TileMap::insideMap(std::pair<int, int> const& pos)const {
@@ -119,13 +120,13 @@ Type TileMap::getBottomType(std::pair<int, int> const& pos) const {
 
 void TileMap::findInteractions(std::pair<int, int> const& namePos, Direction const& dir)  {
     auto operatorPos = Direction::move(namePos, dir);
+    
     if (map[namePos.first][namePos.second].hasCategory(AnimationsManager::NAME) && insideMap(operatorPos) ){
         if (map[operatorPos.first][operatorPos.second].hasCategory(AnimationsManager::OPERATOR)) {
             auto actionPos = Direction::move(operatorPos, dir);
             if (insideMap(actionPos)) {
                 if (map[actionPos.first][actionPos.second].hasCategory(AnimationsManager::PROPERTY)
                     || map[actionPos.first][actionPos.second].hasCategory(AnimationsManager::NAME)) {
-                    
                     auto nameType = getBottomType(namePos);
                     auto operatorType = getBottomType(operatorPos);
                     auto actionType = getBottomType(actionPos);
@@ -140,10 +141,14 @@ void TileMap::findInteractions(std::pair<int, int> const& namePos, Direction con
 }
 
 void TileMap::updateInteractions()  {
+    std::cout << "Update interactions" << std::endl;
     for (int i = 0; i < names.size(); ++i) {
-        findInteractions(names[i]->getIndex(), DirectionType::DOWN);
-        findInteractions(names[i]->getIndex(), DirectionType::RIGHT);
+        auto index = names[i]->getIndex();
+        std::cout << "Index for " << i << ": " << names[i]->getIndex().first << ", " << names[i]->getIndex().second << std::endl;
+        findInteractions(index, DirectionType::DOWN);
+        findInteractions(index, DirectionType::RIGHT);
     }
+    std::cout << "END UPDATE interactions" << std::endl;
 }
 
 
@@ -288,6 +293,9 @@ void TileMap::rightPath(Direction const& dir) {
 }
 
 void TileMap::resetInteractions() {
+    for (int i = 0; i < properties.size(); ++i)properties[i]->setIlum(1.0f);
+    for (int i = 0; i < operators.size(); ++i)operators[i]->setIlum(1.0f);
+    for (int i = 0; i < names.size(); ++i)names[i]->setIlum(1.0f);
     InteractionsTable::free();
     
 }
@@ -297,6 +305,7 @@ void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
     if (loaded) {
         // update interactions before
+        resetInteractions();
         updateInteractions();
         if (dir.isType(DirectionType::UP)) {
             upPath(dir);
@@ -311,9 +320,10 @@ void TileMap::movePlayerTiles(Direction const& dir) {
             rightPath(dir);
         }
         // update interacitons after
+        resetInteractions();
         updateInteractions();
         interactWithSelfCell();
-        resetInteractions();
+        
        
     }
 }
@@ -416,7 +426,6 @@ void TileMap::render() {
             if (engine && playThemeSound) {
                 backgroundMusic = engine->play2D(THEME_SOUND.c_str(), true, false, true);
             }
-                
             updateInteractions();
         }
     }

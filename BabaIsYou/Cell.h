@@ -15,11 +15,7 @@ class Cell{
 
 public:
 
-	Cell() = default;
-
-	Cell(int i, int j);
-
-	void add(Tile& t);
+	void add(Tile* t);
 	bool selfInteract();
 	std::pair<bool, bool> move(Cell& dir);
 	void moveTo(Cell& other, Direction const& dir);
@@ -36,15 +32,12 @@ public:
 
 	void setBackground(float posX, float posY, float width, float height);
 
-	std::pair<int, int>const& getIndex() const;
-
 	void free();
 
 private:
 
-	std::pair<int, int> index;
 
-	std::list<Tile> tiles;
+	std::list<Tile*> tiles;
 	Background tileBackground;
 
 	bool interacted;

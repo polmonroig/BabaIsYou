@@ -41,7 +41,7 @@ private:
 
 	// typedefs to simplify expressions
 	typedef std::vector<Cell> CellVector;
-	typedef std::vector<Cell*> CellRefVector;
+	typedef std::vector<Tile*> TileRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
 	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType)const;
@@ -90,7 +90,9 @@ private:
 	static  irrklang::ISound* backgroundMusic;
 
 	CellMatrix map;
-	CellRefVector names;
+	TileRefVector names;
+	TileRefVector operators;
+	TileRefVector properties;
 };
 
 

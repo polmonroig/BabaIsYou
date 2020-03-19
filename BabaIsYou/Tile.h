@@ -38,6 +38,10 @@ public:
 	
 	State getFlag() const;
 
+	void setIndex(int i, int j);
+
+	std::pair<int, int>  getIndex() const;
+
 	void setIlum(float value);
 	
 	
@@ -55,6 +59,8 @@ private:
 	AnimatedSprite* animation;
 
 	TypeStack types;
+
+	std::pair<int, int> index;
 
 	State flag;
 	
