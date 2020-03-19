@@ -14,14 +14,15 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	tileWidth = width;
 	tileHeight = height;
 	types.push(Type(9));
+	flag = State::Stop;
 	pushType(tileType);
 }
 
-void Tile::setFlag(bool value) {
+void Tile::setFlag(State value) {
 	flag = value;
 }
 
-bool Tile::getFlag() const {
+State Tile::getFlag() const {
 	return flag;
 }
 

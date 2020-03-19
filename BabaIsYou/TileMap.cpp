@@ -79,7 +79,7 @@ bool TileMap::isRestarting() const {
 void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType) const{
     Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, nameType.category);
    if (operatorType.id == AnimationsManager::FEAR) {
-        InteractionsTable::insert(realType, new FearInteraction(actionType.id - AnimationsManager::N_SPRITES));
+        InteractionsTable::insert(realType, new FearInteraction(realType.id));
     }
     else if (actionType.id == AnimationsManager::STOP) {
         InteractionsTable::insert(realType, new StopInteraction());
@@ -191,12 +191,11 @@ bool TileMap::moveMarked(std::pair<int, int> const& pos, Direction const& dir) {
     int newTileI = pos.first + yMove;
     int newTileJ = pos.second + xMove;
     std::pair<int, int> newPos = { newTileI, newTileJ };
-    bool moved = true;
-    std::cout << "IntitialPos: " << pos.first << ", " << pos.second << std::endl;
-    std::cout << "Newpos: " << newTileI << ", " << newTileJ << std::endl;
+    bool moved = false;
     if (insideMap(newPos)) {
         auto canMove = map[pos.first][pos.second].moveMarked(map[newPos.first][newPos.second]);
         if (canMove.first && canMove.second) { // can be moved
+            moved = true;
             moveTile(pos, dir);
         }
         else if (canMove.first) { // can move if marked
@@ -213,6 +212,18 @@ bool TileMap::moveMarked(std::pair<int, int> const& pos, Direction const& dir) {
     return moved;
 }
 
+void TileMap::interactWithSelfCell() {
+   for (int i = 0; i < mapHeight; ++i) {
+        for (int j = 0; j < mapWidth; ++j) {
+            bool win = map[i][j].selfInteract();
+            if (win) {
+                if (engine)engine->play2D(WIN_SOUND.c_str(), false);
+                unloaded = false;
+            }
+        }
+    }
+}
+
 void TileMap::tryMove(int i, int j, Direction const& dir) {
     auto dirPair = dir.getDir();
     int xMove = dirPair.first;
@@ -224,14 +235,17 @@ void TileMap::tryMove(int i, int j, Direction const& dir) {
         auto canMove = map[i][j].move(map[newPos.first][newPos.second]);
         if (canMove.first && canMove.second) { // can be moved
             moveTile({ i, j}, dir);
+            
             if (engine)
                 engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
         }
         else if (canMove.first) { // can move if marked
             bool moved = moveMarked(newPos, dir);
-            if (moved && engine) {
+            
+            if (moved) {
                 moveTile({ i, j }, dir);
-                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+                if (engine)
+                    engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
             }
                 
         }
@@ -273,10 +287,17 @@ void TileMap::rightPath(Direction const& dir) {
     }
 }
 
+void TileMap::resetInteractions() {
+    InteractionsTable::free();
+    
+}
+
 
 void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
     if (loaded) {
+        // update interactions before
+        updateInteractions();
         if (dir.isType(DirectionType::UP)) {
             upPath(dir);
         }
@@ -289,7 +310,11 @@ void TileMap::movePlayerTiles(Direction const& dir) {
         else {
             rightPath(dir);
         }
+        // update interacitons after
         updateInteractions();
+        interactWithSelfCell();
+        resetInteractions();
+       
     }
 }
 

@@ -6,7 +6,8 @@ void InteractionsTable::init() {
 	table = InteractionsMatrix(TypeStack::N_TYPES,InteractionsVector(N_INTERACTIONS));
 	for (int i = 0; i < TypeStack::N_TYPES; ++i) {
 		for (int j = 0; j < N_INTERACTIONS; ++j) {
-			table[i][j] = new NullInteraction();
+			if(table[i][j] == nullptr)
+				table[i][j] = new NullInteraction();
 		}
 	}
 }
@@ -32,11 +33,11 @@ bool InteractionsTable::find(Type const& t, int id) {
 
 void InteractionsTable::free() {
 	
-	for (int i = 0; i < TypeStack::N_TYPES; ++i) {
+	for (int i = 0; i < AnimationsManager::N_SPRITES; ++i) {
 		for (int j = 0; j < N_INTERACTIONS; ++j) {
 			Interaction* pointer = table[i][j];
 			delete pointer;
+			table[i][j] = new NullInteraction();
 		}
 	}
-	
 }

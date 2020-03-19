@@ -9,6 +9,13 @@
 #include "ServiceLocator.h"
 
 
+enum class State {
+	Stop, 
+	Move,
+	Death,
+	Win
+};
+
 class Tile {
 
 public:
@@ -27,9 +34,9 @@ public:
 
 	Type getType() const;
 
-	void setFlag(bool value);
+	void setFlag(State value);
 	
-	bool getFlag() const;
+	State getFlag() const;
 
 	void setIlum(float value);
 	
@@ -49,7 +56,7 @@ private:
 
 	TypeStack types;
 
-	bool flag;
+	State flag;
 	
 
 	

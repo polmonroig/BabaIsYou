@@ -2,6 +2,8 @@
 #define WIN_INTERACTION_H
 
 #include "Interaction.h"
+#include "InteractionsTable.h"
+#include "YouInteraction.h"
 
 class WinInteraction : public Interaction{
 

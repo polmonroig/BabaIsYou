@@ -20,7 +20,7 @@ public:
 	Cell(int i, int j);
 
 	void add(Tile& t);
-
+	bool selfInteract();
 	std::pair<bool, bool> move(Cell& dir);
 	void moveTo(Cell& other, Direction const& dir);
 	std::pair<bool, bool> moveMarked(Cell& dir);
