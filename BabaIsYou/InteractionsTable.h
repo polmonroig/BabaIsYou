@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "TypeStack.h"
+#include "Type.h"
 #include "NullInteraction.h"
 
 

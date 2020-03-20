@@ -58,7 +58,7 @@ private:
 	bool moveMarked(std::pair<int, int> const& pos, Direction const& dir);
 	void loadMap();
 	bool unloadMap();
-	void pushType(Type const& origin, Type const& pushed);
+	void changeType(Type const& origin, Type const& pushed);
 
 	void tryMove(int i, int j, Direction const& dir);
 

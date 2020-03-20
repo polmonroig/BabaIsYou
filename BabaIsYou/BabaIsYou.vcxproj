@@ -172,7 +172,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TypeStack.cpp" />
+    <ClCompile Include="Type.cpp" />
     <ClCompile Include="WinInteraction.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +201,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TypeStack.h" />
+    <ClInclude Include="Type.h" />
     <ClInclude Include="WinInteraction.h" />
   </ItemGroup>
   <ItemGroup>

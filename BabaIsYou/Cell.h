@@ -16,8 +16,7 @@ class Cell{
 public:
 
 	void add(Tile* t);
-	void resetTypes();
-	void pushType(Type const& origin, Type const& pushed);
+	void changeType(Type const& origin, Type const& pushed);
 	bool selfInteract();
 	std::pair<bool, bool> move(Cell& dir);
 	void moveTo(Cell& other, Direction const& dir);

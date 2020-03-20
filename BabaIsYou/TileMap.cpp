@@ -77,10 +77,10 @@ bool TileMap::isRestarting() const {
     return !unloaded || !loaded;
 }
 
-void TileMap::pushType(Type const& origin, Type const& pushed) {
+void TileMap::changeType(Type const& origin, Type const& pushed) {
     for (int i = 0; i < mapHeight; ++i) {
         for (int j = 0; j < mapWidth; ++j) {
-            map[i][j].pushType(origin, pushed);
+            map[i][j].changeType(origin, pushed);
         }
     }
 }
@@ -104,7 +104,7 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
     }
     else if (actionType.category == AnimationsManager::NAME) {
        Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
-       pushType(realType, pushedType);
+       changeType(realType, pushedType);
    }
     else if (actionType.id == AnimationsManager::DEFEAT) {
         InteractionsTable::insert(realType, new DefeatInteraction());
@@ -304,11 +304,6 @@ void TileMap::resetInteractions() {
     for (int i = 0; i < properties.size(); ++i)properties[i]->setIlum(1.0f);
     for (int i = 0; i < operators.size(); ++i)operators[i]->setIlum(1.0f);
     for (int i = 0; i < names.size(); ++i)names[i]->setIlum(1.0f);
-    for (int i = 0; i < mapHeight; ++i) {
-        for (int j = 0; j < mapWidth; ++j) {
-            map[i][j].resetTypes();
-        }
-    }
     InteractionsTable::free();
     
     

@@ -4,7 +4,7 @@
 #include <list>
 
 
-#include "TypeStack.h"
+#include "Type.h"
 #include "Direction.h"
 #include "ServiceLocator.h"
 
@@ -30,9 +30,7 @@ public:
 
 	void move(Direction const& dir);
 
-	void pushType(Type const& animtype);
-
-	void resetType();
+	void changeType(Type const& animtype);
 
 	Type getType() const;
 
@@ -60,7 +58,7 @@ private:
 	float iluminationMultiplier;
 	AnimatedSprite* animation;
 
-	TypeStack types;
+	Type tileType;
 
 	std::pair<int, int> index;
 

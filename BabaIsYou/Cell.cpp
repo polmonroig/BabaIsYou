@@ -8,17 +8,11 @@ void Cell::setIlum(float ilum) {
 	}
 }
 
-void Cell::resetTypes(){
-	for (auto& tile : tiles) {
-		if(tile->getType().category == AnimationsManager::SPRITE)
-			tile->resetType();
-	}
-}
 
-void Cell::pushType(Type const& origin, Type const& pushed) {
+void Cell::changeType(Type const& origin, Type const& pushed) {
 	for (auto& tile : tiles) {
 		if (tile->getType().id == origin.id)
-			tile->pushType(pushed);
+			tile->changeType(pushed);
 	}
 }
 

@@ -7,7 +7,7 @@ Tile::Tile() {
 	index = { 0,0 };
 }
 
-Tile::Tile(float x, float y, float width, float height, int tileType){
+Tile::Tile(float x, float y, float width, float height, int tileCode){
 	xPos = x;
 	iluminationMultiplier = 1;
 	yPos = y;
@@ -15,7 +15,7 @@ Tile::Tile(float x, float y, float width, float height, int tileType){
 	tileHeight = height;
 	flag = State::Stop;
 	index = { 0,0 };
-	pushType(tileType);
+	changeType(tileCode);
 }
 
 void Tile::setFlag(State value) {
@@ -37,7 +37,7 @@ State Tile::getFlag() const {
 }
 
 Type Tile::getType() const {
-	return types.top();
+	return tileType;
 }
 
 
@@ -81,20 +81,15 @@ void Tile::move(Direction const& dir) {
 	sendVertices();
 }
 
-
-void Tile::resetType() {
-	types.clear();
-	setAnimation();
-}
-
-void Tile::pushType(Type const& type) {
-	types.push(type);
+void Tile::changeType(Type const& type) {
+	tileType = type;
 	setAnimation();
 	
 }
 
 void Tile::setAnimation() {
-	int animType = types.getID() - 1;
+	if (animation != nullptr)animation->removeReference();
+	int animType = tileType.id - 1;
 	auto manager = ServiceLocator::getAnimationsManager();
 	animation = manager->getAnimatedSprite(animType);
 	animation->addReference();
@@ -128,7 +123,7 @@ void Tile::render(){
 
 
 void Tile::free(){
-	//animation->removeReference();
+	animation->removeReference();
 	glDeleteBuffers(1, &vbo);
 }
 

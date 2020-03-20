@@ -3,8 +3,8 @@
 InteractionsTable::InteractionsMatrix InteractionsTable::table;
 
 void InteractionsTable::init() {
-	table = InteractionsMatrix(TypeStack::N_TYPES,InteractionsVector(N_INTERACTIONS));
-	for (int i = 0; i < TypeStack::N_TYPES; ++i) {
+	table = InteractionsMatrix(Type::N_TYPES,InteractionsVector(N_INTERACTIONS));
+	for (int i = 0; i < Type::N_TYPES; ++i) {
 		for (int j = 0; j < N_INTERACTIONS; ++j) {
 			if(table[i][j] == nullptr)
 				table[i][j] = new NullInteraction();
