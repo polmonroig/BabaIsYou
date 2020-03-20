@@ -166,6 +166,8 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="SinkInteraction.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="StopInteraction.cpp" />
@@ -190,6 +192,8 @@
     <ClInclude Include="NullInteraction.h" />
     <ClInclude Include="PushInteraction.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SinkInteraction.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="YouInteraction.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Shader.h" />

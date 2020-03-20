@@ -137,6 +137,13 @@ void AnimationsManager::createProperties() {
 	animationPlay->generateSprites(sprites);
 	animationPlay->setColor(glm::vec3(0.46, 0.435, 0.25));
 	animatedSprites.push_back(animationPlay);
+
+	// create SINK 
+	AnimatedSprite* animationSink = new AnimatedSprite;
+	animationSink->setInitialCoordinates(sizeX * 9, sizeY * 42);
+	animationSink->generateSprites(sprites);
+	animationSink->setColor(glm::vec3(0.46, 0.435, 0.25));
+	animatedSprites.push_back(animationSink);
 }
 
 void AnimationsManager::createOperators() {
@@ -197,6 +204,9 @@ void AnimationsManager::createNames() {
 	animationGrass->generateSprites(sprites);
 	animationGrass->setColor(glm::vec3(0.5, 0.5, 0.5));
 	animatedSprites.push_back(animationGrass);
+
+
+	
 }
 
 

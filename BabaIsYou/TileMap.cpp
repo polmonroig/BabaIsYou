@@ -1,8 +1,7 @@
 #include "TileMap.h"
 
 
-irrklang::ISoundEngine* TileMap::engine;
-irrklang::ISound* TileMap::backgroundMusic;
+
 bool TileMap::restarted = false;
 
 TileMap::TileMap(float winWidth, float winHeight) {
@@ -11,13 +10,9 @@ TileMap::TileMap(float winWidth, float winHeight) {
     loaded = false;
     firstLoad = true;
     unloaded = true;
-    playThemeSound = false;
+    playThemeSound = true;
 }
 
-void TileMap::initSound() {
-    engine = irrklang::createIrrKlangDevice();
-    
-}
 
 void TileMap::init(std::string const& fileName) {
     InteractionsTable::init();
@@ -65,7 +60,7 @@ void TileMap::init(std::string const& fileName) {
         posY += tileHeight;
         posX = marginLeft;
     }
-    initSound();
+    sound.init();
 }
 
 bool TileMap::insideMap(std::pair<int, int> const& pos)const {
@@ -106,6 +101,9 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
        Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
        changeType(realType, pushedType);
    }
+    else if (actionType.id == AnimationsManager::SINK) {
+       InteractionsTable::insert(realType, new SinkInteraction());
+   }
     else if (actionType.id == AnimationsManager::DEFEAT) {
         InteractionsTable::insert(realType, new DefeatInteraction());
     }
@@ -123,9 +121,14 @@ void TileMap::free() {
    
 }
 
-Type TileMap::getBottomType(std::pair<int, int> const& pos) const {
+Type TileMap::getNonSpriteType(std::pair<int, int> const& pos) const {
     auto types = map[pos.first][pos.second].getTypes();
-    return types[0];
+    for (auto const& type : types) {
+        if (type.category != AnimationsManager::SPRITE) {
+            return types[0];
+        }
+    }
+    return -1;
 }
 
 
@@ -138,9 +141,9 @@ void TileMap::findInteractions(std::pair<int, int> const& namePos, Direction con
             if (insideMap(actionPos)) {
                 if (map[actionPos.first][actionPos.second].hasCategory(AnimationsManager::PROPERTY)
                     || map[actionPos.first][actionPos.second].hasCategory(AnimationsManager::NAME)) {
-                    auto nameType = getBottomType(namePos);
-                    auto operatorType = getBottomType(operatorPos);
-                    auto actionType = getBottomType(actionPos);
+                    auto nameType = getNonSpriteType(namePos);
+                    auto operatorType = getNonSpriteType(operatorPos);
+                    auto actionType = getNonSpriteType(actionPos);
                     map[namePos.first][namePos.second].setIlum(2.0f);
                     map[operatorPos.first][operatorPos.second].setIlum(2.0f);
                     map[actionPos.first][actionPos.second].setIlum(2.0f);
@@ -180,7 +183,7 @@ void TileMap::escape(int enemyType) {
 }
 
 void TileMap::reset() {
-    if (engine)engine->play2D(RESET_SOUND.c_str(), false);
+    sound.playReset();
     restarted = true;
     unloaded = false;
     InteractionsTable::free();
@@ -230,7 +233,7 @@ void TileMap::interactWithSelfCell() {
         for (int j = 0; j < mapWidth; ++j) {
             bool win = map[i][j].selfInteract();
             if (win) {
-                if (engine)engine->play2D(WIN_SOUND.c_str(), false);
+                sound.playWin();
                 unloaded = false;
             }
         }
@@ -248,17 +251,14 @@ void TileMap::tryMove(int i, int j, Direction const& dir) {
         auto canMove = map[i][j].move(map[newPos.first][newPos.second]);
         if (canMove.first && canMove.second) { // can be moved
             moveTile({ i, j}, dir);
-            
-            if (engine)
-                engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+            sound.playMove();
         }
         else if (canMove.first) { // can move if marked
             bool moved = moveMarked(newPos, dir);
             
             if (moved) {
                 moveTile({ i, j }, dir);
-                if (engine)
-                    engine->play2D(BABA_MOVE_SOUND[std::rand() % BABA_MOVE_SOUND.size()].c_str(), false);
+                sound.playMove();
             }
                 
         }
@@ -330,7 +330,7 @@ void TileMap::movePlayerTiles(Direction const& dir) {
         // update interacitons after
         updateInteractions();
         interactWithSelfCell();
-        
+        sound.init();
        
     }
 }
@@ -424,23 +424,22 @@ void TileMap::setBackgroundMusic(bool value) {
 void TileMap::render() {
  
     if (!loaded) {
-        if (!restarted && firstLoad && engine){
-            engine->play2D(LOAD_SOUND.c_str(), false);
+        if (!restarted && firstLoad ){
+            sound.playLoad();
             firstLoad = false;
         }
         loadMap();
         if (loaded) {
-            if (engine && playThemeSound) {
-                backgroundMusic = engine->play2D(THEME_SOUND.c_str(), true, false, true);
+            if (playThemeSound) {
+                sound.playBackground();
             }
             updateInteractions();
         }
     }
     else if (!unloaded) {
-        if (engine && playThemeSound) {
+        if (playThemeSound) {
+            sound.stopBackground();
             playThemeSound = false;
-            backgroundMusic->stop();
-            backgroundMusic->drop();
         }
         if (unloadMap()) {
             ServiceLocator::endGame();

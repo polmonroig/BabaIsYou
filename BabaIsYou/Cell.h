@@ -10,6 +10,7 @@
 #include "FearInteraction.h"
 #include "StopInteraction.h"
 #include "InteractionsTable.h"
+#include "SinkInteraction.h"
 
 class Cell{
 

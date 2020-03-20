@@ -34,7 +34,7 @@ public:
 
 private:
 
-	static const int N_INTERACTIONS = 6;
+	static const int N_INTERACTIONS = 7;
 
 	
 

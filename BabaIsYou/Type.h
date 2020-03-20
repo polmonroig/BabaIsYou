@@ -9,7 +9,7 @@ class Type {
 
 public:
 
-	static const int N_TYPES = 20;
+	static const int N_TYPES = 21;
 
 	Type() = default;
 

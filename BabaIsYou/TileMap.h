@@ -6,13 +6,9 @@
 #include <iostream> // debug 
 #include <fstream>
 #include <random>
-#include <irrKlang.h>
-#pragma comment(lib, "irrKlang.lib")
-
-
 
 #include "Direction.h"
-
+#include "SoundManager.h"
 #include "Cell.h"
 
 
@@ -44,53 +40,54 @@ private:
 	typedef std::vector<Tile*> TileRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
+
+	// Interactions 
 	void applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType);
-	bool insideMap(std::pair<int, int> const& pos)const;
 	void interactWithSelfCell();
 	void resetInteractions();
-	void moveTile(std::pair<int, int> const& initialPos, Direction const& dir);
-	Type getBottomType(std::pair<int, int> const& pos)const;
+	Type getNonSpriteType(std::pair<int, int> const& pos)const;
 	void findInteractions(std::pair<int, int> const& namePos, Direction const& dir);
-	void initSound();
 	void updateInteractions();
-	bool renderRow(int row);
-	void renderTiles();
-	bool moveMarked(std::pair<int, int> const& pos, Direction const& dir);
-	void loadMap();
-	bool unloadMap();
 	void changeType(Type const& origin, Type const& pushed);
 
+	// MOVEMENT
+	bool insideMap(std::pair<int, int> const& pos)const;
+	void moveTile(std::pair<int, int> const& initialPos, Direction const& dir);
+	bool moveMarked(std::pair<int, int> const& pos, Direction const& dir);
 	void tryMove(int i, int j, Direction const& dir);
-
 	void upPath(Direction const& dir);
 	void downPath(Direction const& dir);
 	void leftPath(Direction const& dir);
 	void rightPath(Direction const& dir);
 
-
+	// RENDERING
 	static const int LOAD_SPEED = 8;
-	std::vector<std::string> BABA_MOVE_SOUND = { "sound/043.ogg", "sound/044.ogg", "sound/045.ogg", "sound/046.ogg" };
-	std::string  WIN_SOUND = "sound/042.ogg";
-	std::string  RESET_SOUND = "sound/085.ogg";
-	std::string  LOAD_SOUND = "sound/026.ogg"; // 26
-	std::string  THEME_SOUND = "sound/theme_soundtrack.mp3";
-
+	bool renderRow(int row);
+	void renderTiles();
+	void loadMap();
+	bool unloadMap();
+	
+	// map characteristics 
 	int mapWidth;
 	int windowHeight;
 	int windowWidth;
 	int mapHeight;
 
+	// map states 
 	bool loaded;
 	bool unloaded;
 	bool playThemeSound;
 	static bool restarted;
 	bool firstLoad;
 	
+	// saves rendering columns for loading and unloading 
 	std::vector<std::pair<int, int>> cols;
-	static irrklang::ISoundEngine* engine;
-	static  irrklang::ISound* backgroundMusic;
-
+	
+	// manages the sound of the game 
+	SoundManager sound;
+	// contains the cells of the map 
 	CellMatrix map;
+	// reference to tiles 
 	TileRefVector names;
 	TileRefVector operators;
 	TileRefVector properties;

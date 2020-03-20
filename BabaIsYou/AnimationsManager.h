@@ -46,6 +46,7 @@ public:
 	static const int STOP = 18;
 	static const int DEFEAT = 19;
 	static const int PLAY = 20;
+	static const int SINK = 21;
 
 	// extras
 	static const int MOVE_EFFECT = 21;
