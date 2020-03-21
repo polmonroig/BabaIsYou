@@ -29,7 +29,7 @@ public:
 
 private:
 
-	static const int MAX_LEVEL = 4;
+	static const int MAX_LEVEL = 6;
 	const std::string LEVEL_FILE_NAME = "levels/level_";
 
 	void initTextures();
