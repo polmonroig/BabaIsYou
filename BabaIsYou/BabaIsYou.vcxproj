@@ -223,8 +223,8 @@
     <Text Include="levels\level_2.txt" />
     <Text Include="levels\level_3.txt" />
     <Text Include="levels\level_4.txt" />
-    <Text Include="level_5.txt" />
-    <Text Include="level_6.txt" />
+    <Text Include="levels\level_5.txt" />
+    <Text Include="levels\level_6.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\theme_soundtrack.mp3" />

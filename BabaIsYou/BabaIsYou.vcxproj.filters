@@ -242,10 +242,10 @@
     <Text Include="levels\level_4.txt">
       <Filter>levels</Filter>
     </Text>
-    <Text Include="level_5.txt">
+    <Text Include="levels\level_5.txt">
       <Filter>levels</Filter>
     </Text>
-    <Text Include="level_6.txt">
+    <Text Include="levels\level_6.txt">
       <Filter>levels</Filter>
     </Text>
   </ItemGroup>
