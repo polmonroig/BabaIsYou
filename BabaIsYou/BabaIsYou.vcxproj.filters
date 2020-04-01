@@ -248,6 +248,12 @@
     <Text Include="levels\level_4.txt">
       <Filter>levels</Filter>
     </Text>
+    <Text Include="levels\level_5.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_6.txt">
+      <Filter>levels</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\theme_soundtrack.mp3">

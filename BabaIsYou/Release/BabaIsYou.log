@@ -1,12 +1,53 @@
-﻿SOIL.lib(SOIL.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
+﻿  Background.cpp
+  Cell.cpp
+  DefeatInteraction.cpp
+  MakeInteraction.cpp
+  Game.cpp
+  GameProgram.cpp
+  Interaction.cpp
+  InteractionsTable.cpp
+  main.cpp
+  MovementParticle.cpp
+  NullInteraction.cpp
+  PushInteraction.cpp
+  Scene.cpp
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Scene.cpp(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Scene.cpp(31,16): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  MoveInteraction.cpp
+  ServiceLocator.cpp
+  ShaderManager.cpp
+  SinkInteraction.cpp
+  StopInteraction.cpp
+  Text.cpp
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(5,9): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(6,9): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(7,15): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(12,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(35,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\POLMO\Documents\FIB\BabaIsYou\Text.cpp(78,20): warning C4018: '<': signed/unsigned mismatch
+  Tile.cpp
+  Compiling...
+  TileMap.cpp
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(8,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(27,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(28,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(30,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(31,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(160,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(305,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(306,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\POLMO\Documents\FIB\BabaIsYou\TileMap.cpp(307,23): warning C4018: '<': signed/unsigned mismatch
+  WinInteraction.cpp
+SOIL.lib(SOIL.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Tile.cpp(67): warning C4172: returning address of local variable or temporary: vertices
-  All 678 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  6 of 1072 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    12 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(image_DXT.obj)' or at 'C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
-SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(image_helper.obj)' or at 'C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
-SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(SOIL.obj)' or at 'C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
-SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(stb_image_aug.obj)' or at 'C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
-  BabaIsYou.vcxproj -> C:\Users\POLMO\Documents\FIB\2d_game\BabaIsYou\Release\BabaIsYou.exe
+SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(image_DXT.obj)' or at 'C:\Users\POLMO\Documents\FIB\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
+SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(image_helper.obj)' or at 'C:\Users\POLMO\Documents\FIB\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
+SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(SOIL.obj)' or at 'C:\Users\POLMO\Documents\FIB\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'SOIL.lib(stb_image_aug.obj)' or at 'C:\Users\POLMO\Documents\FIB\BabaIsYou\Release\vc100.pdb'; linking object as if no debug info
+  BabaIsYou.vcxproj -> C:\Users\POLMO\Documents\FIB\BabaIsYou\Release\BabaIsYou.exe

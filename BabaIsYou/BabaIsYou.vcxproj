@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -225,6 +225,8 @@
     <Text Include="levels\level_2.txt" />
     <Text Include="levels\level_3.txt" />
     <Text Include="levels\level_4.txt" />
+    <Text Include="levels\level_5.txt" />
+    <Text Include="levels\level_6.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\theme_soundtrack.mp3" />
