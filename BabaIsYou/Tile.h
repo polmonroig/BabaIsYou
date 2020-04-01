@@ -23,7 +23,7 @@ public:
 	
 
 	Tile();
-	Tile( float x, float y, float width, float height, int tileType);
+	Tile( float x, float y, float width, float height, Type const& tileType);
 	void render();
 	void free();
 	void init();
@@ -42,9 +42,13 @@ public:
 
 	std::pair<int, int>  getIndex() const;
 
+	Tile copy() const;
+
 	void setIlum(float value);
 	
-	
+	void addSpawn(Type const& spawned);
+
+	std::vector<Type> getSpawned() ;
 
 private:
 
@@ -63,7 +67,8 @@ private:
 	std::pair<int, int> index;
 
 	State flag;
-	
+
+	std::vector<Type> spawned;
 
 	
 };

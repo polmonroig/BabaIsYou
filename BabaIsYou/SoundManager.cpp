@@ -32,12 +32,18 @@ void SoundManager::playReset() {
 }
 
 void SoundManager::playBackground() {
-	backgroundMusic = engine->play2D(THEME_SOUND.c_str(), true, false, true);
+	if (engine) {
+		backgroundMusic = engine->play2D(THEME_SOUND.c_str(), true, false, true);
+	}
+	
 
 }
 
 
 void SoundManager::stopBackground() {
-	backgroundMusic->stop();
-	backgroundMusic->drop();
+	if (backgroundMusic) {
+		backgroundMusic->stop();
+		backgroundMusic->drop();
+	}
+	
 }

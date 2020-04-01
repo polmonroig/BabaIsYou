@@ -7,7 +7,7 @@ Tile::Tile() {
 	index = { 0,0 };
 }
 
-Tile::Tile(float x, float y, float width, float height, int tileCode){
+Tile::Tile(float x, float y, float width, float height, Type const& tileCode){
 	xPos = x;
 	iluminationMultiplier = 1;
 	yPos = y;
@@ -28,6 +28,11 @@ void Tile::setIndex(int i, int j) {
 	index.second = j;
 }
 
+Tile Tile::copy() const {
+	Tile newTile(xPos, yPos, tileWidth, tileHeight, tileType);
+	return newTile;
+}
+
 std::pair<int, int> Tile::getIndex() const {
 	return index;
 }
@@ -42,7 +47,6 @@ Type Tile::getType() const {
 
 
 void Tile::init() {
-	float* vertices = calculateVertices();
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	sendVertices();
@@ -119,6 +123,16 @@ void Tile::render(){
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	
+}
+
+void Tile::addSpawn(Type const& s) {
+	spawned.push_back(s);
+}
+
+std::vector<Type> Tile::getSpawned() {
+	auto copy = spawned;
+	spawned.clear();
+	return copy;
 }
 
 

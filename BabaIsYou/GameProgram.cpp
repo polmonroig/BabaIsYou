@@ -114,6 +114,7 @@ void  GameProgram::idleCallback(){
 		// Every time we enter here is equivalent to a game loop execution
 		if (!Game::instance().update(deltaTime))
 			exit(0);
+		
 		GameProgram::prevTime = currentTime;
 		glutPostRedisplay();
 	}

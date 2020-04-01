@@ -16,7 +16,7 @@ public:
 
 	static int TILE_PROGRAM;
 	static int BACKGROUND_PROGRAM;
-	static int TEXT_PROGRAM;
+	static int PARTICLE_PROGRAM;
 
 	void init();
 	

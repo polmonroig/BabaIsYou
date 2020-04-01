@@ -7,7 +7,7 @@
 #include "PushInteraction.h"
 #include "DefeatInteraction.h"
 #include "WinInteraction.h"
-#include "FearInteraction.h"
+#include "MakeInteraction.h"
 #include "StopInteraction.h"
 #include "InteractionsTable.h"
 #include "SinkInteraction.h"

@@ -24,8 +24,9 @@ void TileMap::init(std::string const& fileName) {
     map = CellMatrix(mapHeight, CellVector(mapWidth));
     cols = std::vector<std::pair<int, int>>(mapWidth, { 0,0 });
     
-    float tileWidth = windowWidth / 40.0;
-    float tileHeight = windowWidth / 40.0;
+    float tileWidth = (windowWidth / float(mapWidth)) * 0.6;
+    float tileHeight = (windowWidth / float(mapWidth)) * 0.6;
+    std::cout << tileHeight << std::endl;
     float marginLeft = (windowWidth - tileWidth * mapWidth) / 2.0;
     float marginTop = (windowHeight - tileHeight * mapHeight) / 2.0;
     float posX = marginLeft;
@@ -60,6 +61,7 @@ void TileMap::init(std::string const& fileName) {
         posY += tileHeight;
         posX = marginLeft;
     }
+ 
     sound.init();
 }
 
@@ -82,8 +84,9 @@ void TileMap::changeType(Type const& origin, Type const& pushed) {
 
 void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, Type const& actionType) {
     Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
-   if (operatorType.id == AnimationsManager::FEAR) {
-        InteractionsTable::insert(realType, new FearInteraction(realType.id));
+    Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
+   if (operatorType.id == AnimationsManager::MAKE) {
+        InteractionsTable::insert(realType, new MakeInteraction(pushedType));
     }
     else if (actionType.id == AnimationsManager::STOP) {
         InteractionsTable::insert(realType, new StopInteraction());
@@ -98,7 +101,7 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
         InteractionsTable::insert(realType, new WinInteraction());
     }
     else if (actionType.category == AnimationsManager::NAME) {
-       Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
+       
        changeType(realType, pushedType);
    }
     else if (actionType.id == AnimationsManager::SINK) {
@@ -110,14 +113,12 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
 }
 
 void TileMap::free() {
-
     // free cells
     for (int i = 0; i < mapHeight; ++i) {
         for (int j = 0; j < mapWidth; ++j) {
             map[i][j].free();
         }
     }
-    
    
 }
 
@@ -312,7 +313,7 @@ void TileMap::resetInteractions() {
 
 void TileMap::movePlayerTiles(Direction const& dir) {
     bool playerIsAlive = false;
-    if (loaded) {
+    if (loaded && unloaded) {
         // update interactions before
         updateInteractions();
         if (dir.isType(DirectionType::UP)) {
@@ -447,7 +448,9 @@ void TileMap::render() {
     }
     else {
         restarted = false;
+        
         renderTiles();
+        
     }
     
    

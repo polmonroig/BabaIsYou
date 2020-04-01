@@ -3,10 +3,10 @@
 
 int ShaderManager::TILE_PROGRAM;
 int ShaderManager::BACKGROUND_PROGRAM;
-int ShaderManager::TEXT_PROGRAM;
+int ShaderManager::PARTICLE_PROGRAM;
 
 void ShaderManager::init() {
-	TEXT_PROGRAM = addProgram("shaders/text.vert", "shaders/text.frag");
+	PARTICLE_PROGRAM = addProgram("shaders/particle.vert", "shaders/particle.frag");
 	BACKGROUND_PROGRAM = addProgram("shaders/background.vert", "shaders/background.frag");
 	TILE_PROGRAM = addProgram("shaders/simple.vert", "shaders/simple.frag");
 }

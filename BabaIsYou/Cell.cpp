@@ -36,6 +36,7 @@ void Cell::moveTo(Cell& other, Direction const& dir) {
 
 bool Cell::selfInteract() {
 	bool win = false;
+	std::list<Tile*> spawnedTiles;
 	for (auto t1 = tiles.begin(); t1 != tiles.end(); ++t1) {
 		Tile* tile1 = *t1;
 		for (auto t2 = tiles.begin(); t2 != tiles.end(); ++t2) {
@@ -51,7 +52,16 @@ bool Cell::selfInteract() {
 			tile1->free();
 			t1 = tiles.erase(t1);
 		}
+		auto spawned = tile1->getSpawned();
+		for (auto const& t : spawned) {
+			Tile* spawnedTile = new Tile;
+			*spawnedTile = tile1->copy();
+			spawnedTile->init();
+			spawnedTile->changeType(t);
+			spawnedTiles.push_back(spawnedTile);
+		}
 	}
+	tiles.insert(tiles.end(), spawnedTiles.begin(), spawnedTiles.end());
 	return win;
 }
 

@@ -36,7 +36,7 @@ public:
 	// operators
 	static const int OPERATOR = 2;
 	static const int IS = 13;
-	static const int FEAR = 14;
+	static const int MAKE = 14;
 
 	// properties 
 	static const int PROPERTY = 3;

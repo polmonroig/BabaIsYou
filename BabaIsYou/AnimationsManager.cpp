@@ -23,16 +23,17 @@ void AnimationsManager::createExtras() {
 	animatedSprites.push_back(moveBall);
 
 }
-
+// A B C D E F G H I     L M N O     R S T U V W X
+//                   J K         P Q
 void AnimationsManager::createLibrary() {
-	int nLetters = 21;
+	int nLetters = 25;
 	float initX = 0;
 	for (int i = 0; i < nLetters; ++i) {
 		AnimatedSprite* letter = new AnimatedSprite;
 		letter->setInitialCoordinates(initX, sizeY * 36);
 		letter->setColor(glm::vec3(1, 1, 1));
 		letter->generateSprites(sprites);
-		initX += sizeX;
+		if(i != 9 && i != 10 && i != 15 && i != 16)initX += sizeX;
 		library.push_back(letter);
 	}
 }
@@ -154,12 +155,12 @@ void AnimationsManager::createOperators() {
 	animationIs->setColor(glm::vec3(0.5, 0.5, 0.5));
 	animatedSprites.push_back(animationIs);
 
-	// create FEAR 
-	AnimatedSprite* animationFear = new AnimatedSprite;
-	animationFear->setInitialCoordinates(sizeX * 30, sizeY * 27);
-	animationFear->generateSprites(sprites);
-	animationFear->setColor(glm::vec3(0.5, 0.5, 0.5));
-	animatedSprites.push_back(animationFear);
+	// create MAKE 
+	AnimatedSprite* animationMake = new AnimatedSprite;
+	animationMake->setInitialCoordinates(sizeX * 29, sizeY * 30);
+	animationMake->generateSprites(sprites);
+	animationMake->setColor(glm::vec3(0.5, 0.5, 0.5));
+	animatedSprites.push_back(animationMake);
 }
 
 void AnimationsManager::createNames() {

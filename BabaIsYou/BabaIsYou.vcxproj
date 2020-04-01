@@ -152,12 +152,13 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="DefeatInteraction.cpp" />
     <ClCompile Include="Direction.cpp" />
-    <ClCompile Include="FearInteraction.cpp" />
+    <ClCompile Include="MakeInteraction.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameProgram.cpp" />
     <ClCompile Include="Interaction.cpp" />
     <ClCompile Include="InteractionsTable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovementParticle.cpp" />
     <ClCompile Include="NullInteraction.cpp" />
     <ClCompile Include="PushInteraction.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -184,11 +185,12 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="DefeatInteraction.h" />
     <ClInclude Include="Direction.h" />
-    <ClInclude Include="FearInteraction.h" />
+    <ClInclude Include="MakeInteraction.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameProgram.h" />
     <ClInclude Include="Interaction.h" />
     <ClInclude Include="InteractionsTable.h" />
+    <ClInclude Include="MovementParticle.h" />
     <ClInclude Include="NullInteraction.h" />
     <ClInclude Include="PushInteraction.h" />
     <ClInclude Include="Scene.h" />
@@ -213,8 +215,8 @@
     <None Include="shaders\background.vert" />
     <None Include="shaders\simple.frag" />
     <None Include="shaders\simple.vert" />
-    <None Include="shaders\text.frag" />
-    <None Include="shaders\text.vert" />
+    <None Include="shaders\particle.frag" />
+    <None Include="shaders\particle.vert" />
     <None Include="sound\002.ogg" />
   </ItemGroup>
   <ItemGroup>

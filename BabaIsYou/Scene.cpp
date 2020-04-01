@@ -49,17 +49,6 @@ void Scene::update(int deltaTime){
 	
 }
 
-void Scene::checkInput() {
-	if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
-		move(Direction(DirectionType::RIGHT));
-	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
-		move(Direction(DirectionType::LEFT));
-	else if (Game::instance().getSpecialKey(GLUT_KEY_UP))
-		move(Direction(DirectionType::UP));
-	else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN))
-		move(Direction(DirectionType::DOWN));
-}
-
 void Scene::render(){
 	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
 	auto shaderManager = ServiceLocator::getShaderManager();
@@ -69,7 +58,7 @@ void Scene::render(){
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
-	shaderManager->use(ShaderManager::TEXT_PROGRAM);
+	shaderManager->use(ShaderManager::PARTICLE_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 	map.render();

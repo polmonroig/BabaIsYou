@@ -18,11 +18,13 @@ public:
 
 	void render();
 
+	void free();
+
 private:
 
 
-	void sendVertices(int i);
-	float* calculateVertices(int i);
+	void sendVertices(int i, int animPos);
+	float* calculateVertices(int i, int animPos);
 
 	std::vector<AnimatedSprite*> textAnimation;
 	float xPos, yPos, size;

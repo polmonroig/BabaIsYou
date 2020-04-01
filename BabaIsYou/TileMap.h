@@ -12,7 +12,6 @@
 #include "Cell.h"
 
 
-
 class TileMap {
 
 public:
@@ -91,6 +90,7 @@ private:
 	TileRefVector names;
 	TileRefVector operators;
 	TileRefVector properties;
+
 };
 
 

@@ -86,9 +86,6 @@
     <ClCompile Include="PushInteraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FearInteraction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MakeInteraction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,9 +178,6 @@
     <ClInclude Include="PushInteraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FearInteraction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DefeatInteraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -202,6 +202,12 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MakeInteraction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag">
@@ -216,14 +222,14 @@
     <None Include="shaders\simple.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\text.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\text.vert">
-      <Filter>shaders</Filter>
-    </None>
     <None Include="sound\002.ogg">
       <Filter>sound</Filter>
+    </None>
+    <None Include="shaders\particle.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\particle.vert">
+      <Filter>shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
