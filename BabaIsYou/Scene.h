@@ -14,6 +14,9 @@
 
 class Game;
 
+
+enum class GameState{ MENU, GAMING};
+
 class Scene {
 
 public:
@@ -42,7 +45,8 @@ private:
 
 	float currentTime;
 	
-	
+	GameState state;
+
 	glm::mat4 projectionMatrix;
 
 	TileMap map;

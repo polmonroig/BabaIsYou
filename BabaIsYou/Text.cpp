@@ -1,9 +1,14 @@
 #include "Text.h"
 
 
+float Text::backgroundWidth;
+float Text::backgroundPosX;
 
 
 void Text::init(std::string const& text, int posX, int posY, int size) {
+	selected = false;
+	auto shader = ServiceLocator::getShaderManager();
+	shader->use(ShaderManager::TILE_PROGRAM);
 	xPos = posX;
 	yPos = posY;
 	this->size = size;
@@ -28,9 +33,11 @@ void Text::init(std::string const& text, int posX, int posY, int size) {
 			texCoordLocation = shaderM->bindVertexAttribute("texCoord", 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			animPos++;
 		}
-		
-	
 	}
+	shader->use(ShaderManager::BACKGROUND_PROGRAM);
+	background = Background(backgroundPosX, posY, backgroundWidth, size);
+	background.init();
+
 }
 
 void Text::free() {
@@ -49,17 +56,17 @@ float* Text::calculateVertices(int i, int animPos) {
 	float* texCoords = textAnimation[animPos]->getTextureCoordinates();
 	int i_minus_one = i;
 	i++;
-	float vertices[30] = { xPos + size * i_minus_one, yPos, -15.0,
+	float vertices[30] = { xPos + size * i_minus_one, yPos, 0.0,
 							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
-						 xPos + size *i , yPos, -15.0,
+						 xPos + size *i , yPos, 0.0,
 							texCoords[Sprite::TOP_RIGHT_X], texCoords[Sprite::TOP_RIGHT_Y],
-						 xPos  + size*i, yPos + size, -15.0,
+						 xPos  + size*i, yPos + size, 0.0,
 							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
-						 xPos + size * i_minus_one, yPos, -15.0,
+						 xPos + size * i_minus_one, yPos, 0.0,
 							texCoords[Sprite::TOP_LEFT_X], texCoords[Sprite::TOP_LEFT_Y], // ok
-						 xPos + size*i, yPos + size,  -15.0,
+						 xPos + size*i, yPos + size,  0.0,
 							texCoords[Sprite::BOTTOM_RIGHT_X], texCoords[Sprite::BOTTOM_RIGHT_Y], // ok
-						 xPos + size* i_minus_one, yPos + size, -15.0,
+						 xPos + size* i_minus_one, yPos + size, 0.0,
 							texCoords[Sprite::BOTTOM_LEFT_X], texCoords[Sprite::BOTTOM_LEFT_Y] };
 
 	return vertices;
@@ -73,9 +80,28 @@ void Text::sendVertices(int i, int animPos) {
 }
 
 
+void Text::setBackgroundWidth(float w) {
+	backgroundWidth = w;
+}
+
+void Text::setBackgroundPosX(float x) {
+	backgroundPosX = x;
+}
+
+void Text::setSelected(bool value) {
+	selected = value;
+}
+
 
 void Text::render() {
+	
 	auto shader = ServiceLocator::getShaderManager(); 
+	if (selected) {
+		shader->use(ShaderManager::BACKGROUND_PROGRAM);
+		background.render();
+	}
+	
+	
 	shader->use(ShaderManager::TILE_PROGRAM);
 	for (int i = 0; i < textAnimation.size(); ++i) {
 		auto anim = textAnimation[i];

@@ -225,12 +225,6 @@
     <None Include="sound\002.ogg">
       <Filter>sound</Filter>
     </None>
-    <None Include="shaders\particle.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\particle.vert">
-      <Filter>shaders</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels\level_0.txt">

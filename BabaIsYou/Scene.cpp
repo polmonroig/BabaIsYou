@@ -11,7 +11,7 @@ void Scene::init(){
 	initShaders();
 	initTextures();
 	loadMenu();
-	
+	state = GameState::MENU;
 	// loadLevel(); 
 }
 
@@ -44,7 +44,13 @@ void Scene::loadLevel() {
 }
 
 void Scene::move(Direction const& direction) {
-	map.movePlayerTiles(direction);
+	if (state == GameState::MENU) {
+		menu.move(direction);
+	}
+	else {
+		map.movePlayerTiles(direction);
+	}
+	
 }
 
 void Scene::update(int deltaTime){
@@ -64,16 +70,17 @@ void Scene::render(){
 	shaderManager->use(ShaderManager::TILE_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
-	menu.render();
-	/*
-	
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
-	shaderManager->use(ShaderManager::PARTICLE_PROGRAM);
-	shaderManager->setUniform("projectionMatrix", projectionMatrix);
-	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
-	map.render();*/
+
+	if (state == GameState::MENU) {
+		menu.render();
+	}
+	else {
+		map.render();
+	}
+	
 }
 
 

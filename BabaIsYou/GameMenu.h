@@ -12,14 +12,16 @@ public:
 
 	void render();
 
+	void move(Direction const& dir);
+
 	void free();
 
 private:
 
-	Text instructionsTitle;
-	Text creditsTitle;
-	Text playTitle;
-	Text gameTitle;
+
+	std::vector<Text*> titles;
+
+	int currentTitle;
 
 };
 

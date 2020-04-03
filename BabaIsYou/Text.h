@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "AnimatedSprite.h"
+#include "Background.h"
 #include "ServiceLocator.h"
 
 
@@ -18,10 +19,22 @@ public:
 
 	void render();
 
+	void setSelected(bool value);
+
 	void free();
+
+	static void setBackgroundWidth(float w);
+
+	static void setBackgroundPosX(float x);
 
 private:
 
+
+	static float backgroundPosX;
+	static float backgroundWidth;
+
+
+	bool selected;
 
 	void sendVertices(int i, int animPos);
 	float* calculateVertices(int i, int animPos);
@@ -33,6 +46,8 @@ private:
 
 	GLuint posLocation;
 	GLuint texCoordLocation;
+
+	Background background;
 	
 };
 

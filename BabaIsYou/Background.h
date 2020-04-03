@@ -13,12 +13,15 @@ public:
 	void init();
 	void render();
 	void free();
+	void setColor(glm::vec3 const& c);
 
 private:
 	
 	float xPos, yPos, width, height;
 	GLuint vao, vbo;
 	GLuint posLocation;
+
+	glm::vec3 color;
 
 };
 
