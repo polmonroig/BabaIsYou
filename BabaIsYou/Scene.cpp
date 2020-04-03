@@ -78,17 +78,21 @@ void Scene::update(int deltaTime){
 void Scene::render(){
 	auto shaderManager = ServiceLocator::getShaderManager();
 	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
-	shaderManager->use(ShaderManager::TILE_PROGRAM);
-	shaderManager->setUniform("projectionMatrix", projectionMatrix);
-	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
+	
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 
 	if (state == GameState::MENU) {
+		shaderManager->use(ShaderManager::TEXT_PROGRAM);
+		shaderManager->setUniform("projectionMatrix", projectionMatrix);
+		shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 		menu.render();
 	}
 	else {
+		shaderManager->use(ShaderManager::TILE_PROGRAM);
+		shaderManager->setUniform("projectionMatrix", projectionMatrix);
+		shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 		map.render();
 	}
 	

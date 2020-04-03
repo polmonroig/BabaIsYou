@@ -8,7 +8,7 @@ float Text::backgroundPosX;
 void Text::init(std::string const& text, int posX, int posY, int size) {
 	selected = false;
 	auto shader = ServiceLocator::getShaderManager();
-	shader->use(ShaderManager::TILE_PROGRAM);
+	shader->use(ShaderManager::TEXT_PROGRAM);
 	xPos = posX;
 	yPos = posY;
 	this->size = size;
@@ -40,13 +40,13 @@ void Text::init(std::string const& text, int posX, int posY, int size) {
 }
 
 void Text::free() {
-	/*for (int i = 0; i < textAnimation.size(); ++i) {
+	for (int i = 0; i < textAnimation.size(); ++i) {
 		textAnimation[i]->removeReference();
 		glDeleteBuffers(1, &vbos[i]);
 	}
 	textAnimation.clear();
 	vbos.clear();
-	vaos.clear();*/
+	vaos.clear();
 
 }
 
@@ -101,7 +101,7 @@ void Text::render() {
 	}
 	
 	
-	shader->use(ShaderManager::TILE_PROGRAM);
+	shader->use(ShaderManager::TEXT_PROGRAM);
 	for (int i = 0; i < textAnimation.size(); ++i) {
 		auto anim = textAnimation[i];
 		auto color = anim->getColor();
