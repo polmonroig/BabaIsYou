@@ -75,8 +75,6 @@ private:
 
 	void createProperties();
 
-	void createExtras();
-
 	void createLibrary();
 
 	SpriteSheet sprites;

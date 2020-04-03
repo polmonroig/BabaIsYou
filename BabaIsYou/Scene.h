@@ -8,6 +8,7 @@
 
 #include "TileMap.h"
 #include "Game.h"
+#include "GameMenu.h"
 #include "Direction.h"
 #include "ServiceLocator.h"
 
@@ -34,6 +35,7 @@ private:
 	void initTextures();
 	void initShaders();
 	void loadLevel();
+	void loadMenu();
 	
 
 	int currentLevel;
@@ -44,6 +46,8 @@ private:
 	glm::mat4 projectionMatrix;
 
 	TileMap map;
+
+	GameMenu menu;
 
 
 };

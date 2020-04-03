@@ -17,25 +17,12 @@ void Game::init()
 	glClearColor(0.094f, 0.094f, 0.129f, 1.0f);
 	scene = new Scene();
 	scene->init();
-	inputDelay = 6;
-	currentInput = 0;
 }
 
 bool Game::update(int deltaTime){
 
 	
 	scene->update(deltaTime);
-	if (currentInput == 0) {
-		if (getSpecialKey(GLUT_KEY_RIGHT))
-			scene->move(Direction(DirectionType::RIGHT));
-		else if (getSpecialKey(GLUT_KEY_LEFT))
-			scene->move(Direction(DirectionType::LEFT));
-		else if (getSpecialKey(GLUT_KEY_UP))
-			scene->move(Direction(DirectionType::UP));
-		else if (getSpecialKey(GLUT_KEY_DOWN))
-			scene->move(Direction(DirectionType::DOWN));
-	}
-	currentInput = (currentInput + 1) % inputDelay;
 
 	
 		
@@ -58,8 +45,9 @@ void Game::keyPressed(int key)
 	keys[key] = true;
 }
 
-void Game::keyReleased(int key)
-{
+void Game::keyReleased(int key){
+
+	
 	keys[key] = false;
 }
 
@@ -69,7 +57,15 @@ void Game::specialKeyPressed(int key){
 }
 
 void Game::specialKeyReleased(int key){
-	
+
+	if (key == GLUT_KEY_RIGHT)
+		scene->move(Direction(DirectionType::RIGHT));
+	else if (key == GLUT_KEY_LEFT)
+		scene->move(Direction(DirectionType::LEFT));
+	else if (key == GLUT_KEY_UP)
+		scene->move(Direction(DirectionType::UP));
+	else if (key == GLUT_KEY_DOWN)
+		scene->move(Direction(DirectionType::DOWN));
 	specialKeys[key] = false;
 }
 

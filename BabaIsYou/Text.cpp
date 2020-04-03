@@ -1,6 +1,8 @@
 #include "Text.h"
 
 
+
+
 void Text::init(std::string const& text, int posX, int posY, int size) {
 	xPos = posX;
 	yPos = posY;
@@ -18,8 +20,8 @@ void Text::init(std::string const& text, int posX, int posY, int size) {
 			textAnimation.push_back(a);
 			vaos.push_back(i);
 			vbos.push_back(i);
-			glGenVertexArrays(1, &vaos[i]);
-			glGenBuffers(1, &vbos[i]);
+			glGenVertexArrays(1, &vaos[animPos]);
+			glGenBuffers(1, &vbos[animPos]);
 			sendVertices(i, animPos);
 			auto shaderM = ServiceLocator::getShaderManager();
 			posLocation = shaderM->bindVertexAttribute("position", 3, 5 * sizeof(float), 0);
@@ -85,5 +87,6 @@ void Text::render() {
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(texCoordLocation);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+
 	}
 }

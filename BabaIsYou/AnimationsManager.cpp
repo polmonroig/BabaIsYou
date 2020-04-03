@@ -10,20 +10,11 @@ void AnimationsManager::init() {
 	createNames();
 	createOperators();
 	createProperties();
-	createExtras();
 	createLibrary();
 }
 
-void AnimationsManager::createExtras() {
-	AnimatedSprite* moveBall = new AnimatedSprite;
-	moveBall->setSpritesSize(1);
-	moveBall->setColor(glm::vec3(1, 1, 1));
-	moveBall->setInitialCoordinates(sizeX * 24, sizeY * 42);
-	moveBall->generateSprites(sprites);
-	animatedSprites.push_back(moveBall);
 
-}
-// A B C D E F G H I     L M N O     R S T U V W X
+// A B C D E F G H I     L M N O     R S T U V W X Y Z 
 //                   J K         P Q
 void AnimationsManager::createLibrary() {
 	int nLetters = 25;

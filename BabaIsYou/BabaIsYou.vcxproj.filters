@@ -113,7 +113,7 @@
     <ClCompile Include="MakeInteraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MovementParticle.cpp">
+    <ClCompile Include="GameMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,7 +205,7 @@
     <ClInclude Include="MakeInteraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovementParticle.h">
+    <ClInclude Include="GameMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

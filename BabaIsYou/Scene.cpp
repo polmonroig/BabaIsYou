@@ -10,7 +10,16 @@ void Scene::init(){
 	currentLevel = 0;
 	initShaders();
 	initTextures();
-	loadLevel(); 
+	loadMenu();
+	
+	// loadLevel(); 
+}
+
+void Scene::loadMenu() {
+	auto width = glutGet(GLUT_WINDOW_WIDTH);
+	auto height = glutGet(GLUT_WINDOW_HEIGHT);
+	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
+	menu.init(width, height);
 }
 
 void Scene::restart() {
@@ -50,18 +59,21 @@ void Scene::update(int deltaTime){
 }
 
 void Scene::render(){
-	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
 	auto shaderManager = ServiceLocator::getShaderManager();
+	glm::mat4 modelviewMatrix = glm::mat4(1.0f);
 	shaderManager->use(ShaderManager::TILE_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
+	menu.render();
+	/*
+	
 	shaderManager->use(ShaderManager::BACKGROUND_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 	shaderManager->use(ShaderManager::PARTICLE_PROGRAM);
 	shaderManager->setUniform("projectionMatrix", projectionMatrix);
 	shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
-	map.render();
+	map.render();*/
 }
 
 
