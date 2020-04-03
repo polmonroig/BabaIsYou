@@ -47,7 +47,7 @@ void Game::keyPressed(int key)
 
 void Game::keyReleased(int key){
 
-	
+	if (key == 13)scene->selectElement();
 	keys[key] = false;
 }
 

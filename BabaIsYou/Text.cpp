@@ -19,7 +19,6 @@ void Text::init(std::string const& text, int posX, int posY, int size) {
 	for (int i = 0; i < text.size(); ++i) {
 		int letterNumber = int(text[i]) - 65;
 		if (text[i] != ' ') {
-			std::cout << "Getting letter: " << letterNumber << std::endl;
 			auto a = animManager->getAnimatedLetter(letterNumber);
 			a->addReference();
 			textAnimation.push_back(a);
@@ -41,13 +40,13 @@ void Text::init(std::string const& text, int posX, int posY, int size) {
 }
 
 void Text::free() {
-	for (int i = 0; i < textAnimation.size(); ++i) {
+	/*for (int i = 0; i < textAnimation.size(); ++i) {
 		textAnimation[i]->removeReference();
 		glDeleteBuffers(1, &vbos[i]);
 	}
 	textAnimation.clear();
 	vbos.clear();
-	vaos.clear();
+	vaos.clear();*/
 
 }
 

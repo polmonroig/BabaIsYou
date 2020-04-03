@@ -43,6 +43,17 @@ void Scene::loadLevel() {
 	currentTime = 0.0f;
 }
 
+void Scene::selectElement() {
+	if (state == GameState::MENU) {
+		bool play = menu.select();
+		if (play) {
+			state = GameState::GAMING;
+			menu.free();
+			loadLevel();
+		}
+	}
+}
+
 void Scene::move(Direction const& direction) {
 	if (state == GameState::MENU) {
 		menu.move(direction);

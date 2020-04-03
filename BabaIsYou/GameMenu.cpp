@@ -30,6 +30,12 @@ void GameMenu::init(float windowWidth, float windowHeight) {
 
 }
 
+bool GameMenu::select() {
+	if (currentTitle == 1)return true;
+
+	return false;
+}
+
 void GameMenu::move(Direction const& dir) {
 	titles[currentTitle]->setSelected(false);
 	auto direction = dir.getDir().second;

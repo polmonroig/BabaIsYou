@@ -24,6 +24,7 @@ public:
 
 	void init();
 	void move(Direction const& direction);
+	void selectElement();
 
 	void update(int deltaTime);
 

@@ -14,6 +14,8 @@ public:
 
 	void move(Direction const& dir);
 
+	bool select();
+
 	void free();
 
 private:
