@@ -41,7 +41,7 @@ void AnimatedSprite::setTextureDimensions(float texWidth, float texHeight) {
 	height = texHeight;
 }
 
-void AnimatedSprite::generateSprites(SpriteSheet & spriteSheet) {
+void AnimatedSprite::generateSprites(std::shared_ptr<SpriteSheet> const& spriteSheet) {
 	float posX = initX;
 	float posY = initY;
 

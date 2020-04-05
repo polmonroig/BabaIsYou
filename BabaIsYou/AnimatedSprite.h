@@ -21,7 +21,7 @@ public:
 	void setColor(glm::vec3 const& spriteColor);
 	glm::vec3 getColor() const;
 	void setDirection(Direction const& dir);
-	void generateSprites(SpriteSheet& spriteSheet);
+	void generateSprites(std::shared_ptr<SpriteSheet> const& spriteSheet);
 	void setInitialCoordinates(float initialX, float initialY);
 	void addReference();
 	void removeReference();

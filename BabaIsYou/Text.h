@@ -39,7 +39,7 @@ private:
 	void sendVertices(int i, int animPos);
 	float* calculateVertices(int i, int animPos);
 
-	std::vector<AnimatedSprite*> textAnimation;
+	std::vector<std::shared_ptr<AnimatedSprite>> textAnimation;
 	float xPos, yPos, size;
 	std::vector<GLuint>vaos;
 	std::vector<GLuint>vbos;

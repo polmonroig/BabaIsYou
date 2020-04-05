@@ -2,6 +2,7 @@
 #define ANIMATIONS_MANAGER_H
 
 #include <vector>
+#include <memory>
 
 #include "SpriteSheet.h"
 #include "AnimatedSprite.h"
@@ -53,10 +54,9 @@ public:
 	
 
 	void init();
-	void free();
 
-	AnimatedSprite* getAnimatedSprite(int id) ;
-	AnimatedSprite* getAnimatedLetter(int id);
+	std::shared_ptr<AnimatedSprite> getAnimatedSprite(int id) ;
+	std::shared_ptr<AnimatedSprite> getAnimatedLetter(int id);
 
 private:
 
@@ -77,11 +77,11 @@ private:
 
 	void createLibrary();
 
-	SpriteSheet sprites;
+	std::shared_ptr<SpriteSheet> sprites;
 
-	std::vector<AnimatedSprite*> animatedSprites;
+	std::vector<std::shared_ptr<AnimatedSprite>> animatedSprites;
 
-	std::vector<AnimatedSprite*> library;
+	std::vector<std::shared_ptr<AnimatedSprite>> library;
 
 };
 

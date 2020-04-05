@@ -2,8 +2,8 @@
 
 
 
-Sprite::Sprite(SpriteSheet & spritesReference) {
-	parent = &spritesReference;
+Sprite::Sprite(std::shared_ptr<SpriteSheet> const& spritesReference) {
+	parent = spritesReference;
 }
 
 void Sprite::render() const {

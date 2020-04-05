@@ -1,6 +1,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+#include <memory>
+
 #include <glm/glm.hpp>
 
 #include "SpriteSheet.h"
@@ -20,7 +22,7 @@ public:
 	static const int BOTTOM_RIGHT_Y = 7;
 
 
-	Sprite(SpriteSheet & spritesReference);
+	Sprite(std::shared_ptr<SpriteSheet> const& spritesReference);
 
 	void render() const;
 
@@ -34,7 +36,7 @@ public:
 private:
 
 	float textureCoordinates[8];
-	SpriteSheet* parent;
+	std::shared_ptr<SpriteSheet> parent;
 
 };
 

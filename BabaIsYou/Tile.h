@@ -60,7 +60,7 @@ private:
 	GLuint vao, vbo;
 	GLuint posLocation, texCoordLocation;
 	float iluminationMultiplier;
-	AnimatedSprite* animation;
+	std::shared_ptr<AnimatedSprite>  animation;
 
 	Type tileType;
 

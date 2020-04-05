@@ -6,8 +6,11 @@ void InteractionsTable::init() {
 	table = InteractionsMatrix(Type::N_TYPES,InteractionsVector(N_INTERACTIONS));
 	for (int i = 0; i < Type::N_TYPES; ++i) {
 		for (int j = 0; j < N_INTERACTIONS; ++j) {
-			if(table[i][j] == nullptr)
-				table[i][j] = new NullInteraction();
+			if (table[i][j] == nullptr) {
+				std::shared_ptr<NullInteraction> pointer = std::make_shared<NullInteraction>();
+				table[i][j] = pointer;
+			}
+				
 		}
 	}
 }
@@ -16,9 +19,8 @@ InteractionsTable::InteractionsVector const& InteractionsTable::getInteractions(
 	return table[t.id - 1];
 }
 
-void InteractionsTable::insert(Type const& t, Interaction* it) {
+void InteractionsTable::insert(Type const& t, std::shared_ptr<Interaction> const& it) {
 	if (!find(t, it->ID())) {
-		delete table[t.id - 1][it->ID()];
 		table[t.id - 1][it->ID()] = it;
 	}
 		
@@ -35,9 +37,8 @@ void InteractionsTable::free() {
 	
 	for (int i = 0; i < AnimationsManager::N_SPRITES; ++i) {
 		for (int j = 0; j < N_INTERACTIONS; ++j) {
-			Interaction* pointer = table[i][j];
-			delete pointer;
-			table[i][j] = new NullInteraction();
+			std::shared_ptr<NullInteraction> pointer = std::make_shared<NullInteraction>();
+			table[i][j] = pointer;
 		}
 	}
 }

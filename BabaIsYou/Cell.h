@@ -16,7 +16,7 @@ class Cell{
 
 public:
 
-	void add(Tile* t);
+	void add(std::shared_ptr<Tile> const& t);
 	void changeType(Type const& origin, Type const& pushed);
 	bool selfInteract();
 	std::pair<bool, bool> move(Cell& dir);
@@ -39,7 +39,7 @@ public:
 private:
 
 
-	std::list<Tile*> tiles;
+	std::list<std::shared_ptr<Tile>> tiles;
 	Background tileBackground;
 
 	bool interacted;

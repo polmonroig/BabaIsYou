@@ -1,6 +1,7 @@
 #ifndef INTERACTIONS_TABLE
 #define INTERACTIONS_TABLE
 
+#include <memory>
 #include <vector>
 
 #include "Type.h"
@@ -17,14 +18,14 @@ class InteractionsTable{
 
 public:
 
-	typedef std::vector<Interaction*> InteractionsVector;
+	typedef std::vector<std::shared_ptr<Interaction>> InteractionsVector;
 	typedef std::vector<InteractionsVector> InteractionsMatrix;
 
 	static void init();
 
 	static void free();
 
-	static void insert(Type const& t, Interaction* it);
+	static void insert(Type const& t, std::shared_ptr<Interaction > const& it);
 
 	static bool find(Type const& t, int goal);
 

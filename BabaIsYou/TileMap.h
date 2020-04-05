@@ -22,7 +22,6 @@ public:
 
 	void init(std::string const& fileName);
 	void movePlayerTiles(Direction const& dir);
-	void escape(int enemyType);
 	bool isRestarting() const;
 	void reset();
 	void render();
@@ -36,7 +35,7 @@ private:
 
 	// typedefs to simplify expressions
 	typedef std::vector<Cell> CellVector;
-	typedef std::vector<Tile*> TileRefVector;
+	typedef std::vector<std::shared_ptr<Tile>> TileRefVector;
 	typedef std::vector<CellVector> CellMatrix;
 
 

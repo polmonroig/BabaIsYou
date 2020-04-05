@@ -16,14 +16,14 @@ void Cell::changeType(Type const& origin, Type const& pushed) {
 	}
 }
 
-void Cell::add(Tile * t) {
+void Cell::add(std::shared_ptr<Tile> const& t) {
 	t->init();
 	tiles.insert(tiles.begin(), t);
 }
 
 void Cell::moveTo(Cell& other, Direction const& dir) {
 	for (auto it = tiles.begin(); it != tiles.end(); ++it) {
-		Tile* current = *it;
+		std::shared_ptr<Tile> current = *it;
 		if (current->getFlag() == State::Move) {
 			current->setFlag(State::Stop);
 			
@@ -36,11 +36,11 @@ void Cell::moveTo(Cell& other, Direction const& dir) {
 
 bool Cell::selfInteract() {
 	bool win = false;
-	std::list<Tile*> spawnedTiles;
+	std::list<std::shared_ptr<Tile>> spawnedTiles;
 	for (auto t1 = tiles.begin(); t1 != tiles.end(); ++t1) {
-		Tile* tile1 = *t1;
+		std::shared_ptr<Tile> tile1 = *t1;
 		for (auto t2 = tiles.begin(); t2 != tiles.end(); ++t2) {
-			Tile* tile2 = *t2;
+			std::shared_ptr<Tile> tile2 = *t2;
 			auto interactions = InteractionsTable::getInteractions(tile2->getType());
 			for (auto const& interaction : interactions) {
 				interaction->interact(*tile1, *tile2);
@@ -54,7 +54,7 @@ bool Cell::selfInteract() {
 		}
 		auto spawned = tile1->getSpawned();
 		for (auto const& t : spawned) {
-			Tile* spawnedTile = new Tile;
+			std::shared_ptr<Tile> spawnedTile = std::make_shared<Tile>();
 			*spawnedTile = tile1->copy();
 			spawnedTile->init();
 			spawnedTile->changeType(t);
@@ -84,7 +84,7 @@ void Cell::setBackground(float posX, float posY, float width, float height) {
 std::pair<bool, bool> Cell::moveMarked(Cell& dir) {
 	std::pair<bool, bool> canMove{ false, false };
 	for (auto it = tiles.begin(); it != tiles.end(); ++it) {
-		Tile* tile = *it;
+		std::shared_ptr<Tile> tile = *it;
 		if (tile->getFlag() == State::Move) {
 			tile->setFlag(State::Move);
 			canMove.first = true;
@@ -113,7 +113,7 @@ std::pair<bool, bool> Cell::moveMarked(Cell& dir) {
 std::pair<bool, bool> Cell::move(Cell& dir) {
 	std::pair<bool, bool> canMove{false, false};
 	for (auto it = tiles.begin(); it != tiles.end(); ++it) {
-		Tile* tile = *it;
+		std::shared_ptr<Tile> tile = *it;
 		if (InteractionsTable::find(tile->getType(), YouInteraction::YOU_ID)) {
 			tile->setFlag(State::Move);
 			canMove.first = true;
@@ -150,7 +150,6 @@ bool Cell::hasCategory(int c) const {
 void Cell::free() {
 	for (auto& tile : tiles) {
 		tile->free();
-		delete tile;
 	}
 	tiles.clear();
 	tileBackground.free();

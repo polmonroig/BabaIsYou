@@ -43,11 +43,11 @@ void TileMap::init(std::string const& fileName) {
             map[i][j] = Cell();
             if(tileCode != 0){
                 Type currentType(tileCode);
-                auto tile = new Tile(posX, posY, tileWidth, tileHeight, tileCode);
+                auto tile = std::make_shared<Tile>(posX, posY, tileWidth, tileHeight, tileCode);
                 tile->setIndex(i, j);
                 map[i][j].add(tile);
                 if (currentType.category != AnimationsManager::SPRITE) {
-                    InteractionsTable::insert(currentType, new PushInteraction());
+                    InteractionsTable::insert(currentType, std::make_shared<PushInteraction>());
                     if (currentType.category == AnimationsManager::NAME)names.push_back(tile);
                     else if (currentType.category == AnimationsManager::OPERATOR)operators.push_back(tile);
                     else if (currentType.category == AnimationsManager::PROPERTY) properties.push_back(tile);
@@ -86,29 +86,29 @@ void TileMap::applyInteraction(Type const& nameType, Type const& operatorType, T
     Type realType = Type(nameType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
     Type pushedType = Type(actionType.id - AnimationsManager::N_SPRITES, AnimationsManager::SPRITE);
    if (operatorType.id == AnimationsManager::MAKE) {
-        InteractionsTable::insert(realType, new MakeInteraction(pushedType));
+        InteractionsTable::insert(realType, std::make_shared<MakeInteraction>(pushedType));
     }
     else if (actionType.id == AnimationsManager::STOP) {
-        InteractionsTable::insert(realType, new StopInteraction());
+        InteractionsTable::insert(realType, std::make_shared <StopInteraction>());
     }
     else if (actionType.id == AnimationsManager::PUSH) {
-        InteractionsTable::insert(realType, new PushInteraction());
+        InteractionsTable::insert(realType, std::make_shared <PushInteraction>());
     }
     else if (actionType.id == AnimationsManager::YOU) {
-        InteractionsTable::insert(realType, new YouInteraction());
+        InteractionsTable::insert(realType, std::make_shared <YouInteraction>());
     }
     else if (actionType.id == AnimationsManager::WIN || actionType.id == AnimationsManager::PLAY) {
-        InteractionsTable::insert(realType, new WinInteraction());
+        InteractionsTable::insert(realType, std::make_shared <WinInteraction>());
     }
     else if (actionType.category == AnimationsManager::NAME) {
        
        changeType(realType, pushedType);
    }
     else if (actionType.id == AnimationsManager::SINK) {
-       InteractionsTable::insert(realType, new SinkInteraction());
+       InteractionsTable::insert(realType, std::make_shared <SinkInteraction>());
    }
     else if (actionType.id == AnimationsManager::DEFEAT) {
-        InteractionsTable::insert(realType, new DefeatInteraction());
+        InteractionsTable::insert(realType, std::make_shared < DefeatInteraction>());
     }
 }
 
@@ -165,23 +165,7 @@ void TileMap::updateInteractions()  {
 }
 
 
-// 1. 
 
-void TileMap::escape(int enemyType) {
-   /* std::vector<Direction> directions{ Direction(DirectionType::LEFT), Direction(DirectionType::RIGHT),
-                     Direction(DirectionType::UP), Direction(DirectionType::DOWN) };
-    for (auto const& dir : directions) {
-        auto newPos = Direction::move(currentTile, dir);
-        
-        if (insideMap(newPos.first, newPos.second)) {
-            int type = getUpperType(newPos);
-            if (enemyType == type / 10) {
-                bool moved = moveTile(-dir, currentTile.first, currentTile.second);
-            }
-        }
-        
-    }*/
-}
 
 void TileMap::reset() {
     sound.playReset();
