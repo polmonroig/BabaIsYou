@@ -1,6 +1,8 @@
 #ifndef GAME_MENU_H
 #define GAME_MENU_H
 
+#include <memory>
+
 #include "Text.h"
 
 
@@ -16,12 +18,11 @@ public:
 
 	bool select();
 
-	void free();
 
 private:
 
 
-	std::vector<Text*> titles;
+	std::vector<std::unique_ptr<Text>> titles;
 
 	int currentTitle;
 

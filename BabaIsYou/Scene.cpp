@@ -48,7 +48,6 @@ void Scene::selectElement() {
 		bool play = menu.select();
 		if (play) {
 			state = GameState::GAMING;
-			menu.free();
 			loadLevel();
 		}
 	}

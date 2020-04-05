@@ -7,22 +7,23 @@ void GameMenu::init(float windowWidth, float windowHeight) {
 	Text::setBackgroundPosX((windowWidth - maxTextSize * size) / 2);
 	Text::setBackgroundWidth(maxTextSize * size);
 	std::string text = "BABA IS U";
-	Text* title = new Text();
-	title->init(text, (windowWidth - text.size() * size)  / 2, windowHeight * 0.25, size);
-	titles.push_back(title);
-	title = new Text();
+	titles.push_back(std::make_unique<Text>());
+	titles[0]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25, size);
+
 	text = "AAA";
-	title->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size, size);
-	titles.push_back(title);
-	title = new Text();
+	titles.push_back(std::make_unique<Text>());
+	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size, size);
+	
+
 	text = "INSTRUCTIONS";
-	title->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 2, size);
-	titles.push_back(title);
-	title = new Text();
+	titles.push_back(std::make_unique<Text>());
+	titles[2]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 2, size);
+
+
 	text = "CREDITS";
-	title->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 3, size);
-	titles.push_back(title);
-	title = new Text();
+	titles.push_back(std::make_unique<Text>());
+	titles[3]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 3, size);
+	
 	currentTitle = 1;
 	titles[currentTitle]->setSelected(true);
 	
@@ -50,12 +51,3 @@ void GameMenu::render() {
 	for (auto& title : titles)title->render();
 }
 
-
-
-
-void GameMenu::free() {
-	for (int i = 0; i < titles.size(); ++i) {
-		titles[i]->free();
-		delete titles[i];
-	}
-}
