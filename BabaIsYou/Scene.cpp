@@ -7,7 +7,7 @@
 
 
 void Scene::init(){
-	currentLevel = 6;
+	currentLevel = 0;
 	initShaders();
 	initTextures();
 	loadMenu();
