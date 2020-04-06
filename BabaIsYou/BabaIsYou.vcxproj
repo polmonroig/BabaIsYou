@@ -150,10 +150,12 @@
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="DefeatInteraction.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="EndM.cpp" />
     <ClCompile Include="GameMenu.cpp" />
+    <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="MakeInteraction.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameProgram.cpp" />
@@ -184,10 +186,12 @@
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="DefeatInteraction.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="EndM.h" />
     <ClInclude Include="GameMenu.h" />
+    <ClInclude Include="Instructions.h" />
     <ClInclude Include="MakeInteraction.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameProgram.h" />
@@ -229,6 +233,7 @@
     <Text Include="levels\level_4.txt" />
     <Text Include="levels\level_5.txt" />
     <Text Include="levels\level_6.txt" />
+    <Text Include="levels\level_7.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="sound\theme_soundtrack.mp3" />

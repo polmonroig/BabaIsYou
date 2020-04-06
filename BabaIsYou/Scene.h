@@ -10,13 +10,15 @@
 #include "Game.h"
 #include "GameMenu.h"
 #include "EndM.h"
+#include "Credits.h"
+#include "Instructions.h"
 #include "Direction.h"
 #include "ServiceLocator.h"
 
 class Game;
 
 
-enum class GameState{MENU, GAMING, END};
+enum class GameState{MENU, GAMING, END, CREDITS, INSTRUCTIONS};
 
 class Scene {
 
@@ -42,6 +44,8 @@ private:
 	void loadLevel();
 	void loadMenu();
 	void loadEnd();
+	void loadCredits();
+	void loadInstructions();
 	
 
 	int currentLevel;
@@ -57,6 +61,10 @@ private:
 	GameMenu menu;
 
 	EndM end;
+
+	Credits cred;
+
+	Instructions inst;
 };
 
 #endif 

@@ -119,6 +119,12 @@
     <ClCompile Include="EndM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -214,6 +220,12 @@
     <ClInclude Include="EndM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag">
@@ -254,6 +266,9 @@
       <Filter>levels</Filter>
     </Text>
     <Text Include="levels\level_1.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_7.txt">
       <Filter>levels</Filter>
     </Text>
   </ItemGroup>

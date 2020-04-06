@@ -12,7 +12,7 @@ void EndM::init(float windowWidth, float windowHeight) {
 
 	text = "GO TO MENU";
 	titles.push_back(std::make_unique<Text>());
-	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 2, size);
+	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 4, size);
 
 	currentTitle = 1;
 	titles[currentTitle]->setSelected(true);

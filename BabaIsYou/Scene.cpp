@@ -12,6 +12,8 @@ void Scene::init(){
 	initTextures();
 	loadMenu();
 	loadEnd();
+	loadCredits();
+	loadInstructions();
 	state = GameState::MENU;
 }
 
@@ -27,6 +29,20 @@ void Scene::loadEnd() {
 	auto height = glutGet(GLUT_WINDOW_HEIGHT);
 	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
 	end.init(width, height);
+}
+
+void Scene::loadCredits() {
+	auto width = glutGet(GLUT_WINDOW_WIDTH);
+	auto height = glutGet(GLUT_WINDOW_HEIGHT);
+	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
+	cred.init(width, height);
+}
+
+void Scene::loadInstructions() {
+	auto width = glutGet(GLUT_WINDOW_WIDTH);
+	auto height = glutGet(GLUT_WINDOW_HEIGHT);
+	projectionMatrix = glm::ortho(0.0f, float(width - 1), float(height - 1), 0.0f, 0.0f, 100.0f);
+	inst.init(width, height);
 }
 
 void Scene::restart() {
@@ -57,10 +73,10 @@ void Scene::selectElement() {
 			state = GameState::GAMING;
 		}
 		else if (mode == 2) {
-			// load instruccions
+			state = GameState::INSTRUCTIONS;
 		}
 		else if (mode == 3) {
-			// load credits
+			state = GameState::CREDITS;
 		}
 	}
 	else if (state == GameState::END) {
@@ -69,30 +85,54 @@ void Scene::selectElement() {
 			state = GameState::MENU;
 		}
 	}
+	else if (state == GameState::INSTRUCTIONS) {
+		int mode = inst.select();
+		if (mode == 4) {
+			state = GameState::MENU;
+		}
+	}
+	else if (state == GameState::CREDITS) {
+		int mode = cred.select();
+		if (mode == 3) {
+			state = GameState::MENU;
+		}
+		else {
+			currentLevel = 7;
+			loadLevel();
+			state = GameState::GAMING;
+		}
+	}
 }
 
 void Scene::move(Direction const& direction) {
-	if (state == GameState::MENU || state == GameState::END) {
+	if (state == GameState::MENU)
 		menu.move(direction);
-	}
-	else {
+	else if (state == GameState::INSTRUCTIONS)
+		inst.move(direction);
+	else if (state == GameState::CREDITS)
+		cred.move(direction);
+	else
 		map.movePlayerTiles(direction);
-	}
 }
 
 void Scene::update(int deltaTime){
 	currentTime += deltaTime;
 	std::cerr << currentLevel << std::endl;
-	if (ServiceLocator::isGameEnd() && currentLevel <= MAX_LEVEL) {
-		currentLevel++;
+	if (ServiceLocator::isGameEnd()) {
 		if (currentLevel < MAX_LEVEL) {
 			map.free();
+			currentLevel++;
 			loadLevel();
 		}
-		else {
+		else if (currentLevel == MAX_LEVEL) {
 			map.free();
 			currentLevel = 0;
 			state = GameState::END;
+		}
+		else if (currentLevel > MAX_LEVEL) {
+			map.free();
+			currentLevel = 0;
+			state = GameState::MENU;
 		}
 	}
 }
@@ -117,6 +157,20 @@ void Scene::render(){
 		shaderManager->setUniform("projectionMatrix", projectionMatrix);
 		shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
 		end.render();
+	}
+
+	else if (state == GameState::CREDITS) {
+		shaderManager->use(ShaderManager::TEXT_PROGRAM);
+		shaderManager->setUniform("projectionMatrix", projectionMatrix);
+		shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
+		cred.render();
+	}
+
+	else if (state == GameState::INSTRUCTIONS) {
+		shaderManager->use(ShaderManager::TEXT_PROGRAM);
+		shaderManager->setUniform("projectionMatrix", projectionMatrix);
+		shaderManager->setUniform("modelViewMatrix", modelviewMatrix);
+		inst.render();
 	}
 
 	else {
