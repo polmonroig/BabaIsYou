@@ -16,11 +16,10 @@ public:
 
 	void move(Direction const& dir);
 
-	bool select();
+	int select();
 
 
 private:
-
 
 	std::vector<std::unique_ptr<Text>> titles;
 

@@ -2,7 +2,7 @@
 
 
 void GameMenu::init(float windowWidth, float windowHeight) {
-	int size = 50;
+	int size = 30;
 	int maxTextSize = 12;
 	Text::setBackgroundPosX((windowWidth - maxTextSize * size) / 2);
 	Text::setBackgroundWidth(maxTextSize * size);
@@ -10,31 +10,26 @@ void GameMenu::init(float windowWidth, float windowHeight) {
 	titles.push_back(std::make_unique<Text>());
 	titles[0]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25, size);
 
-	text = "AAA";
+	text = "GAME";
 	titles.push_back(std::make_unique<Text>());
-	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size, size);
+	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 2, size);
 	
 
 	text = "INSTRUCTIONS";
 	titles.push_back(std::make_unique<Text>());
-	titles[2]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 2, size);
+	titles[2]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 4, size);
 
 
 	text = "CREDITS";
 	titles.push_back(std::make_unique<Text>());
-	titles[3]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 3, size);
+	titles[3]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.25 + size * 6, size);
 	
 	currentTitle = 1;
 	titles[currentTitle]->setSelected(true);
-	
-	
-
 }
 
-bool GameMenu::select() {
-	if (currentTitle == 1)return true;
-
-	return false;
+int GameMenu::select() {
+	return currentTitle;
 }
 
 void GameMenu::move(Direction const& dir) {

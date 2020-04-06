@@ -12,7 +12,6 @@ void Scene::init(){
 	initTextures();
 	loadMenu();
 	state = GameState::MENU;
-	// loadLevel(); 
 }
 
 void Scene::loadMenu() {
@@ -45,10 +44,16 @@ void Scene::loadLevel() {
 
 void Scene::selectElement() {
 	if (state == GameState::MENU) {
-		bool play = menu.select();
-		if (play) {
+		int mode = menu.select();
+		if (mode == 1) {
 			state = GameState::GAMING;
 			loadLevel();
+		}
+		else if (mode == 2) {
+			// load instruccions
+		}
+		else if (mode == 3) {
+			// load credits
 		}
 	}
 }

@@ -14,8 +14,6 @@ void GameProgram::init(int argc, char** argv) {
 	glut(argc, argv);
 	addCallbacks();
 	runLoop();
-	
-
 }
 
 // =============================
