@@ -132,7 +132,7 @@ void Scene::update(int deltaTime){
 		else if (currentLevel > MAX_LEVEL) {
 			map.free();
 			currentLevel = 0;
-			state = GameState::MENU;
+			state = GameState::CREDITS;
 		}
 	}
 }

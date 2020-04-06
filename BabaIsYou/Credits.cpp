@@ -10,12 +10,12 @@ void Credits::init(float windowWidth, float windowHeight) {
 	titles.push_back(std::make_unique<Text>());
 	titles[0]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.15, size);
 
-	text = "POL MONROIG";
+	text = "MONROIG";
 	titles.push_back(std::make_unique<Text>());
 	titles[1]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.15 + size * 4, size);
 
 
-	text = "JOSEP MARIA OLIVE";
+	text = "OLIVE";
 	titles.push_back(std::make_unique<Text>());
 	titles[2]->init(text, (windowWidth - text.size() * size) / 2, windowHeight * 0.15 + size * 6, size);
 
