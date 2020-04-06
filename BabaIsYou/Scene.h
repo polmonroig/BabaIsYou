@@ -9,13 +9,14 @@
 #include "TileMap.h"
 #include "Game.h"
 #include "GameMenu.h"
+#include "EndM.h"
 #include "Direction.h"
 #include "ServiceLocator.h"
 
 class Game;
 
 
-enum class GameState{ MENU, GAMING};
+enum class GameState{MENU, GAMING, END};
 
 class Scene {
 
@@ -40,6 +41,7 @@ private:
 	void initShaders();
 	void loadLevel();
 	void loadMenu();
+	void loadEnd();
 	
 
 	int currentLevel;
@@ -54,8 +56,7 @@ private:
 
 	GameMenu menu;
 
-
+	EndM end;
 };
-
 
 #endif 

@@ -152,6 +152,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="DefeatInteraction.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="EndM.cpp" />
     <ClCompile Include="GameMenu.cpp" />
     <ClCompile Include="MakeInteraction.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="DefeatInteraction.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EndM.h" />
     <ClInclude Include="GameMenu.h" />
     <ClInclude Include="MakeInteraction.h" />
     <ClInclude Include="Game.h" />

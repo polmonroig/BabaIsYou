@@ -116,6 +116,9 @@
     <ClCompile Include="GameMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EndM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -208,6 +211,9 @@
     <ClInclude Include="GameMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EndM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\background.frag">
@@ -229,12 +235,6 @@
     <None Include="shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="levels\level_0.txt">
-      <Filter>levels</Filter>
-    </Text>
-    <Text Include="levels\level_1.txt">
-      <Filter>levels</Filter>
-    </Text>
     <Text Include="levels\level_2.txt">
       <Filter>levels</Filter>
     </Text>
@@ -248,6 +248,12 @@
       <Filter>levels</Filter>
     </Text>
     <Text Include="levels\level_6.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_0.txt">
+      <Filter>levels</Filter>
+    </Text>
+    <Text Include="levels\level_1.txt">
       <Filter>levels</Filter>
     </Text>
   </ItemGroup>
