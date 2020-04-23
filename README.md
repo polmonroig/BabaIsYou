@@ -10,5 +10,5 @@ The game can be executed in Windows 10 using the executable in the Release folde
 and executed in any enviroment with an OpenGL installation. 
 
 
-# Contributos 
+# Contributors 
 Josep Maria Olivé 
